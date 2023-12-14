@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { LocalService } from './local.service';
 import { AuthComponent } from './auth/auth.component';
 
 @Component({
@@ -14,6 +15,11 @@ import { AuthComponent } from './auth/auth.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })
+
 export class AppComponent {
   title = 'control';
+
+  constructor(private localStore: LocalService) {
+
+  }
 }
