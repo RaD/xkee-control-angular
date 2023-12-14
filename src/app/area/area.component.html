@@ -1,0 +1,33 @@
+<h2>Территории</h2>
+<div class="row" *ngIf="state == 'read'">
+    <div class="col" *ngIf="empty">
+        <p>У вас пока не зарегистрировано ни одной территории...</p>
+    </div>
+    <div class="col" *ngIf="!empty">
+        <ul>
+            <li *ngFor="let area of areas">
+                <button (click)="on_select(area)">[{{area.uuid}}] {{area.title}} - {{area.address}}</button>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <button (click)="set_state('create')">Добавить</button>
+    </div>
+</div>
+<div class="row" *ngIf="state == 'create'">
+    <div class="col">
+        <div>
+            <p>Укажитe название и адрес территории</p>
+        </div>
+        <app-area-form [state]="state" (event)="on_change($event)"/>
+    </div>
+</div>
+<div class="row" *ngIf="state == 'update'">
+    <div class="col">
+        <div>
+            <p>Измените название и адрес территории</p>
+        </div>
+        <app-area-form [state]="state" [selected_area]="selected_area"
+            (event)="on_change($event)"/>
+    </div>
+</div>

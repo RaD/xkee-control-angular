@@ -1,0 +1,28 @@
+<p>State is {{state}}</p>
+<form #form_area="ngForm">
+    <div>
+        <input id="title" name="title" placeholder="Название территории"
+            [(ngModel)]="area.title" #title="ngModel"
+            required="true" minlength="3"/>
+        <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert">
+            <div *ngIf="title.errors?.['minlength']">
+                Минимально 3 символа
+            </div>
+        </div>
+    </div>
+    <div>
+        <input id="address" name="address" placeholder="Адрес территории"
+            [(ngModel)]="area.address" #address="ngModel"
+            required="true" minlength="3"/>
+        <div *ngIf="address.invalid && (address.dirty || address.touched)" class="alert">
+            <div *ngIf="address.errors?.['minlength']">
+                Минимально 3 символа
+            </div>
+        </div>
+    </div>
+    <div>
+        <button type="button" (click)="apply()" [disabled]="form_area.invalid">Применить</button>
+        <button type="button" (click)="cancel()">Назад</button>
+        <button type="button" (click)="delete()">Удалить</button>
+    </div>
+</form>
