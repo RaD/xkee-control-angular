@@ -4,7 +4,13 @@
 
 <main class="main">
 
-  <app-auth></app-auth>
+  <div *ngIf="!has_credentials">
+    <app-auth (credentialsSet)="event_credentials_set()"></app-auth>
+  </div>
+
+  <div *ngIf="has_credentials">
+    <p>Список пользователей</p>
+  </div>
 
 </main>
 

@@ -1,12 +1,14 @@
 <h2>Аутентификация</h2>
 <form>
     <div>
-        <input id="access" placeholder="access" [(ngModel)]="credentials.access"/>
+        <input id="access" placeholder="access" [(ngModel)]="credentials.access"
+        [ngModelOptions]="{standalone: true}"/>
     </div>
     <div>
-        <input id="secret" placeholder="secret" [(ngModel)]="credentials.secret"/>
+        <input id="secret" placeholder="secret" [(ngModel)]="credentials.secret"
+        [ngModelOptions]="{standalone: true}"/>
     </div>
     <div>
-        <input type="button" name="submit" value="Ок"/>
+        <button (click)="store_credentials()">Login</button>
     </div>
 </form>
