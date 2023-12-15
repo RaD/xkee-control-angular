@@ -1,29 +1,40 @@
-<h2>Аутентификация</h2>
-<form #form_auth="ngForm">
-    <div>
-        <input id="access" name="access" placeholder="access"
+<form #form_auth="ngForm" class="g-3" novalidate>
+    <legend class="text-center">Аутентификация</legend>
+    <div class="mb-3">
+        <label for="access" class="form-label position-relative">
+            Ключ доступа
+            <div *ngIf="access.invalid && (access.dirty || access.touched)">
+                <div *ngIf="access.errors?.['minlength']"
+                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    Минимально 3 символа
+                </div>
+            </div>
+        </label>
+        <input id="access" name="access" placeholder="top-secret-access-key"
+            class="form-control"
             [(ngModel)]="credentials.access" #access="ngModel"
             required="true" minlength="3"/>
-        <div *ngIf="access.invalid && (access.dirty || access.touched)" class="alert">
-            <div *ngIf="access.errors?.['minlength']">
-                Минимально 3 символа
-            </div>
-        </div>
     </div>
-    <div>
-        <input id="secret" name="secret" placeholder="secret"
+    <div class="mb-3">
+        <label for="secret" class="form-label position-relative">
+            Ключ секрета
+            <div *ngIf="secret.invalid && (secret.dirty || secret.touched)">
+                <div *ngIf="secret.errors?.['minlength']"
+                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    Минимально 3 символа
+                </div>
+            </div>
+        </label>
+        <input id="secret" name="secret" placeholder="top-secret-secret-key"
+            class="form-control"
             [(ngModel)]="credentials.secret" #secret="ngModel"
             required="true" minlength="3"/>
-        <div *ngIf="secret.invalid && (secret.dirty || secret.touched)" class="alert">
-            <div *ngIf="secret.errors?.['minlength']">
-                Минимально 3 символа
-            </div>
-        </div>
     </div>
-    <div>
+    <div class="mb-3 d-grid gap-2">
         <button (click)="store_credentials()"
-            [disabled]="form_auth.invalid">
-            Login
+            [disabled]="form_auth.invalid"
+            class="btn btn-primary">
+            Подключиться
         </button>
     </div>
 </form>

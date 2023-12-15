@@ -2,16 +2,21 @@
 
 </style>
 
+<app-navigation [has_credentials]="has_credentials"/>
 <main class="main">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <div *ngIf="!has_credentials">
+          <app-auth (credentialsSet)="event_credentials_set()"></app-auth>
+        </div>
 
-  <div *ngIf="!has_credentials">
-    <app-auth (credentialsSet)="event_credentials_set()"></app-auth>
+        <div *ngIf="has_credentials">
+          <app-area/>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div *ngIf="has_credentials">
-    <app-area/>
-  </div>
-
 </main>
 
 <router-outlet></router-outlet>

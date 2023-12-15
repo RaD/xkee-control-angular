@@ -1,28 +1,42 @@
-<p>State is {{state}}</p>
-<form #form_area="ngForm">
-    <div>
-        <input id="title" name="title" placeholder="Название территории"
+<form #form_area="ngForm" class="g-3" novalidate>
+    <div class="mb-3">
+        <label for="title" class="form-label position-relative">
+            Название
+            <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert">
+                <div *ngIf="title.errors?.['minlength']"
+                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    Минимально 3 символа
+                </div>
+            </div>
+        </label>
+        <input id="title" name="title" placeholder="Мой двор"
+            class="form-control"
             [(ngModel)]="area.title" #title="ngModel"
             required="true" minlength="3"/>
-        <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert">
-            <div *ngIf="title.errors?.['minlength']">
-                Минимально 3 символа
-            </div>
-        </div>
     </div>
-    <div>
+    <div class="mb-3">
+        <label for="address" class="form-label position-relative">
+            Адрес
+            <div *ngIf="address.invalid && (address.dirty || address.touched)" class="alert">
+                <div *ngIf="address.errors?.['minlength']"
+                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    Минимально 3 символа
+                </div>
+            </div>
+        </label>
         <input id="address" name="address" placeholder="Адрес территории"
+            class="form-control"
             [(ngModel)]="area.address" #address="ngModel"
             required="true" minlength="3"/>
-        <div *ngIf="address.invalid && (address.dirty || address.touched)" class="alert">
-            <div *ngIf="address.errors?.['minlength']">
-                Минимально 3 символа
-            </div>
-        </div>
     </div>
-    <div>
-        <button type="button" (click)="apply()" [disabled]="form_area.invalid">Применить</button>
-        <button type="button" (click)="cancel()">Назад</button>
-        <button type="button" (click)="delete()">Удалить</button>
+    <div class="mb-3 d-grid gap-2">
+        <button type="button" class="btn btn-primary"
+            (click)="apply()" [disabled]="form_area.invalid">Применить</button>
+        <button type="button" class="btn btn-secondary"
+            (click)="cancel()">Назад</button>
+    </div>
+    <div class="mb-3 d-grid gap-2 fixed-bottom">
+                <button type="button" class="btn btn-danger"
+            (click)="delete()">Удалить</button>
     </div>
 </form>

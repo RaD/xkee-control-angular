@@ -5,12 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { LocalService } from './local.service';
 import { AuthComponent } from './auth/auth.component';
 import { AreaComponent } from './area/area.component';
+import { NavigationComponent } from './navigation/navigation.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
     CommonModule, RouterOutlet, FormsModule,
+    NavigationComponent,
     AuthComponent, AreaComponent,
   ],
   templateUrl: './app.component.html',
@@ -18,7 +20,7 @@ import { AreaComponent } from './area/area.component';
 })
 
 export class AppComponent {
-  title: string = 'control';
+  title: string = 'XKee : Управление';
 
   private keys_api: string = 'credentials';
   protected data_api: string | null = null;
