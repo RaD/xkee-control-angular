@@ -1,17 +1,31 @@
-<h2>Территории</h2>
+<legend class="text-center">Территории</legend>
 <div class="row" *ngIf="state == 'read'">
-    <div class="col" *ngIf="empty">
-        <p>У вас пока не зарегистрировано ни одной территории...</p>
-    </div>
-    <div class="col" *ngIf="!empty">
-        <ul>
-            <li *ngFor="let area of areas">
-                <button (click)="on_select(area)">[{{area.uuid}}] {{area.title}} - {{area.address}}</button>
-            </li>
-        </ul>
-    </div>
-    <div>
-        <button (click)="set_state('create')">Добавить</button>
+    <div class="col">
+        <figure class="text-center" *ngIf="empty">
+            <blockquote class="blockquote">
+                <p>У вас пока не зарегистрировано ни одной территории...</p>
+            </blockquote>
+            <figcaption class="blockquote-footer">
+                Самое время добавить хотя бы одну...
+            </figcaption>
+        </figure>
+        <ol class="list-group" *ngIf="!empty">
+            <button (click)="on_select(area)" *ngFor="let area of areas" class="list-group-item">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{area.title}}</h5>
+                </div>
+                <p>
+                    {{area.address}}
+                </p>
+                <small class="text-muted">X устройств, Y клиентов</small>
+            </button>
+        </ol>
+        <div class="mb-3 d-grid gap-2">
+            <button type="button" (click)="set_state('create')"
+                class="btn btn-primary">
+                Добавить территорию
+            </button>
+        </div>
     </div>
 </div>
 <div class="row" *ngIf="state == 'create'">
