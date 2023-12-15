@@ -1,14 +1,29 @@
 <h2>Аутентификация</h2>
-<form>
+<form #form_auth="ngForm">
     <div>
-        <input id="access" placeholder="access" [(ngModel)]="credentials.access"
-        [ngModelOptions]="{standalone: true}"/>
+        <input id="access" name="access" placeholder="access"
+            [(ngModel)]="credentials.access" #access="ngModel"
+            required="true" minlength="3"/>
+        <div *ngIf="access.invalid && (access.dirty || access.touched)" class="alert">
+            <div *ngIf="access.errors?.['minlength']">
+                Минимально 3 символа
+            </div>
+        </div>
     </div>
     <div>
-        <input id="secret" placeholder="secret" [(ngModel)]="credentials.secret"
-        [ngModelOptions]="{standalone: true}"/>
+        <input id="secret" name="secret" placeholder="secret"
+            [(ngModel)]="credentials.secret" #secret="ngModel"
+            required="true" minlength="3"/>
+        <div *ngIf="secret.invalid && (secret.dirty || secret.touched)" class="alert">
+            <div *ngIf="secret.errors?.['minlength']">
+                Минимально 3 символа
+            </div>
+        </div>
     </div>
     <div>
-        <button (click)="store_credentials()">Login</button>
+        <button (click)="store_credentials()"
+            [disabled]="form_auth.invalid">
+            Login
+        </button>
     </div>
 </form>
