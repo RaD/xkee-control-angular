@@ -75,7 +75,7 @@ export class AreaComponent {
 
   /**
    * on_select
-   * Обрабатываем выбор территории
+   * Обрабатываем выбор территории, который происходит в шаблоне
    */
 
   public on_select(area: Area): void {

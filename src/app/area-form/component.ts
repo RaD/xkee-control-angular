@@ -18,6 +18,7 @@ export class AreaFormComponent {
     uuid: '',
     title: '',
     address: '',
+    kind: '',
     delete: false
   };
 

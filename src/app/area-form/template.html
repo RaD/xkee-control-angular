@@ -29,6 +29,22 @@
             [(ngModel)]="area.address" #address="ngModel"
             required="true" minlength="3"/>
     </div>
+    <div class="mb-3">
+        <label for="kind" class="form-label position-relative">
+            Тип
+        </label>
+        <select id="kind" name="kind" placeholder="Выберите тип управления"
+            class="form-select"
+            [(ngModel)]="area.kind" #kind="ngModel"
+            required="true">
+            <!--
+            <option value="autonomous">Автономный</option>
+            <option value="homeass">Home Assistant</option>
+            <option value="homekit">Apple HomeKit</option>
+            //-->
+            <option value="xkee" selected>XKee Cloud</option>
+        </select>
+    </div>
     <div class="mb-3 d-grid gap-2">
         <button type="button" class="btn btn-primary"
             (click)="apply()" [disabled]="form_area.invalid">Применить</button>

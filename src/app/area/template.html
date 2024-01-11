@@ -12,7 +12,12 @@
         <ol class="list-group" *ngIf="!empty">
             <button (click)="on_select(area)" *ngFor="let area of areas" class="list-group-item">
                 <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{area.title}}</h5>
+                    <h5 class="mb-1">
+                        {{area.title}}
+                        <small class="text-muted">
+                            ({{area.kind}})
+                        </small>
+                    </h5>
                 </div>
                 <p>
                     {{area.address}}
