@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Credentials } from './auth.interface';
+import { Credentials } from './interface';
 
 @Component({
   selector: 'app-auth',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './auth.component.html',
-  styleUrl: './auth.component.less'
+  templateUrl: './template.html',
+  styleUrl: './styles.less'
 })
 export class AuthComponent {
   key_name: string = 'credentials';
@@ -36,5 +36,16 @@ export class AuthComponent {
    */
   public clear_credentials(): void {
     localStorage.removeItem(this.key_name);
+  }
+
+  /**
+   * initialize
+   * При первом подключении подгружает данные о типе пользователя, его
+   * территории, устройства и пользователей. Первым подключением является
+   * первичное заполнение локального хранилища браузера. Облако может ничего
+   * не возвращать, применяется для миграции клиентов на веб приложение.
+   */
+  public initialize() {
+
   }
 }

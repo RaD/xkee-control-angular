@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { LocalService } from './local.service';
-import { AuthComponent } from './auth/auth.component';
-import { AreaComponent } from './area/area.component';
-import { NavigationComponent } from './navigation/navigation.component';
+import { AuthComponent } from './auth/component';
+import { AreaComponent } from './area/component';
+import { NavigationComponent } from './navigation/component';
 
 @Component({
   selector: 'app-root',

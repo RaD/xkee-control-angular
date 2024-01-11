@@ -5,8 +5,8 @@ import { Component, Input } from '@angular/core';
   selector: 'app-navigation',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './navigation.component.html',
-  styleUrl: './navigation.component.less'
+  templateUrl: './template.html',
+  styleUrl: './styles.less'
 })
 export class NavigationComponent {
   @Input() has_credentials: boolean = false;

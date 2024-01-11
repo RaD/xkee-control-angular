@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Area } from './area-form.interface';
+import { Area } from './interface';
 
 @Component({
   selector: 'app-area-form',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './area-form.component.html',
-  styleUrl: './area-form.component.less'
+  templateUrl: './template.html',
+  styleUrl: './styles.less'
 })
 export class AreaFormComponent {
   @Input() state?: string;

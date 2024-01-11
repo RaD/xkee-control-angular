@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AreaComponent } from './area.component';
+import { AreaComponent } from './component';
 
 describe('AreaComponent', () => {
   let component: AreaComponent;
@@ -11,7 +11,7 @@ describe('AreaComponent', () => {
       imports: [AreaComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(AreaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LocalService } from '../local.service';
-import { AreaFormComponent } from '../area-form/area-form.component';
-import { Area } from '../area-form/area-form.interface';
+import { AreaFormComponent } from '../area-form/component';
+import { Area } from '../area-form/interface';
 
 type States = 'read' | 'create' | 'update';
 const storage_key: string = 'database';
@@ -14,8 +14,8 @@ const storage_key: string = 'database';
     CommonModule,
     AreaFormComponent,
   ],
-  templateUrl: './area.component.html',
-  styleUrl: './area.component.less'
+  templateUrl: './template.html',
+  styleUrl: './styles.less'
 })
 export class AreaComponent {
   protected state: States = 'read';
