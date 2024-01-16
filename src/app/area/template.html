@@ -10,7 +10,7 @@
             </figcaption>
         </figure>
         <ol class="list-group" *ngIf="!empty">
-            <button (click)="on_select(area)" *ngFor="let area of areas" class="list-group-item">
+            <button *ngFor="let area of areas" class="list-group-item">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">
                         {{area.title}}
@@ -19,9 +19,19 @@
                         </small>
                     </h5>
                 </div>
-                <p>
-                    {{area.address}}
-                </p>
+                <div class="row">
+                    <div class="col-8">
+                        <p>
+                            {{area.address}}
+                        </p>
+                    </div>
+                    <div class="col-4">
+                        <button type="button" class="btn btn-secondary"
+                            (click)="on_select(area)">
+                            <fa-icon [icon]="faGear" label="Изменить"></fa-icon>
+                        </button>
+                    </div>
+                </div>
                 <small class="text-muted">X устройств, Y клиентов</small>
             </button>
         </ol>

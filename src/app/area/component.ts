@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LocalService } from '../local.service';
+import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { AreaFormComponent } from '../area-form/component';
 import { Area } from '../area-form/interface';
 
@@ -11,6 +13,7 @@ const storage_key: string = 'database';
   selector: 'app-area',
   standalone: true,
   imports: [
+    FontAwesomeModule,
     CommonModule,
     AreaFormComponent,
   ],
@@ -18,6 +21,9 @@ const storage_key: string = 'database';
   styleUrl: './styles.less'
 })
 export class AreaComponent {
+  // иконки
+  faGear = faGear;
+
   protected state: States = 'read';
   protected empty: boolean = true;
   protected areas: Area[] = [];
