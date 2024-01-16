@@ -4,4 +4,6 @@ export interface Area {
     address: string;
     kind: string;
     delete: boolean;
+    access: string | null;
+    secret: string | null;
 }

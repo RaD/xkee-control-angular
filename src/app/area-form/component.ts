@@ -19,7 +19,9 @@ export class AreaFormComponent {
     title: '',
     address: '',
     kind: '',
-    delete: false
+    delete: false,
+    access: null,
+    secret: null
   };
 
   ngOnInit(): void {
@@ -31,6 +33,10 @@ export class AreaFormComponent {
 
   protected random_uuid(): string {
     return crypto.randomUUID();
+  }
+
+  protected need_credentials(): boolean {
+    return this.area.kind == 'xkee';
   }
 
   /**

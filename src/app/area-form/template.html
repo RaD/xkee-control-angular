@@ -45,6 +45,24 @@
             <option value="xkee" selected>XKee Cloud</option>
         </select>
     </div>
+    <div class="mb-3" *ngIf="need_credentials()">
+        <label for="access" class="form-label position-relative">
+            Access Key
+        </label>
+        <input id="access" name="access"
+            class="form-control"
+            [(ngModel)]="area.access" #access="ngModel"
+            required="false" minlength="3"/>
+    </div>
+    <div class="mb-3" *ngIf="need_credentials()">
+        <label for="secret" class="form-label position-relative">
+            Secret Key
+        </label>
+        <input id="secret" name="secret"
+            class="form-control"
+            [(ngModel)]="area.secret" #secret="ngModel"
+            required="false" minlength="3"/>
+    </div>
     <div class="mb-3 d-grid gap-2">
         <button type="button" class="btn btn-primary"
             (click)="apply()" [disabled]="form_area.invalid">Применить</button>
