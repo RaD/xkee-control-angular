@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { LocalService } from './local.service';
-import { AuthComponent } from './auth/component';
 import { AreaComponent } from './area/component';
 import { NavigationComponent } from './navigation/component';
 
@@ -13,7 +12,7 @@ import { NavigationComponent } from './navigation/component';
   imports: [
     CommonModule, RouterOutlet, FormsModule,
     NavigationComponent,
-    AuthComponent, AreaComponent,
+    AreaComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
