@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Area } from './interfaces';
+import { Area } from './area-form/interface';
 // import * as CryptoJS from 'crypto-js';
 
 const key_areas = 'AREAS';
@@ -125,9 +125,32 @@ export class StorageService {
 
   /**
    * setArea
+   * Записывает информацию о территории
    */
   public setArea(pk: string, area: Area): void {
     let key: string = key_area + '_' + pk;
     this.setData(key, area, true);
+    // добавляем идентификатор территории в список
+    let pks: string[] = this.getAreaPkList();
+    if (pks.indexOf(pk) == -1) {
+      pks.push(pk);
+    }
+    this.setAreaPkList(pks);
+  }
+
+  /**
+   * removeArea
+   * Удаляет информацию о территории
+   */
+  public removeArea(pk: string): void {
+    let key: string = key_area + '_' + pk;
+    this.removeData(key)
+    // удаляем идентификатор территории из списка
+    let pks: string[] = this.getAreaPkList();
+    const index = pks.indexOf(pk);
+    if (index > -1) {
+      pks.splice(index, 1);
+    }
+    this.setAreaPkList(pks);
   }
 }

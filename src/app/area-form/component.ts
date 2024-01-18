@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Area } from '../interfaces';
-import { FormArea } from './interface';
+import { Area } from './interface';
 import { StorageService } from '../storage.service';
 
 @Component({
@@ -17,26 +16,31 @@ import { StorageService } from '../storage.service';
   styleUrl: './styles.less'
 })
 export class AreaFormComponent implements OnInit {
-  protected fields: FormArea;
+  protected fields: Area;
 
   constructor(
     private localStore: StorageService,
     private router: Router,
     private route: ActivatedRoute,
   ) {
-    this.fields = new FormArea(crypto.randomUUID(), '', '', '', false);
+    this.fields = new Area(crypto.randomUUID(), '', '', '');
   }
 
   ngOnInit(): void {
-    const area_pk = this.route.snapshot.paramMap.get('pk');
+    const pk = this.route.snapshot.paramMap.get('pk');
     const action = this.route.snapshot.paramMap.get('action');
-    if (area_pk != null && action != null) {
-      let area = this.localStore.getArea(area_pk);
+    if (pk != null && action != null) {
+      let area = this.localStore.getArea(pk);
       if (area != null) {
-        const remove = action === 'delete';
-        this.fields = new FormArea(
-          area.pk, area.title, area.address, area.kind,
-          remove, area.access, area.secret);
+        if (action === 'delete') {
+          this.localStore.removeArea(pk);
+          // возвращаемся на список
+          this.router.navigate(['/areas']);
+        } else {
+          this.fields = new Area(
+            area.pk, area.title, area.address, area.kind,
+            area.access, area.secret);
+        }
       }
     }
   }
@@ -61,12 +65,6 @@ export class AreaFormComponent implements OnInit {
       this.fields.secret
     );
     this.localStore.setArea(pk, area);
-    // добавляем идентификатор территории в список
-    let pks: string[] = this.localStore.getAreaPkList();
-    if (pks.indexOf(pk) == -1) {
-      pks.push(pk);
-    }
-    this.localStore.setAreaPkList(pks);
     // возвращаемся на список
     this.router.navigate(['/areas']);
   }

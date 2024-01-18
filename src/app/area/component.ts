@@ -4,9 +4,9 @@ import { RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { faWalkieTalkie } from '@fortawesome/free-solid-svg-icons';
-import { Area } from '../interfaces';
 import { StorageService } from '../storage.service';
 import { AreaFormComponent } from '../area-form/component';
+import { Area } from '../area-form/interface';
 
 @Component({
   selector: 'app-area',
@@ -34,11 +34,7 @@ export class AreaComponent {
 
   ngOnInit(): void {
     // проверка списка территорий
-    this.areas = this.load_storage();
+    this.areas = this.localStore.getAreaList();
     this.empty = this.areas.length == 0;
-  }
-
-  private load_storage(): Area[] {
-    return this.localStore.getAreaList();
   }
 }
