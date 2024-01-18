@@ -1,11 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { faWalkieTalkie } from '@fortawesome/free-solid-svg-icons';
 import { StorageService } from '../storage.service';
-import { AreaFormComponent } from '../area-form/component';
 import { Area } from '../area-form/interface';
 
 @Component({
@@ -15,12 +14,11 @@ import { Area } from '../area-form/interface';
     FontAwesomeModule,
     CommonModule,
     RouterLink,
-    AreaFormComponent,
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
 })
-export class AreaComponent {
+export class AreaComponent implements OnInit {
   // иконки
   faGear = faGear;
   faWalkieTalkie = faWalkieTalkie;

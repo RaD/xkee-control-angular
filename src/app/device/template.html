@@ -1,0 +1,45 @@
+<legend class="text-center">Устройства территории "{{ area?.title }}"</legend>
+<form #form_device="ngForm" (ngSubmit)="onSubmit()" class="g-3" novalidate>
+    <div class="mb-3" *ngIf="showPk()">
+        <label for="pk" class="form-label position-relative">
+            Идентификатор
+        </label>
+        <input id="pk" name="pk" placeholder="UUID"
+            class="form-control"
+            [(ngModel)]="fields.pk" #pk="ngModel"
+            required="true"/>
+    </div>
+    <div class="mb-3">
+        <label for="title" class="form-label position-relative">
+            Название
+        </label>
+        <input id="title" name="title" placeholder="Шлагбаум"
+            class="form-control"
+            [(ngModel)]="fields.title" #title="ngModel"
+            required="true"/>
+    </div>
+    <div class="mb-3">
+        <label for="address" class="form-label position-relative">
+            Описание
+            <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert">
+                <div *ngIf="description.errors?.['minlength']"
+                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    Минимально 3 символа
+                </div>
+            </div>
+        </label>
+        <input id="description" name="description" placeholder="У первого подъезда"
+            class="form-control"
+            [(ngModel)]="fields.description" #description="ngModel"
+            required="true" minlength="3"/>
+    </div>
+    <div class="mb-3 d-grid gap-2">
+        <button type="submit" class="btn btn-success"
+            [disabled]="form_device.invalid">Применить</button>
+        <a [routerLink]="['/areas', area?.pk, 'devices']"
+            type="button" class="btn btn-secondary">Назад</a>
+    </div>
+    <div class="mb-3 d-grid gap-2 fixed-bottom">
+        <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', area?.pk, 'device', fields.pk]">Удалить</a>
+    </div>
+</form>

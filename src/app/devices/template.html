@@ -1,0 +1,51 @@
+<legend class="text-center">Устройства</legend>
+<div class="row">
+    <div class="col">
+        <figure class="text-center" *ngIf="empty">
+            <blockquote class="blockquote">
+                <p>На территории "{{ area?.title }}" пока не зарегистрировано ни одного устройства...</p>
+            </blockquote>
+            <figcaption class="blockquote-footer">
+                Самое время добавить хотя бы одно...
+            </figcaption>
+        </figure>
+        <ol class="list-group" *ngIf="!empty">
+            <button *ngFor="let device of devices" class="list-group-item">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ device.title }}</h5>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <p>
+                            {{ device.description }}
+                        </p>
+                    </div>
+                    <div class="col-4">
+                        <a type="button" class="btn btn-secondary"
+                            [routerLink]="['/areas', area?.pk, 'device', device.pk, 'edit']">
+                            <fa-icon [icon]="faGear" label="Изменить"></fa-icon>
+                        </a>
+                    </div>
+                </div>
+            </button>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-3">
+        <div class="mb-3 d-grid gap-2">
+            <a [routerLink]="['/areas', area?.pk]" routerLinkActive="active"
+                type="button" class="btn btn-secondary">
+                Назад
+            </a>
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="mb-3 d-grid gap-2">
+            <a [routerLink]="['/areas', area?.pk, 'devices', 'create']" routerLinkActive="active"
+                type="button" class="btn btn-primary">
+                Добавить устройство
+            </a>
+        </div>
+    </div>
+</div>

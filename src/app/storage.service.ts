@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Area } from './area-form/interface';
+import { Device } from './device/interface';
 // import * as CryptoJS from 'crypto-js';
 
 const key_areas = 'AREAS';
 const key_area = 'AREA';
+const key_devices = 'DEVICES';
+const key_device = 'DEVICE';
 
 /**
  * Структура хранилища:
  * {
  *   'AREAS': ['UUID1', 'UUID2', ...],
  *   'AREA_UUID1': {
+ *     ...
  *     'DEVICES': ['UUID10', 'UUID11', ...].
  *     'USERS': ['UUID20', 'UUID21', ...]
  *   },
@@ -108,6 +112,8 @@ export class StorageService {
     let payload: any | null = this.getData(key, true);
     if (payload != null) {
       payload['pk'] = pk;
+    } else {
+      console.log('getArea: Not found: ' + pk);
     }
     return payload
   }
@@ -152,5 +158,100 @@ export class StorageService {
       pks.splice(index, 1);
     }
     this.setAreaPkList(pks);
+  }
+
+  /**
+   * getDevicePkList
+   * Получает список идентификаторов устройств территории
+   */
+  public getDevicePkList(area_pk: string): string[] {
+    let area = this.getArea(area_pk);
+    return area ? area.devices : [];
+  }
+
+  /**
+   * setDevicePkList
+   * Устанавливает список идентификаторов устройств территории
+   */
+  public setDevicePkList(area_pk: string, pks: string[]): void {
+    let area = this.getArea(area_pk);
+    if (area != null) {
+      area.devices = pks;
+      this.setArea(area_pk, area);
+    }
+  }
+
+  /**
+   * noDevicesInArea
+   * Свойство, показывает наличие устройств на территории
+   */
+  public noDevicesInArea(area_pk: string): boolean {
+    let area = this.getArea(area_pk);
+    return area ? area.devices.length == 0 : true;
+  }
+
+  /**
+   * getDevice
+   * Получает устройство по его идентификатору
+   */
+  public getDevice(pk: string): Device | null {
+    let key: string = key_device + '_' + pk;
+    let payload: any | null = this.getData(key, true);
+    if (payload != null) {
+      payload['pk'] = pk;
+    }
+    return payload
+  }
+
+  /**
+   * getDeviceList
+   * Получает список доступных устройств на территории
+   */
+  public getDeviceList(area_pk: string): Device[] {
+    let result: any[] = [];
+    let pklist: string[]= this.getDevicePkList(area_pk);
+    pklist.forEach(key => result.push(this.getDevice(key)))
+    return result;
+  }
+
+  /**
+   * setDevice
+   * Записывает информацию об устройстве территории
+   */
+  public setDevice(pk: string, area_pk: string, device: Device): void {
+    let key: string = key_device + '_' + pk;
+    this.setData(key, device, true);
+    // получаем территорию
+    let area = this.getArea(area_pk);
+    if (area != null) {
+      // добавляем идентификатор устройства в список территории
+      let pks: string[] = area.devices;
+      if (pks.indexOf(pk) == -1) {
+        pks.push(pk);
+      }
+      area.devices = pks;
+      this.setDevicePkList(area_pk, pks);
+    }
+  }
+
+  /**
+   * removeDevice
+   * Удаляет информацию об устройстве на территории
+   */
+  public removeDevice(pk: string, area_pk: string): void {
+    let key: string = key_device + '_' + pk;
+    this.removeData(key)
+    // получаем территорию
+    let area = this.getArea(area_pk);
+    if (area != null) {
+      // удаляем идентификатор устройства из списка территории
+      let pks: string[] = area.devices;
+      const index = pks.indexOf(pk);
+      if (index > -1) {
+        pks.splice(index, 1);
+      }
+      area.devices = pks;
+      this.setDevicePkList(area_pk, pks);
+    }
   }
 }

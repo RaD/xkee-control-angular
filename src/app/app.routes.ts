@@ -1,11 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ConfirmationComponent } from './confirmation/component';
 import { AreaComponent } from './area/component';
 import { AreaFormComponent } from './area-form/component';
-import { ConfirmationComponent } from './confirmation/component';
+import { DevicesComponent } from './devices/component';
+import { DeviceComponent } from './device/component';
 
 export const routes: Routes = [
-    {path: 'confirm/:entity/:pk', component: ConfirmationComponent},
+    {path: 'confirm/areas/:area_pk/:entity/:entity_pk', component: ConfirmationComponent},
+    {path: 'confirm/areas/:area_pk', component: ConfirmationComponent},
+    {path: 'areas/:pk/device/:device_pk/:action', component: DeviceComponent},
+    {path: 'areas/:pk/devices/create', component: DeviceComponent},
+    {path: 'areas/:pk/devices', component: DevicesComponent},
     {path: 'areas/:pk/:action', component: AreaFormComponent},
     {path: 'areas/create', component: AreaFormComponent},
     {path: 'areas', component: AreaComponent},

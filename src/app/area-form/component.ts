@@ -11,7 +11,8 @@ import { StorageService } from '../storage.service';
   imports: [
     CommonModule,
     RouterLink,
-    FormsModule],
+    FormsModule,
+  ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
 })
@@ -23,7 +24,7 @@ export class AreaFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
   ) {
-    this.fields = new Area(crypto.randomUUID(), '', '', '');
+    this.fields = new Area(crypto.randomUUID(), '', '', '', [], []);
   }
 
   ngOnInit(): void {
@@ -39,7 +40,7 @@ export class AreaFormComponent implements OnInit {
         } else {
           this.fields = new Area(
             area.pk, area.title, area.address, area.kind,
-            area.access, area.secret);
+            area.devices, area.users, area.access, area.secret);
         }
       }
     }
@@ -61,6 +62,8 @@ export class AreaFormComponent implements OnInit {
       this.fields.title,
       this.fields.address,
       this.fields.kind,
+      this.fields.devices,
+      this.fields.users,
       this.fields.access,
       this.fields.secret
     );

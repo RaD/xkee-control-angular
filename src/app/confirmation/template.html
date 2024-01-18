@@ -2,19 +2,19 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Удаление</h5>
-          <a type="button" class="btn-close" [routerLink]="['/areas', entity.pk, 'edit']" aria-label="Закрыть"></a>
+          <h5 class="modal-title">Удаление {{ entity.name }}</h5>
+          <a type="button" class="btn-close" routerLink="{{ entity.url_cancel }}" aria-label="Закрыть"></a>
         </div>
         <div class="modal-body">
-          <p>Вы уверены, что желаете удалить {{ entity.name }}?</p>
+          <p>{{ entity.message }}</p>
           <div>
             <h6>{{ entity.title }}</h6>
             <p>{{ entity.description }}</p>
           </div>
         </div>
         <div class="modal-footer">
-          <a type="button" class="btn btn-secondary" [routerLink]="['/areas', entity.pk, 'edit']">Отмена</a>
-          <a type="button" class="btn btn-primary" [routerLink]="['/areas', entity.pk, 'delete']">Да</a>
+          <a type="button" class="btn btn-secondary" routerLink="{{ entity.url_cancel }}">Отмена</a>
+          <a type="button" class="btn btn-primary" routerLink="{{ entity.url_success }}">Да</a>
         </div>
       </div>
     </div>
