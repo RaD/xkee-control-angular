@@ -1,5 +1,5 @@
 <legend class="text-center">Территории</legend>
-<div class="row" *ngIf="state == 'read'">
+<div class="row">
     <div class="col">
         <figure class="text-center" *ngIf="empty">
             <blockquote class="blockquote">
@@ -13,50 +13,35 @@
             <button *ngFor="let area of areas" class="list-group-item">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">
-                        {{area.title}}
+                        {{ area.title }}
                         <small class="text-muted">
-                            ({{area.kind}})
+                            ({{ area.kind }})
                         </small>
                     </h5>
                 </div>
                 <div class="row">
                     <div class="col-8">
                         <p>
-                            {{area.address}}
+                            {{ area.address }}
                         </p>
                     </div>
                     <div class="col-4">
-                        <button type="button" class="btn btn-secondary"
-                            (click)="on_select(area)">
+                        <a type="button" class="btn btn-info" [routerLink]="['/areas', area.pk, 'devices']">
+                            <fa-icon [icon]="faWalkieTalkie" label="Устройства"></fa-icon>
+                        </a>
+                        <a type="button" class="btn btn-secondary" [routerLink]="['/areas', area.pk, 'edit']">
                             <fa-icon [icon]="faGear" label="Изменить"></fa-icon>
-                        </button>
+                        </a>
                     </div>
                 </div>
                 <small class="text-muted">X устройств, Y клиентов</small>
             </button>
         </ol>
         <div class="mb-3 d-grid gap-2">
-            <button type="button" (click)="set_state('create')"
-                class="btn btn-primary">
+            <a routerLink="/areas/create" routerLinkActive="active"
+                type="button" class="btn btn-primary">
                 Добавить территорию
-            </button>
+            </a>
         </div>
-    </div>
-</div>
-<div class="row" *ngIf="state == 'create'">
-    <div class="col">
-        <div>
-            <p>Укажитe название и адрес территории</p>
-        </div>
-        <app-area-form [state]="state" (event)="on_change($event)"/>
-    </div>
-</div>
-<div class="row" *ngIf="state == 'update'">
-    <div class="col">
-        <div>
-            <p>Измените название и адрес территории</p>
-        </div>
-        <app-area-form [state]="state" [selected_area]="selected_area"
-            (event)="on_change($event)"/>
     </div>
 </div>

@@ -1,4 +1,4 @@
-<form #form_area="ngForm" class="g-3" novalidate>
+<form #form_area="ngForm" (ngSubmit)="onSubmit()" class="g-3" novalidate>
     <div class="mb-3">
         <label for="title" class="form-label position-relative">
             Название
@@ -11,7 +11,7 @@
         </label>
         <input id="title" name="title" placeholder="Мой двор"
             class="form-control"
-            [(ngModel)]="area.title" #title="ngModel"
+            [(ngModel)]="fields.title" #title="ngModel"
             required="true" minlength="3"/>
     </div>
     <div class="mb-3">
@@ -26,7 +26,7 @@
         </label>
         <input id="address" name="address" placeholder="Адрес территории"
             class="form-control"
-            [(ngModel)]="area.address" #address="ngModel"
+            [(ngModel)]="fields.address" #address="ngModel"
             required="true" minlength="3"/>
     </div>
     <div class="mb-3">
@@ -35,7 +35,7 @@
         </label>
         <select id="kind" name="kind" placeholder="Выберите тип управления"
             class="form-select"
-            [(ngModel)]="area.kind" #kind="ngModel"
+            [(ngModel)]="fields.kind" #kind="ngModel"
             required="true">
             <!--
             <option value="autonomous">Автономный</option>
@@ -51,8 +51,8 @@
         </label>
         <input id="access" name="access"
             class="form-control"
-            [(ngModel)]="area.access" #access="ngModel"
-            required="false" minlength="3"/>
+            [(ngModel)]="fields.access" #access="ngModel"
+            required="true" minlength="3"/>
     </div>
     <div class="mb-3" *ngIf="need_credentials()">
         <label for="secret" class="form-label position-relative">
@@ -60,17 +60,16 @@
         </label>
         <input id="secret" name="secret"
             class="form-control"
-            [(ngModel)]="area.secret" #secret="ngModel"
-            required="false" minlength="3"/>
+            [(ngModel)]="fields.secret" #secret="ngModel"
+            required="true" minlength="3"/>
     </div>
     <div class="mb-3 d-grid gap-2">
-        <button type="button" class="btn btn-primary"
-            (click)="apply()" [disabled]="form_area.invalid">Применить</button>
-        <button type="button" class="btn btn-secondary"
-            (click)="cancel()">Назад</button>
+        <button type="submit" class="btn btn-success"
+            [disabled]="form_area.invalid">Применить</button>
+        <a routerLink="/areas"
+            type="button" class="btn btn-secondary">Назад</a>
     </div>
     <div class="mb-3 d-grid gap-2 fixed-bottom">
-                <button type="button" class="btn btn-danger"
-            (click)="delete()">Удалить</button>
+        <a type="button" class="btn btn-danger" [routerLink]="['/areas', fields.pk, 'delete']">Удалить</a>
     </div>
 </form>

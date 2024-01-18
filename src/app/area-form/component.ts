@@ -1,70 +1,73 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Area } from './interface';
+import { Area } from '../interfaces';
+import { FormArea } from './interface';
+import { StorageService } from '../storage.service';
 
 @Component({
   selector: 'app-area-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    RouterLink,
+    FormsModule],
   templateUrl: './template.html',
   styleUrl: './styles.less'
 })
-export class AreaFormComponent {
-  @Input() state?: string;
-  @Input() selected_area?: Area;
-  @Output() event = new EventEmitter<Area>();
-  public area: Area = {
-    uuid: '',
-    title: '',
-    address: '',
-    kind: '',
-    delete: false,
-    access: null,
-    secret: null
-  };
+export class AreaFormComponent implements OnInit {
+  protected fields: FormArea;
 
-  ngOnInit(): void {
-    // заполняем форму, если передана модель территории
-    if (this.selected_area) {
-      this.area = this.selected_area;
-    }
+  constructor(
+    private localStore: StorageService,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {
+    this.fields = new FormArea(crypto.randomUUID(), '', '', '', false);
   }
 
-  protected random_uuid(): string {
-    return crypto.randomUUID();
+  ngOnInit(): void {
+    const area_pk = this.route.snapshot.paramMap.get('pk');
+    const action = this.route.snapshot.paramMap.get('action');
+    if (area_pk != null && action != null) {
+      let area = this.localStore.getArea(area_pk);
+      if (area != null) {
+        const remove = action === 'delete';
+        this.fields = new FormArea(
+          area.pk, area.title, area.address, area.kind,
+          remove, area.access, area.secret);
+      }
+    }
   }
 
   protected need_credentials(): boolean {
-    return this.area.kind == 'xkee';
+    return this.fields.kind == 'xkee';
   }
 
   /**
-   * apply
-   * Отправляем модель территории родительскому компоненту
+   * onSubmit
+   * Обработка отправки формы
    */
-  public apply(): void {
-    if (this.state == 'create') {
-      this.area.uuid = this.random_uuid();
+  public onSubmit(): void {
+    // создаём ключ для территории
+    let pk: string = this.fields.pk;
+    let area: Area = new Area(
+      this.fields.pk,
+      this.fields.title,
+      this.fields.address,
+      this.fields.kind,
+      this.fields.access,
+      this.fields.secret
+    );
+    this.localStore.setArea(pk, area);
+    // добавляем идентификатор территории в список
+    let pks: string[] = this.localStore.getAreaPkList();
+    if (pks.indexOf(pk) == -1) {
+      pks.push(pk);
     }
-    this.event.emit(this.area);
-  }
-
-  /**
-   * cancel
-   * Отменяем действие
-   */
-  public cancel(): void {
-    this.event.emit();
-  }
-
-  /**
-   * delete
-   * Удаляем модель
-   */
-  public delete(): void {
-    this.area.delete = true;
-    this.event.emit(this.area);
-
+    this.localStore.setAreaPkList(pks);
+    // возвращаемся на список
+    this.router.navigate(['/areas']);
   }
 }

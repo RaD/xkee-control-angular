@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { LocalService } from './local.service';
+import { StorageService } from './storage.service';
 import { AreaComponent } from './area/component';
 import { NavigationComponent } from './navigation/component';
 
@@ -10,7 +10,8 @@ import { NavigationComponent } from './navigation/component';
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule, RouterOutlet, FormsModule,
+    CommonModule, FormsModule,
+    RouterOutlet, RouterLink, RouterLinkActive,
     NavigationComponent,
     AreaComponent,
   ],
@@ -21,18 +22,8 @@ import { NavigationComponent } from './navigation/component';
 export class AppComponent {
   title: string = 'XKee : Управление';
 
-  private keys_api: string = 'credentials';
-  protected data_api: string | null = null;
-  protected has_credentials: boolean = false;
-
-  constructor(private localStore: LocalService) { }
+  constructor(private localStore: StorageService) { }
 
   ngOnInit(): void {
-    this.data_api = this.localStore.getData(this.keys_api);
-    this.has_credentials = this.data_api != null;
-  }
-
-  public event_credentials_set(): void {
-    this.has_credentials = true;
   }
 }
