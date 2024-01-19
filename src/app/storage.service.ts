@@ -366,7 +366,7 @@ export class StorageService {
    * export
    * Экспорт базы данных
    */
-  public export(pk: string): any {
+  public export_area(pk: string): any {
     let area: Area | null = this.getArea(pk);
     if (area) {
       // устройства
@@ -389,5 +389,24 @@ export class StorageService {
       area.export_customers = customers;
     }
     return JSON.stringify(area);
+  }
+
+  /**
+   * import_area
+   * Импорт базы данных
+   */
+  public import_area(content: string): void {
+    let data: any = JSON.parse(content);
+    let area: Area = new Area(
+      data.pk, data.title, data.address, data.kind,
+      data.devices, data.customers, data.access, data.secret
+    );
+    this.setArea(area.pk, area);
+    data.export_devices.forEach((item: Device) => {
+      this.setDevice(item.pk, area.pk, item);
+    });
+    data.export_customers.forEach((item: Customer) => {
+      this.setCustomer(item.pk, area.pk, item);
+    });
   }
 }

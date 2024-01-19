@@ -75,7 +75,7 @@ export class AreaFormComponent implements OnInit {
   protected export(): void {
     const pk = this.route.snapshot.paramMap.get('pk');
     if (pk) {
-      let content: any = this.localStore.export(pk);
+      let content: any = this.localStore.export_area(pk);
       let a = document.createElement('a');
       let file = new Blob([content], {type: 'application/json'});
       a.href = URL.createObjectURL(file);

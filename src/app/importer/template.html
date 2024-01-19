@@ -1,0 +1,19 @@
+<legend class="text-center">Импорт территории</legend>
+<form class="g-3" novalidate>
+    <div class="mb-3">
+        <label for="file" class="form-label position-relative">
+            Укажите файл
+        </label>
+        <input id="file" name="file" placeholder="Укажите файл с архивом территории"
+            class="form-control" type="file"
+            required="true" (change)="onFileSelected($event.target)"/>
+    </div>
+    <div>
+        <p>
+            Щёлкните мышкой по полю для ввода файла и выберите файл с архивом территории.
+        </p>
+        <p>
+            Приложение выполнит импорт указанного архива и перейдёт к списку территорий автоматически.
+        </p>
+    </div>
+</form>

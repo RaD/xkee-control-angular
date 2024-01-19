@@ -7,6 +7,7 @@ import { DevicesComponent } from './devices/component';
 import { DeviceComponent } from './device/component';
 import { CustomersComponent } from './customers/component';
 import { CustomerComponent } from './customer/component';
+import { ImporterComponent } from './importer/component';
 
 export const routes: Routes = [
     {path: 'confirm/areas/:area_pk/:entity/:entity_pk', component: ConfirmationComponent},
@@ -19,6 +20,7 @@ export const routes: Routes = [
     {path: 'areas/:pk/devices', component: DevicesComponent},
     {path: 'areas/:pk/:action', component: AreaFormComponent},
     {path: 'areas/create', component: AreaFormComponent},
+    {path: 'areas/import', component: ImporterComponent},
     {path: 'areas', component: AreaComponent},
     {path: '', pathMatch: 'full', redirectTo: '/areas'},
     {path: '**', redirectTo: '/areas'},
