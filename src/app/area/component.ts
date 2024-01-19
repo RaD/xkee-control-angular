@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { faWalkieTalkie } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { StorageService } from '../storage.service';
 import { Area } from '../area-form/interface';
 
@@ -22,6 +23,7 @@ export class AreaComponent implements OnInit {
   // иконки
   faGear = faGear;
   faWalkieTalkie = faWalkieTalkie;
+  faUser = faUser;
 
   protected empty: boolean = true;
   protected areas: Area[] = [];

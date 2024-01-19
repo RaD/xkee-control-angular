@@ -26,6 +26,9 @@
                         </p>
                     </div>
                     <div class="col-4">
+                        <a type="button" class="btn btn-info" [routerLink]="['/areas', area.pk, 'customers']">
+                            <fa-icon [icon]="faUser" label="Клиенты"></fa-icon>
+                        </a>
                         <a type="button" class="btn btn-info" [routerLink]="['/areas', area.pk, 'devices']">
                             <fa-icon [icon]="faWalkieTalkie" label="Устройства"></fa-icon>
                         </a>
@@ -36,7 +39,7 @@
                 </div>
                 <small class="text-muted">
                     Устройства: {{ area.devices.length }} шт.
-                    Клиенты: {{ area.users.length }} шт.
+                    Клиенты: {{ area.customers.length }} шт.
                 </small>
             </button>
         </ol>

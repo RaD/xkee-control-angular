@@ -5,7 +5,7 @@ export interface IArea {
     kind: string;
 
     devices: string[];
-    users: string[];
+    customers: string[];
 
     access?: string;
     secret?: string;
@@ -19,7 +19,7 @@ export class Area implements IArea {
         public address: string,
         public kind: string,
         public devices: string[],
-        public users: string[],
+        public customers: string[],
         public access?: string,
         public secret?: string,
     ) {}
