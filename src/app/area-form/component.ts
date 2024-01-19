@@ -71,4 +71,16 @@ export class AreaFormComponent implements OnInit {
     // возвращаемся на список
     this.router.navigate(['/areas']);
   }
+
+  protected export(): void {
+    const pk = this.route.snapshot.paramMap.get('pk');
+    if (pk) {
+      let content: any = this.localStore.export(pk);
+      let a = document.createElement('a');
+      let file = new Blob([content], {type: 'application/json'});
+      a.href = URL.createObjectURL(file);
+      a.download = `xkee.area.${pk}.json`;
+      a.click();
+    }
+  }
 }

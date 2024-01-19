@@ -361,4 +361,33 @@ export class StorageService {
       this.setCustomerPkList(area_pk, pks);
     }
   }
+
+  /**
+   * export
+   * Экспорт базы данных
+   */
+  public export(pk: string): any {
+    let area: Area | null = this.getArea(pk);
+    if (area) {
+      // устройства
+      let devices: Device[] = [];
+      area.devices.forEach(dpk => {
+        let device: Device | null = this.getDevice(dpk);
+        if (device) {
+          devices.push(device);
+        }
+      });
+      area.export_devices = devices;
+      // клиенты
+      let customers: Customer[] = [];
+      area.customers.forEach(cpk => {
+        let customer: Customer | null = this.getCustomer(cpk);
+        if (customer) {
+          customers.push(customer);
+        }
+      });
+      area.export_customers = customers;
+    }
+    return JSON.stringify(area);
+  }
 }

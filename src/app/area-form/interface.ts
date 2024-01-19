@@ -1,3 +1,6 @@
+import { Customer } from "../customer/interface";
+import { Device } from "../device/interface";
+
 export interface IArea {
     pk: string;
     title: string;
@@ -9,6 +12,9 @@ export interface IArea {
 
     access?: string;
     secret?: string;
+
+    export_devices?: Device[];
+    export_customers?: Customer[];
 }
 
 
@@ -22,5 +28,7 @@ export class Area implements IArea {
         public customers: string[],
         public access?: string,
         public secret?: string,
+        public export_devices?: Device[],
+        public export_customers?: Customer[],
     ) {}
 }
