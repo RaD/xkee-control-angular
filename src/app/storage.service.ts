@@ -152,6 +152,15 @@ export class StorageService {
    * Удаляет информацию о территории
    */
   public removeArea(pk: string): void {
+    // очищаем сначала зависимости
+    let area: Area | null= this.getArea(pk);
+    if (!area) {
+      console.log(`Unable to find area(${pk})`);
+      return;
+    }
+    area.devices.forEach(key => this.removeDevice(key, pk));
+    area.customers.forEach(key => this.removeCustomer(key, pk));
+    // удаляем саму территорию
     let key: string = key_area + '_' + pk;
     this.removeData(key)
     // удаляем идентификатор территории из списка
