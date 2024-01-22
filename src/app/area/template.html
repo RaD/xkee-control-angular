@@ -9,40 +9,42 @@
                 Самое время добавить хотя бы одну...
             </figcaption>
         </figure>
-        <ol class="list-group" *ngIf="!empty">
-            <button *ngFor="let area of areas" class="list-group-item">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">
-                        {{ area.title }}
-                        <small class="text-muted">
-                            ({{ area.kind }})
-                        </small>
-                    </h5>
-                </div>
-                <div class="row">
-                    <div class="col-8">
-                        <p>
-                            {{ area.address }}
-                        </p>
-                    </div>
-                    <div class="col-4">
-                        <a type="button" class="btn btn-info" [routerLink]="['/areas', area.pk, 'customers']">
-                            <fa-icon [icon]="faUser" label="Клиенты"></fa-icon>
-                        </a>
-                        <a type="button" class="btn btn-info" [routerLink]="['/areas', area.pk, 'devices']">
-                            <fa-icon [icon]="faWalkieTalkie" label="Устройства"></fa-icon>
-                        </a>
-                        <a type="button" class="btn btn-secondary" [routerLink]="['/areas', area.pk, 'edit']">
-                            <fa-icon [icon]="faGear" label="Изменить"></fa-icon>
-                        </a>
-                    </div>
-                </div>
-                <small class="text-muted">
-                    Устройства: {{ area.devices.length }} шт.
-                    Клиенты: {{ area.customers.length }} шт.
-                </small>
-            </button>
-        </ol>
+        <div class="table-responsive" *ngIf="!empty">
+            <table class="table">
+                <tbody>
+                    <tr *ngFor="let area of areas">
+                        <td>
+                            <a [routerLink]="['/areas', area.pk, 'edit']">
+                                {{ area.title }}
+                            </a>
+                        </td>
+                        <td>{{ area.kind }}</td>
+                        <td>{{ area.address }}</td>
+                        <td class="d-grid gap-2 d-flex justify-content-end">
+                            <a type="button" class="btn btn-info position-relative"
+                                [routerLink]="['/areas', area.pk, 'customers']">
+                                <fa-icon [icon]="faUser" label="Клиенты"></fa-icon>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ area.devices.length }}
+                                </span>
+                            </a>
+                            <a type="button" class="btn btn-info position-relative"
+                            [routerLink]="['/areas', area.pk, 'devices']">
+                                <fa-icon [icon]="faWalkieTalkie" label="Устройства"></fa-icon>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ area.customers.length }}
+                                </span>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="mb-3 fixed-bottom">
+    <div class="container-fluid">
         <div class="mb-3 d-grid gap-2">
             <a routerLink="/areas/create" routerLinkActive="active"
                 type="button" class="btn btn-primary">

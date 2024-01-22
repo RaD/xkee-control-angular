@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faGear } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUserSlash } from '@fortawesome/free-solid-svg-icons';
 import { StorageService } from '../storage.service';
 import { Area } from '../area-form/interface';
 import { Customer } from '../customer/interface';
@@ -20,7 +21,8 @@ import { Customer } from '../customer/interface';
 })
 export class CustomersComponent implements OnInit {
   // иконки
-  faGear = faGear;
+  faUser = faUser;
+  faUserSlash = faUserSlash;
 
   protected area_pk: string | null = null;
   protected area: Area | null = null;

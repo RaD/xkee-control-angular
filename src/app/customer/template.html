@@ -92,7 +92,12 @@
         <a [routerLink]="['/areas', area?.pk, 'customers']"
             type="button" class="btn btn-secondary">Назад</a>
     </div>
-    <div class="mb-3 d-grid gap-2 fixed-bottom">
-        <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', area?.pk, 'customer', fields.pk]">Удалить</a>
-    </div>
 </form>
+
+<div class="mb-3 fixed-bottom">
+    <div class="container-fluid">
+        <div class="d-grid gap-2">
+            <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', area?.pk, 'customer', fields.pk]">Удалить</a>
+        </div>
+    </div>
+</div>

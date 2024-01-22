@@ -74,16 +74,10 @@
 
 <div class="mb-3 fixed-bottom">
     <div class="container-fluid">
-        <div class="row mx-auto">
-            <div class="col-4">
-                <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', fields.pk]">Удалить</a>
-            </div>
-            <div class="col-4">
-            </div>
-            <div class="col-4 gap-2 d-md-flex justify-content-md-end">
-                <a type="button" class="btn btn-info" [routerLink]="['/areas', 'import']">Импорт</a>
-                <a type="button" class="btn btn-info" (click)="export()">Экспорт</a>
-            </div>
+        <div class="d-grid gap-2">
+            <a *ngIf="!is_creation()" type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', fields.pk]">Удалить</a>
+            <a type="button" class="btn btn-info" [routerLink]="['/areas', 'import']">Импорт</a>
+            <a *ngIf="!is_creation()" type="button" class="btn btn-info" (click)="export()">Экспорт</a>
         </div>
     </div>
 </div>

@@ -18,6 +18,8 @@ import { StorageService } from '../storage.service';
 })
 export class AreaFormComponent implements OnInit {
   protected fields: Area;
+  protected pk: string | null;
+  protected action: string | null;
 
   constructor(
     private localStore: StorageService,
@@ -25,16 +27,16 @@ export class AreaFormComponent implements OnInit {
     private route: ActivatedRoute,
   ) {
     this.fields = new Area(crypto.randomUUID(), '', '', '', [], []);
+    this.pk = this.route.snapshot.paramMap.get('pk');
+    this.action = this.route.snapshot.paramMap.get('action');
   }
 
   ngOnInit(): void {
-    const pk = this.route.snapshot.paramMap.get('pk');
-    const action = this.route.snapshot.paramMap.get('action');
-    if (pk != null && action != null) {
-      let area = this.localStore.getArea(pk);
+    if (this.pk != null && this.action != null) {
+      let area = this.localStore.getArea(this.pk);
       if (area != null) {
-        if (action === 'delete') {
-          this.localStore.removeArea(pk);
+        if (this.action === 'delete') {
+          this.localStore.removeArea(this.pk);
           // возвращаемся на список
           this.router.navigate(['/areas']);
         } else {
@@ -48,6 +50,10 @@ export class AreaFormComponent implements OnInit {
 
   protected need_credentials(): boolean {
     return this.fields.kind == 'xkee';
+  }
+
+  protected is_creation(): boolean {
+    return this.pk == null;
   }
 
   /**

@@ -1,4 +1,4 @@
-<legend class="text-center">Клиенты</legend>
+<legend class="text-center">Клиенты "{{ area?.title }}"</legend>
 <div class="row">
     <div class="col">
         <figure class="text-center" *ngIf="empty">
@@ -9,43 +9,42 @@
                 Самое время добавить хотя бы одного...
             </figcaption>
         </figure>
-        <ol class="list-group" *ngIf="!empty">
-            <button *ngFor="let customer of customers" class="list-group-item">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{ customer.pk }}</h5>
-                </div>
-                <div class="row">
-                    <div class="col-8">
-                        <p>
-                            {{ customer.last_name }}
-                            {{ customer.first_name }}
-                            {{ customer.middle_name }}
-                        </p>
-                        <p>{{ customer.address }}</p>
-                        <p>{{ customer.vehicle }}</p>
-                    </div>
-                    <div class="col-4">
-                        <a type="button" class="btn btn-secondary"
-                            [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'edit']">
-                            <fa-icon [icon]="faGear" label="Изменить"></fa-icon>
-                        </a>
-                    </div>
-                </div>
-            </button>
-        </ol>
+        <div class="table-responsive" *ngIf="!empty">
+            <table class="table">
+                <tbody>
+                    <tr *ngFor="let customer of customers">
+                        <td>
+                            <div>
+                                <a [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'edit']">
+                                    {{ customer.pk }}
+                                </a>
+                            </div>
+                            <div>
+                                {{ customer.last_name }}
+                                {{ customer.first_name }}
+                                {{ customer.middle_name }}
+                            </div>
+                        </td>
+                        <td>{{ customer.address }}</td>
+                        <td>{{ customer.vehicle }}</td>
+                        <td>
+                            <fa-icon [icon]="faUser" *ngIf="customer.active"></fa-icon>
+                            <fa-icon [icon]="faUserSlash" *ngIf="!customer.active"></fa-icon>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-3">
+
+<div class="mb-3 fixed-bottom">
+    <div class="container-fluid">
         <div class="mb-3 d-grid gap-2">
             <a [routerLink]="['/areas', area?.pk]" routerLinkActive="active"
                 type="button" class="btn btn-secondary">
                 Назад
             </a>
-        </div>
-    </div>
-    <div class="col-9">
-        <div class="mb-3 d-grid gap-2">
             <a [routerLink]="['/areas', area?.pk, 'customers', 'create']" routerLinkActive="active"
                 type="button" class="btn btn-primary">
                 Добавить клиента
