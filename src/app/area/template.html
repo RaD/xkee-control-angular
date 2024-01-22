@@ -1,55 +1,83 @@
-<legend class="text-center">Территории</legend>
-<div class="row">
-    <div class="col">
-        <figure class="text-center" *ngIf="empty">
-            <blockquote class="blockquote">
-                <p>У вас пока не зарегистрировано ни одной территории...</p>
-            </blockquote>
-            <figcaption class="blockquote-footer">
-                Самое время добавить хотя бы одну...
-            </figcaption>
-        </figure>
-        <div class="table-responsive" *ngIf="!empty">
-            <table class="table">
-                <tbody>
-                    <tr *ngFor="let area of areas">
-                        <td>
-                            <a [routerLink]="['/areas', area.pk, 'edit']">
-                                {{ area.title }}
-                            </a>
-                        </td>
-                        <td>{{ area.kind }}</td>
-                        <td>{{ area.address }}</td>
-                        <td class="d-grid gap-2 d-flex justify-content-end">
-                            <a type="button" class="btn btn-info position-relative"
-                                [routerLink]="['/areas', area.pk, 'customers']">
-                                <fa-icon [icon]="faUser" label="Клиенты"></fa-icon>
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    {{ area.devices.length }}
-                                </span>
-                            </a>
-                            <a type="button" class="btn btn-info position-relative"
-                            [routerLink]="['/areas', area.pk, 'devices']">
-                                <fa-icon [icon]="faWalkieTalkie" label="Устройства"></fa-icon>
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    {{ area.customers.length }}
-                                </span>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+<legend class="text-center">Территория</legend>
+<form #form_area="ngForm" (ngSubmit)="onSubmit()" class="g-3" novalidate>
+    <div class="mb-3">
+        <label for="title" class="form-label position-relative">
+            Название
+            <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert">
+                <div *ngIf="title.errors?.['minlength']"
+                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    Минимально 3 символа
+                </div>
+            </div>
+        </label>
+        <input id="title" name="title" placeholder="Мой двор"
+            class="form-control"
+            [(ngModel)]="fields.title" #title="ngModel"
+            required="true" minlength="3"/>
     </div>
-</div>
+    <div class="mb-3">
+        <label for="address" class="form-label position-relative">
+            Адрес
+            <div *ngIf="address.invalid && (address.dirty || address.touched)" class="alert">
+                <div *ngIf="address.errors?.['minlength']"
+                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    Минимально 3 символа
+                </div>
+            </div>
+        </label>
+        <input id="address" name="address" placeholder="Адрес территории"
+            class="form-control"
+            [(ngModel)]="fields.address" #address="ngModel"
+            required="true" minlength="3"/>
+    </div>
+    <div class="mb-3">
+        <label for="kind" class="form-label position-relative">
+            Тип
+        </label>
+        <select id="kind" name="kind" placeholder="Выберите тип управления"
+            class="form-select"
+            [(ngModel)]="fields.kind" #kind="ngModel"
+            required="true">
+            <!--
+            <option value="autonomous">Автономный</option>
+            <option value="homeass">Home Assistant</option>
+            <option value="homekit">Apple HomeKit</option>
+            //-->
+            <option value="xkee" selected>XKee Cloud</option>
+        </select>
+    </div>
+    <div class="mb-3" *ngIf="need_credentials()">
+        <label for="access" class="form-label position-relative">
+            Access Key
+        </label>
+        <input id="access" name="access"
+            class="form-control"
+            [(ngModel)]="fields.access" #access="ngModel"
+            required="true" minlength="3"/>
+    </div>
+    <div class="mb-3" *ngIf="need_credentials()">
+        <label for="secret" class="form-label position-relative">
+            Secret Key
+        </label>
+        <input id="secret" name="secret"
+            class="form-control"
+            [(ngModel)]="fields.secret" #secret="ngModel"
+            required="true" minlength="3"/>
+    </div>
+    <div class="mb-3 d-grid gap-2">
+        <button type="submit" class="btn btn-success"
+            [disabled]="form_area.invalid">Применить</button>
+        <a routerLink="/areas"
+            type="button" class="btn btn-secondary">Назад</a>
+    </div>
+</form>
 
 <div class="mb-3 fixed-bottom">
     <div class="container-fluid">
-        <div class="mb-3 d-grid gap-2">
-            <a routerLink="/areas/create" routerLinkActive="active"
-                type="button" class="btn btn-primary">
-                Добавить территорию
-            </a>
+        <div class="d-grid gap-2">
+            <a *ngIf="!is_creation()" type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', fields.pk]">Удалить</a>
+            <a type="button" class="btn btn-info" [routerLink]="['/areas', 'import']">Импорт</a>
+            <a *ngIf="!is_creation()" type="button" class="btn btn-info" (click)="export()">Экспорт</a>
         </div>
     </div>
 </div>

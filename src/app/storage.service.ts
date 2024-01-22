@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Area } from './area-form/interface';
+import { Area } from './area/interface';
 import { Device } from './device/interface';
 import { Customer } from './customer/interface';
 // import * as CryptoJS from 'crypto-js';

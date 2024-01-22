@@ -1,0 +1,55 @@
+<legend class="text-center">Территории</legend>
+<div class="row">
+    <div class="col">
+        <figure class="text-center" *ngIf="empty">
+            <blockquote class="blockquote">
+                <p>У вас пока не зарегистрировано ни одной территории...</p>
+            </blockquote>
+            <figcaption class="blockquote-footer">
+                Самое время добавить хотя бы одну...
+            </figcaption>
+        </figure>
+        <div class="table-responsive" *ngIf="!empty">
+            <table class="table">
+                <tbody>
+                    <tr *ngFor="let area of areas">
+                        <td>
+                            <a [routerLink]="['/areas', area.pk, 'edit']">
+                                {{ area.title }}
+                            </a>
+                        </td>
+                        <td>{{ area.kind }}</td>
+                        <td>{{ area.address }}</td>
+                        <td class="d-grid gap-2 d-flex justify-content-end">
+                            <a type="button" class="btn btn-info position-relative"
+                                [routerLink]="['/areas', area.pk, 'customers']">
+                                <fa-icon [icon]="faUser" label="Клиенты"></fa-icon>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ area.devices.length }}
+                                </span>
+                            </a>
+                            <a type="button" class="btn btn-info position-relative"
+                            [routerLink]="['/areas', area.pk, 'devices']">
+                                <fa-icon [icon]="faWalkieTalkie" label="Устройства"></fa-icon>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ area.customers.length }}
+                                </span>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="mb-3 fixed-bottom">
+    <div class="container-fluid">
+        <div class="mb-3 d-grid gap-2">
+            <a routerLink="/areas/create" routerLinkActive="active"
+                type="button" class="btn btn-primary">
+                Добавить территорию
+            </a>
+        </div>
+    </div>
+</div>

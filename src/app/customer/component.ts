@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { StorageService } from '../storage.service';
-import { Area } from '../area-form/interface';
+import { Area } from '../area/interface';
 import { Customer } from './interface';
 
 @Component({

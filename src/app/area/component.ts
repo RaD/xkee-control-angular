@@ -1,40 +1,92 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faGear } from '@fortawesome/free-solid-svg-icons';
-import { faWalkieTalkie } from '@fortawesome/free-solid-svg-icons';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { Area } from './interface';
 import { StorageService } from '../storage.service';
-import { Area } from '../area-form/interface';
 
 @Component({
-  selector: 'app-area',
+  selector: 'app-area-form',
   standalone: true,
   imports: [
-    FontAwesomeModule,
     CommonModule,
     RouterLink,
+    FormsModule,
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
 })
 export class AreaComponent implements OnInit {
-  // иконки
-  faGear = faGear;
-  faWalkieTalkie = faWalkieTalkie;
-  faUser = faUser;
-
-  protected empty: boolean = true;
-  protected areas: Area[] = [];
+  protected fields: Area;
+  protected pk: string | null;
+  protected action: string | null;
 
   constructor(
     private localStore: StorageService,
-  ) { }
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {
+    this.fields = new Area(crypto.randomUUID(), '', '', '', [], []);
+    this.pk = this.route.snapshot.paramMap.get('pk');
+    this.action = this.route.snapshot.paramMap.get('action');
+  }
 
   ngOnInit(): void {
-    // проверка списка территорий
-    this.areas = this.localStore.getAreaList();
-    this.empty = this.areas.length == 0;
+    if (this.pk != null && this.action != null) {
+      let area = this.localStore.getArea(this.pk);
+      if (area != null) {
+        if (this.action === 'delete') {
+          this.localStore.removeArea(this.pk);
+          // возвращаемся на список
+          this.router.navigate(['/areas']);
+        } else {
+          this.fields = new Area(
+            area.pk, area.title, area.address, area.kind,
+            area.devices, area.customers, area.access, area.secret);
+        }
+      }
+    }
+  }
+
+  protected need_credentials(): boolean {
+    return this.fields.kind == 'xkee';
+  }
+
+  protected is_creation(): boolean {
+    return this.pk == null;
+  }
+
+  /**
+   * onSubmit
+   * Обработка отправки формы
+   */
+  public onSubmit(): void {
+    // создаём ключ для территории
+    let pk: string = this.fields.pk;
+    let area: Area = new Area(
+      this.fields.pk,
+      this.fields.title,
+      this.fields.address,
+      this.fields.kind,
+      this.fields.devices,
+      this.fields.customers,
+      this.fields.access,
+      this.fields.secret
+    );
+    this.localStore.setArea(pk, area);
+    // возвращаемся на список
+    this.router.navigate(['/areas']);
+  }
+
+  protected export(): void {
+    const pk = this.route.snapshot.paramMap.get('pk');
+    if (pk) {
+      let content: any = this.localStore.export_area(pk);
+      let a = document.createElement('a');
+      let file = new Blob([content], {type: 'application/json'});
+      a.href = URL.createObjectURL(file);
+      a.download = `xkee.area.${pk}.json`;
+      a.click();
+    }
   }
 }

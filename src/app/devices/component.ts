@@ -4,7 +4,7 @@ import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { StorageService } from '../storage.service';
-import { Area } from '../area-form/interface';
+import { Area } from '../area/interface';
 import { Device } from '../device/interface';
 
 @Component({

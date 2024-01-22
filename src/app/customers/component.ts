@@ -5,7 +5,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faUserSlash } from '@fortawesome/free-solid-svg-icons';
 import { StorageService } from '../storage.service';
-import { Area } from '../area-form/interface';
+import { Area } from '../area/interface';
 import { Customer } from '../customer/interface';
 
 @Component({

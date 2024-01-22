@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ConfirmationComponent } from './confirmation/component';
+import { AreasComponent } from './areas/component';
 import { AreaComponent } from './area/component';
-import { AreaFormComponent } from './area-form/component';
 import { DevicesComponent } from './devices/component';
 import { DeviceComponent } from './device/component';
 import { CustomersComponent } from './customers/component';
@@ -18,10 +18,10 @@ export const routes: Routes = [
     {path: 'areas/:pk/device/:device_pk/:action', component: DeviceComponent},
     {path: 'areas/:pk/devices/create', component: DeviceComponent},
     {path: 'areas/:pk/devices', component: DevicesComponent},
-    {path: 'areas/:pk/:action', component: AreaFormComponent},
-    {path: 'areas/create', component: AreaFormComponent},
+    {path: 'areas/:pk/:action', component: AreaComponent},
+    {path: 'areas/create', component: AreaComponent},
     {path: 'areas/import', component: ImporterComponent},
-    {path: 'areas', component: AreaComponent},
+    {path: 'areas', component: AreasComponent},
     {path: '', pathMatch: 'full', redirectTo: '/areas'},
     {path: '**', redirectTo: '/areas'},
 ];
