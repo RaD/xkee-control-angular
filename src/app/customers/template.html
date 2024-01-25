@@ -9,31 +9,52 @@
                 Самое время добавить хотя бы одного...
             </figcaption>
         </figure>
-        <div class="table-responsive" *ngIf="!empty">
-            <table class="table">
-                <tbody>
-                    <tr *ngFor="let customer of customers">
-                        <td>
-                            <div>
-                                <a [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'edit']">
-                                    {{ customer.pk }}
-                                </a>
-                            </div>
-                            <div>
-                                {{ customer.last_name }}
-                                {{ customer.first_name }}
-                                {{ customer.middle_name }}
-                            </div>
-                        </td>
-                        <td>{{ customer.address }}</td>
-                        <td>{{ customer.vehicle }}</td>
-                        <td>
-                            <fa-icon [icon]="faUser" *ngIf="customer.active"></fa-icon>
-                            <fa-icon [icon]="faUserSlash" *ngIf="!customer.active"></fa-icon>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div *ngIf="!empty">
+            <form #form_search="ngForm" (ngSubmit)="onSearch()"
+                class="d-flex g-3 align-items-center" novalidate>
+                <div class="p-2 flex-grow-1">
+                    <label for="search" class="visually-hidden">Поиск</label>
+                    <div class="input-group">
+                        <div class="input-group-text">
+                            <fa-icon [icon]="faSearch"></fa-icon>
+                        </div>
+                        <input id="search" name="search"
+                            placeholder="Укажите любую информацию о пользователе"
+                            class="form-control"
+                            [(ngModel)]="search_query" #search="ngModel"
+                            required="true" minlength="10"/>
+                    </div>
+                </div>
+                <div class="p-2">
+                    <button type="submit" class="btn btn-primary">Найти</button>
+                </div>
+            </form>
+            <div class="table-responsive">
+                <table class="table">
+                    <tbody>
+                        <tr *ngFor="let customer of customers">
+                            <td>
+                                <div>
+                                    <a [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'edit']">
+                                        {{ customer.pk }}
+                                    </a>
+                                </div>
+                                <div>
+                                    {{ customer.last_name }}
+                                    {{ customer.first_name }}
+                                    {{ customer.middle_name }}
+                                </div>
+                            </td>
+                            <td>{{ customer.address }}</td>
+                            <td>{{ customer.vehicle }}</td>
+                            <td>
+                                <fa-icon [icon]="faUser" *ngIf="customer.active"></fa-icon>
+                                <fa-icon [icon]="faUserSlash" *ngIf="!customer.active"></fa-icon>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

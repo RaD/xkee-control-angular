@@ -79,6 +79,26 @@ export class StorageService {
   }
 
   /**
+   * search_customers
+   */
+  public search_customers(area_pk: string, query: string): Customer[] {
+    let result: Customer[] = [];
+    let customers: Customer[] = this.getCustomerList(area_pk);
+    customers.forEach((item: Customer) => {
+      let useful: boolean = false;
+      let regexp: RegExp = new RegExp(query, 'gi');
+      Object.entries(item).forEach(([field, value]) => {
+        if (!useful && typeof value == 'string' && value.search(regexp) != -1) {
+          useful = true;
+        }
+      });
+      if (useful) {
+        result.push(item);
+      }
+    });
+    return result;
+  }
+  /**
    * getAreas
    * Получает список идентификаторов территорий
    */
