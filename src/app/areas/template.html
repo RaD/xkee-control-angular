@@ -14,26 +14,27 @@
                 <tbody>
                     <tr *ngFor="let area of areas">
                         <td>
-                            <a [routerLink]="['/areas', area.pk, 'edit']">
+                            <a [routerLink]="['/areas', area.pk, 'customers']">
                                 {{ area.title }}
                             </a>
+                        </td>
+                        <td>
+                            <fa-icon [icon]="faUser" label="Настройки"></fa-icon>
+                            {{ area.customers.length }}
                         </td>
                         <td>{{ area.kind }}</td>
                         <td>{{ area.address }}</td>
                         <td class="d-grid gap-2 d-flex justify-content-end">
-                            <a type="button" class="btn btn-info position-relative"
-                                [routerLink]="['/areas', area.pk, 'customers']">
-                                <fa-icon [icon]="faUser" label="Клиенты"></fa-icon>
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    {{ area.devices.length }}
-                                </span>
-                            </a>
                             <a type="button" class="btn btn-info position-relative"
                             [routerLink]="['/areas', area.pk, 'devices']">
                                 <fa-icon [icon]="faWalkieTalkie" label="Устройства"></fa-icon>
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                     {{ area.customers.length }}
                                 </span>
+                            </a>
+                            <a type="button" class="btn btn-info"
+                                [routerLink]="['/areas', area.pk, 'edit']">
+                                <fa-icon [icon]="faGear" label="Настройки"></fa-icon>
                             </a>
                         </td>
                     </tr>
