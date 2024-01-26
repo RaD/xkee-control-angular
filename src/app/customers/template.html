@@ -51,6 +51,12 @@
                                 <fa-icon [icon]="faUser" *ngIf="customer.active"></fa-icon>
                                 <fa-icon [icon]="faUserSlash" *ngIf="!customer.active"></fa-icon>
                             </td>
+                            <td>
+                                <button class="btn btn-secondary"
+                                    [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'linking']">
+                                    <fa-icon [icon]="faLink"></fa-icon>
+                                </button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

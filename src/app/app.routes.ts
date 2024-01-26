@@ -8,10 +8,12 @@ import { DeviceComponent } from './device/component';
 import { CustomersComponent } from './customers/component';
 import { CustomerComponent } from './customer/component';
 import { ImporterComponent } from './importer/component';
+import { LinkingComponent } from './linking/component';
 
 export const routes: Routes = [
     {path: 'confirm/areas/:area_pk/:entity/:entity_pk', component: ConfirmationComponent},
     {path: 'confirm/areas/:area_pk', component: ConfirmationComponent},
+    {path: 'areas/:pk/customer/:customer_pk/linking', component: LinkingComponent},
     {path: 'areas/:pk/customer/:customer_pk/:action', component: CustomerComponent},
     {path: 'areas/:pk/customers/create', component: CustomerComponent},
     {path: 'areas/:pk/customers', component: CustomersComponent},

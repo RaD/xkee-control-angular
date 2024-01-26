@@ -42,7 +42,7 @@ export class AreaComponent implements OnInit {
         } else {
           this.fields = new Area(
             area.pk, area.title, area.address, area.kind,
-            area.devices, area.customers, area.access, area.secret);
+            area.devices, area.customers, area.linked, area.access, area.secret);
         }
       }
     }
@@ -70,6 +70,7 @@ export class AreaComponent implements OnInit {
       this.fields.kind,
       this.fields.devices,
       this.fields.customers,
+      this.fields.linked,
       this.fields.access,
       this.fields.secret
     );

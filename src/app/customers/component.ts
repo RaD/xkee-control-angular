@@ -6,6 +6,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faUserSlash } from '@fortawesome/free-solid-svg-icons';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faLink } from '@fortawesome/free-solid-svg-icons';
 import { StorageService } from '../storage.service';
 import { Area } from '../area/interface';
 import { Customer } from '../customer/interface';
@@ -27,6 +28,7 @@ export class CustomersComponent implements OnInit {
   faUser = faUser;
   faUserSlash = faUserSlash
   faSearch = faMagnifyingGlass;
+  faLink = faLink;
 
   protected area_pk: string | null = null;
   protected area: Area | null = null;

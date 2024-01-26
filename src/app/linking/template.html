@@ -1,0 +1,108 @@
+<legend class="text-center">Связаны с {{ customer?.last_name}} {{ customer?.first_name}} {{ customer?.middle_name }}</legend>
+<div class="row">
+    <div class="col">
+        <figure class="text-center" *ngIf="customers_linked.length == 0">
+            <blockquote class="blockquote">
+                <p>Нет привязанных клиентов...</p>
+            </blockquote>
+        </figure>
+        <div class="table-responsive">
+            <table class="table">
+                <tbody>
+                    <tr *ngFor="let o of customers_linked">
+                        <td>
+                            <div>
+                                {{ o.pk }}
+                            </div>
+                            <div>
+                                {{ o.last_name }}
+                                {{ o.first_name }}
+                                {{ o.middle_name }}
+                            </div>
+                        </td>
+                        <td>{{ o.address }}</td>
+                        <td>{{ o.vehicle }}</td>
+                        <td>
+                            <button class="btn btn-info"
+                                (click)="onUnlink(o.pk);">
+                                <fa-icon [icon]="faUnlink"></fa-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="card" style="background-color: lightgray;">
+            <div class="card-body">
+                <div class="card-title">
+                    Для привязки клиентов найдите их через строку поиска ниже и нажмите на иконку связи.
+                </div>
+                <form #form_search="ngForm" name="form_search" (ngSubmit)="onSearch()"
+                    class="d-flex g-3 align-items-center" novalidate>
+                    <div class="p-2 flex-grow-1">
+                        <label for="search" class="visually-hidden">Поиск</label>
+                        <div class="input-group">
+                            <div class="input-group-text">
+                                <fa-icon [icon]="faSearch"></fa-icon>
+                            </div>
+                            <input id="search" name="search"
+                                placeholder="Укажите любую информацию о пользователе"
+                                class="form-control"
+                                [(ngModel)]="search_query" #search="ngModel"
+                                required="true" minlength="10"/>
+                        </div>
+                    </div>
+                    <div class="p-2">
+                        <button type="submit" class="btn btn-primary">Найти</button>
+                    </div>
+                </form>
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr *ngFor="let o of customers_search">
+                                <td>
+                                    <div>
+                                        {{ o.pk }}
+                                    </div>
+                                    <div>
+                                        {{ o.last_name }}
+                                        {{ o.first_name }}
+                                        {{ o.middle_name }}
+                                    </div>
+                                </td>
+                                <td>{{ o.address }}</td>
+                                <td>{{ o.vehicle }}</td>
+                                <td>
+                                    <!-- не позволяем привязывать самого себя -->
+                                    <button class="btn btn-info"
+                                        [disabled]="customer_pk == o.pk"
+                                        (click)="onLink(o.pk);">
+                                        <fa-icon [icon]="faLink"></fa-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mb-3 fixed-bottom">
+    <div class="container-fluid">
+        <div class="mb-3 d-grid gap-2">
+            <a [routerLink]="['/areas', area?.pk, 'customers']" routerLinkActive="active"
+                type="button" class="btn btn-secondary">
+                Назад
+            </a>
+            <a [routerLink]="['/areas', area?.pk, 'customers', 'create']" routerLinkActive="active"
+                type="button" class="btn btn-primary">
+                Добавить клиента
+            </a>
+        </div>
+    </div>
+</div>

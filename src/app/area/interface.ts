@@ -1,6 +1,11 @@
 import { Customer } from "../customer/interface";
 import { Device } from "../device/interface";
 
+interface LinkedT {
+    [propkey: string]: string[];
+}
+
+
 export interface IArea {
     pk: string;
     title: string;
@@ -9,6 +14,7 @@ export interface IArea {
 
     devices: string[];
     customers: string[];
+    linked: LinkedT;
 
     access?: string;
     secret?: string;
@@ -24,8 +30,9 @@ export class Area implements IArea {
         public title: string,
         public address: string,
         public kind: string,
-        public devices: string[],
-        public customers: string[],
+        public devices: string[] = [],
+        public customers: string[] = [],
+        public linked: LinkedT = {},
         public access?: string,
         public secret?: string,
         public export_devices?: Device[],

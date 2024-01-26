@@ -351,7 +351,7 @@ export class StorageService {
     // получаем территорию
     let area = this.getArea(area_pk);
     if (area != null) {
-      // добавляем идентификатор устройства в список территории
+      // добавляем идентификатор клиента в список территории
       let pks: string[] = area.customers;
       if (pks.indexOf(pk) == -1) {
         pks.push(pk);
@@ -371,7 +371,7 @@ export class StorageService {
     // получаем территорию
     let area = this.getArea(area_pk);
     if (area != null) {
-      // удаляем идентификатор устройства из списка территории
+      // удаляем идентификатор клиента из списка территории
       let pks: string[] = area.customers;
       const index = pks.indexOf(pk);
       if (index > -1) {
@@ -380,6 +380,50 @@ export class StorageService {
       area.customers = pks;
       this.setCustomerPkList(area_pk, pks);
     }
+  }
+
+  /**
+   * linkCustomer
+   * Привязывает клиента к другому на конкретной территории
+   */
+  public linkCustomer(area_pk: string, parent_pk: string, child_pk: string): void {
+    let area: Area | null = this.getArea(area_pk);
+    if (area) {
+      if (!area.linked) {
+        area.linked = {};
+      }
+      let children: string[] | null = area.linked[parent_pk];
+      if (!children) {
+        children = [];
+      }
+      if (children.indexOf(child_pk) == -1) {
+        children.push(child_pk);
+      }
+      area.linked[parent_pk] = children;
+      this.setArea(area_pk, area);
+    }
+  }
+
+
+
+  /**
+   * unlinkCustomer
+   * Отвязывает клиента от пользователя на конкретной территории
+   */
+  public unlinkCustomer(area: Area, parent: Customer, child_pk: string): void {
+    if (!area.linked) {
+      area.linked = {};
+    }
+    let children: string[] | null = area.linked[parent.pk];
+    if (!children) {
+      children = [];
+    }
+    const index = children.indexOf(child_pk);
+    if (index > -1) {
+      children.splice(index, 1);
+    }
+    area.linked[parent.pk] = children;
+    this.setArea(area.pk, area);
   }
 
   /**
