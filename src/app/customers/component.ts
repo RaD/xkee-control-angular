@@ -54,17 +54,16 @@ export class CustomersComponent implements OnInit {
     }
   }
 
-    /**
+  /**
    * onSubmit
    * Обработка поискового запроса
    */
-    public onSearch(): void {
-      let area_pk = this.area?.pk;
-      if (area_pk) {
-        this.customers = this.localStore.search_customers(area_pk, this.search_query);
-      }
-      // возвращаемся на список
-      this.router.navigate(['/areas', area_pk, 'customers']);
+  public onSearch(): void {
+    let area_pk = this.area?.pk;
+    if (area_pk) {
+      this.customers = this.localStore.search_customers(area_pk, this.search_query);
     }
-
+    // возвращаемся на список
+    this.router.navigate(['/areas', area_pk, 'customers']);
+  }
 }
