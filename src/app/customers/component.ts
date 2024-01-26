@@ -68,4 +68,37 @@ export class CustomersComponent implements OnInit {
     // возвращаемся на список
     this.router.navigate(['/areas', area_pk, 'customers']);
   }
+
+  /**
+   *
+   * @param customer_pk
+   * @returns список прикреплённых клиентов
+   */
+  protected getLinkedFor(customer_pk: string): Customer[] {
+    let result: Customer[] = [];
+    if (this.area) {
+      let linked_pks: string[] = this.area.linked[customer_pk];
+      if (linked_pks) {
+        linked_pks.forEach((key: string) => {
+          let customer: Customer | null = this.localStore.getCustomer(key);
+          if (customer) {
+            result.push(customer);
+          }
+        });
+      }
+    }
+    return result;
+  }
+
+  /**
+   *
+   * @param customer_pk
+   * @returns строку с телефонами прикреплённых клиентов
+   */
+  protected getLinkedNamesFor(customer_pk: string): string {
+    let result: string = '';
+    let customers: Customer[] = this.getLinkedFor(customer_pk);
+    customers.forEach(item => result += ` ${item.pk}`);
+    return result;
+  }
 }

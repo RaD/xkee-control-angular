@@ -44,6 +44,11 @@
                                     {{ customer.first_name }}
                                     {{ customer.middle_name }}
                                 </div>
+                                <div>
+                                    <small>
+                                        {{ getLinkedNamesFor(customer.pk) }}
+                                    </small>
+                                </div>
                             </td>
                             <td>{{ customer.address }}</td>
                             <td>{{ customer.vehicle }}</td>
