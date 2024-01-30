@@ -44,10 +44,14 @@
                                     {{ customer.first_name }}
                                     {{ customer.middle_name }}
                                 </div>
-                                <div>
-                                    <small>
+                                <div class="d-flex">
+                                    <div class="p-1">
+                                        <fa-icon [icon]="faChildren"
+                                            *ngIf="getLinkedNamesFor(customer.pk).length > 0"></fa-icon>
+                                    </div>
+                                    <div class="p-1">
                                         {{ getLinkedNamesFor(customer.pk) }}
-                                    </small>
+                                    </div>
                                 </div>
                             </td>
                             <td>{{ customer.address }}</td>
