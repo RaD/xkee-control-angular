@@ -34,6 +34,7 @@ export class LinkingComponent {
   protected customers_search: Customer[]= [];
   protected customers_linked: Customer[]= [];
   protected search_query: string;
+  protected found: string[] = []; // PK из customers_search
 
   constructor(
     private localStore: StorageService,
@@ -54,10 +55,19 @@ export class LinkingComponent {
     }
   }
 
+  /**
+   * updateLinked
+   * Получает список привязанных клиентов из хранилища и обновляет
+   * их локальный список.
+   * @param customer_pk - идентификатор клиента, привязки которого следует обновить
+   */
   private updateLinked(customer_pk: string): void {
     if (this.area) {
-      let pklist: string[]= this.area.linked[customer_pk];
       this.customers_linked = [];
+      let pklist: string[] = this.area.linked[customer_pk];
+      if (!pklist) {
+        pklist = [];
+      }
       pklist.forEach((key: string) => {
         let customer: Customer | null = this.localStore.getCustomer(key);
         if (customer) {
@@ -84,8 +94,11 @@ export class LinkingComponent {
       // убираем из результатов поиска главного клиента и тех, кто уже с ним связан
       if (area) {
         customers.forEach((item: Customer) => {
-          if (linked_pk.indexOf(item.pk) == -1 && item.pk != this.customer_pk) {
+          if (linked_pk.indexOf(item.pk) == -1
+              && this.found.indexOf(item.pk) == -1
+              && item.pk != this.customer_pk) {
             this.customers_search.push(item);
+            this.found.push(item.pk);
           }
         })
       }
@@ -97,10 +110,11 @@ export class LinkingComponent {
    */
   public onLink(pk: string):  void {
     let child: Customer | null = this.localStore.getCustomer(pk);
-    if (child && this.area_pk && this.customer_pk) {
-      this.localStore.linkCustomer(this.area_pk, this.customer_pk, pk);
+    if (child && this.area && this.customer) {
+      this.localStore.changeLinking(this.area, this.customer, pk, false);
       this.customers_linked.push(child);
       this.customers_search = [];
+      this.found = [];
     }
   }
 
@@ -110,9 +124,10 @@ export class LinkingComponent {
   public onUnlink(pk: string):  void {
     let child: Customer | null = this.localStore.getCustomer(pk);
     if (child && this.area && this.customer) {
-      this.localStore.unlinkCustomer(this.area, this.customer, pk);
+      this.localStore.changeLinking(this.area, this.customer, pk, true);
       this.updateLinked(this.customer.pk);
       this.customers_search = [];
+      this.found = [];
     }
   }
 }

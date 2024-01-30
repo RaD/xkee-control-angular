@@ -46,10 +46,7 @@ export class StorageService {
   // }
 
   public setData(key: string, value: string | any, stringify: boolean): void {
-    if (stringify) {
-      value = JSON.stringify(value);
-    }
-    localStorage.setItem(key, value);
+    localStorage.setItem(key, stringify ? JSON.stringify(value) : value);
   }
 
   // public saveDataSecure(key: string, value: string): void {
@@ -133,12 +130,21 @@ export class StorageService {
   public getArea(pk: string): Area | null {
     let key: string = key_area + '_' + pk;
     let payload: any | null = this.getData(key, true);
-    if (payload != null) {
-      payload['pk'] = pk;
-    } else {
+    if (!payload) {
       console.log('getArea: Not found: ' + pk);
+      return null;
     }
-    return payload
+    if (payload.linked && typeof payload.linked == 'string') {
+      alert('Dirty');
+      payload.linked = {};
+    }
+    // alert(typeof payload.linked);
+    let area = new Area(pk, payload.title, payload.address, payload.kind,
+      payload.devices ? payload.devices : [],
+      payload.customers ? payload.customers : [],
+      payload.linked ? payload.linked : {},
+      payload.access, payload.secret);
+    return area;
   }
 
   /**
@@ -383,34 +389,10 @@ export class StorageService {
   }
 
   /**
-   * linkCustomer
-   * Привязывает клиента к другому на конкретной территории
+   * changeLinking
+   * Изменяет связи клиента на территории
    */
-  public linkCustomer(area_pk: string, parent_pk: string, child_pk: string): void {
-    let area: Area | null = this.getArea(area_pk);
-    if (area) {
-      if (!area.linked) {
-        area.linked = {};
-      }
-      let children: string[] | null = area.linked[parent_pk];
-      if (!children) {
-        children = [];
-      }
-      if (children.indexOf(child_pk) == -1) {
-        children.push(child_pk);
-      }
-      area.linked[parent_pk] = children;
-      this.setArea(area_pk, area);
-    }
-  }
-
-
-
-  /**
-   * unlinkCustomer
-   * Отвязывает клиента от пользователя на конкретной территории
-   */
-  public unlinkCustomer(area: Area, parent: Customer, child_pk: string): void {
+  public changeLinking(area: Area, parent: Customer, child_pk: string, unlink: boolean) {
     if (!area.linked) {
       area.linked = {};
     }
@@ -419,8 +401,14 @@ export class StorageService {
       children = [];
     }
     const index = children.indexOf(child_pk);
-    if (index > -1) {
-      children.splice(index, 1);
+    if (unlink) {
+      if (index > -1) {
+        children.splice(index, 1);  // удаление
+      }
+    } else {
+      if (index == -1) {
+        children.push(child_pk);  // добавление
+      }
     }
     area.linked[parent.pk] = children;
     this.setArea(area.pk, area);
@@ -463,7 +451,7 @@ export class StorageService {
     let data: any = JSON.parse(content);
     let area: Area = new Area(
       data.pk, data.title, data.address, data.kind,
-      data.devices, data.customers, data.access, data.secret
+      data.devices, data.customers, data.linked, data.access, data.secret
     );
     this.setArea(area.pk, area);
     data.export_devices.forEach((item: Device) => {

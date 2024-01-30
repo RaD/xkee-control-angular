@@ -1,7 +1,7 @@
 import { Customer } from "../customer/interface";
 import { Device } from "../device/interface";
 
-interface LinkedT {
+export interface LinkedT {
     [propkey: string]: string[];
 }
 
@@ -30,9 +30,9 @@ export class Area implements IArea {
         public title: string,
         public address: string,
         public kind: string,
-        public devices: string[] = [],
-        public customers: string[] = [],
-        public linked: LinkedT = {},
+        public devices: string[],
+        public customers: string[],
+        public linked: LinkedT,
         public access?: string,
         public secret?: string,
         public export_devices?: Device[],
