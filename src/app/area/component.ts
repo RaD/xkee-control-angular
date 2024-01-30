@@ -82,11 +82,12 @@ export class AreaComponent implements OnInit {
   protected export(): void {
     const pk = this.route.snapshot.paramMap.get('pk');
     if (pk) {
+      let ts: string = new Date().toJSON();
       let content: any = this.localStore.export_area(pk);
       let a = document.createElement('a');
       let file = new Blob([content], {type: 'application/json'});
       a.href = URL.createObjectURL(file);
-      a.download = `xkee.area.${pk}.json`;
+      a.download = `xkee-area-${pk}-${ts}.json`;
       a.click();
     }
   }
