@@ -52,11 +52,12 @@
                                 placeholder="Укажите любую информацию о пользователе"
                                 class="form-control"
                                 [(ngModel)]="search_query" #search="ngModel"
-                                required="true" minlength="10"/>
+                                required="true" minlength="2"/>
                         </div>
                     </div>
                     <div class="p-2">
-                        <button type="submit" class="btn btn-primary">Найти</button>
+                        <button type="submit" class="btn btn-primary"
+                            [disabled]="form_search.invalid">Найти</button>
                     </div>
                 </form>
                 <div class="table-responsive">

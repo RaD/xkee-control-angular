@@ -26,7 +26,7 @@ export class AreaComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
   ) {
-    this.fields = new Area(crypto.randomUUID(), '', '', '', [], []);
+    this.fields = new Area(crypto.randomUUID(), '', '', '', [], [], {});
     this.pk = this.route.snapshot.paramMap.get('pk');
     this.action = this.route.snapshot.paramMap.get('action');
   }
