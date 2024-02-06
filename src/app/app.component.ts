@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { StorageService } from './storage.service';
 import { NavigationComponent } from './navigation/component';
@@ -10,7 +11,7 @@ import { AreasComponent } from './areas/component';
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule, FormsModule,
+    CommonModule, FormsModule, HttpClientModule,
     RouterOutlet, RouterLink, RouterLinkActive,
     NavigationComponent,
     AreasComponent,
