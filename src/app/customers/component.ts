@@ -8,6 +8,7 @@ import { faUserSlash } from '@fortawesome/free-solid-svg-icons';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 import { faFolderTree } from '@fortawesome/free-solid-svg-icons';
+import { faMoneyCheckDollar } from '@fortawesome/free-solid-svg-icons';
 import { StorageService } from '../storage.service';
 import { Area } from '../area/interface';
 import { Customer } from '../customer/interface';
@@ -31,6 +32,7 @@ export class CustomersComponent implements OnInit {
   faSearch = faMagnifyingGlass;
   faLink = faLink;
   faChildren = faFolderTree;
+  faPayment = faMoneyCheckDollar;
 
   protected area_pk: string | null = null;
   protected area: Area | null = null;

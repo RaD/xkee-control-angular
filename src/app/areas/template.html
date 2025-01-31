@@ -32,6 +32,11 @@
                                     {{ area.devices.length }}
                                 </span>
                             </a>
+                            <!-- PaymentHistoryComponent -->
+                            <a type="button" class="btn btn-info"
+                                [routerLink]="['/areas', area.pk, 'edit']">
+                                <fa-icon [icon]="faPayment" label="Платежи"></fa-icon>
+                            </a>
                             <a type="button" class="btn btn-info"
                                 [routerLink]="['/areas', area.pk, 'edit']">
                                 <fa-icon [icon]="faGear" label="Настройки"></fa-icon>

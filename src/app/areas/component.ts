@@ -5,6 +5,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { faWalkieTalkie } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faMoneyCheckDollar } from '@fortawesome/free-solid-svg-icons';
 import { StorageService } from '../storage.service';
 import { Area } from '../area/interface';
 
@@ -24,6 +25,7 @@ export class AreasComponent implements OnInit {
   faGear = faGear;
   faWalkieTalkie = faWalkieTalkie;
   faUser = faUser;
+  faPayment = faMoneyCheckDollar;
 
   protected empty: boolean = true;
   protected areas: Area[] = [];

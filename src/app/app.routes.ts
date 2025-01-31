@@ -9,10 +9,12 @@ import { CustomersComponent } from './customers/component';
 import { CustomerComponent } from './customer/component';
 import { ImporterComponent } from './importer/component';
 import { LinkingComponent } from './linking/component';
+import { PaymentComponent } from './payment/component';
 
 export const routes: Routes = [
     {path: 'confirm/areas/:area_pk/:entity/:entity_pk', component: ConfirmationComponent},
     {path: 'confirm/areas/:area_pk', component: ConfirmationComponent},
+    {path: 'areas/:area_pk/customer/:customer_pk/payment', component: PaymentComponent},
     {path: 'areas/:pk/customer/:customer_pk/linking', component: LinkingComponent},
     {path: 'areas/:pk/customer/:customer_pk/:action', component: CustomerComponent},
     {path: 'areas/:pk/customers/create', component: CustomerComponent},
