@@ -7,7 +7,7 @@ export interface LinkedT {
 
 
 export interface IArea {
-    pk: string;
+    pk: string;  // UUID
     title: string;
     address: string;
     kind: string;

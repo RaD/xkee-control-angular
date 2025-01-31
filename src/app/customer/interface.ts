@@ -1,5 +1,5 @@
 export interface ICustomer {
-    pk: string;
+    pk: string;  // номер телефона
     active: boolean;
     last_name: string;
     first_name: string;
