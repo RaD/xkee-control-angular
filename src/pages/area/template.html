@@ -156,49 +156,43 @@
 
 <!-- Mobile view buttons -->
 <div class="d-md-none">
-  <div class="mb-3 fixed-bottom">
+  <div class="fixed-bottom">
     <div class="container-fluid">
-      <!-- First row: Back, Apply, Sync -->
-      <div class="d-flex justify-content-center mb-3">
-        <a routerLink="/areas" type="button" class="btn btn-secondary me-2">
+      <div class="d-flex gap-1 justify-content-between">
+        <a routerLink="/areas" type="button" class="btn btn-secondary btn-sm">
           <fa-icon [icon]="faArrowLeft"></fa-icon>
+          <span class="d-none d-sm-inline ms-1">Назад</span>
         </a>
-        <button type="submit" class="btn btn-success me-2" form="form_area" [disabled]="form_area.invalid">
+        <button type="submit" class="btn btn-success btn-sm" form="form_area" [disabled]="form_area.invalid">
           <fa-icon [icon]="faSave"></fa-icon>
+          <span class="d-none d-sm-inline ms-1">Сохранить</span>
         </button>
         @if (!is_creation()) {
-          <button type="button" class="btn btn-info" 
+          <button type="button" class="btn btn-info btn-sm" 
             [disabled]="syncing" 
             (click)="onSync()">
             @if (syncing) {
               <span class="spinner-border spinner-border-sm" role="status"></span>
+              <span class="d-none d-sm-inline ms-1">Синхр...</span>
             } @else {
               <fa-icon [icon]="faSync"></fa-icon>
+              <span class="d-none d-sm-inline ms-1">Синхр</span>
             }
           </button>
-        } @else {
-          <div></div>
-        }
-      </div>
-      
-      <!-- Second row: Delete, Import, Export -->
-      <div class="d-flex justify-content-center mt-3">
-        @if (!is_creation()) {
-          <a type="button" class="btn btn-danger me-2" [routerLink]="['/confirm', 'areas', fields.pk]">
+          <a type="button" class="btn btn-danger btn-sm" [routerLink]="['/confirm', 'areas', fields.pk]">
             <fa-icon [icon]="faTrash"></fa-icon>
+            <span class="d-none d-sm-inline ms-1">Удалить</span>
           </a>
-        } @else {
-          <div class="me-2"></div>
         }
-        <a type="button" class="btn btn-info me-2" [routerLink]="['/areas', 'import']">
+        <a type="button" class="btn btn-info btn-sm" [routerLink]="['/areas', 'import']">
           <fa-icon [icon]="faFileImport"></fa-icon>
+          <span class="d-none d-sm-inline ms-1">Импорт</span>
         </a>
         @if (!is_creation()) {
-          <a type="button" class="btn btn-info" (click)="export()">
+          <a type="button" class="btn btn-info btn-sm" (click)="export()">
             <fa-icon [icon]="faFileExport"></fa-icon>
+            <span class="d-none d-sm-inline ms-1">Экспорт</span>
           </a>
-        } @else {
-          <div></div>
         }
       </div>
     </div>
