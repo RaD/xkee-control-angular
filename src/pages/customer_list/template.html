@@ -115,19 +115,21 @@
           <fa-icon [icon]="faPlus" class="me-2"></fa-icon>
           Добавить клиента
         </a>
-        <button type="button" class="btn btn-info" 
-          [disabled]="syncing || empty" 
-          (click)="onSync()">
-          @if (syncing) {
-            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
-            Синхронизация...
-          } @else {
-            <fa-icon [icon]="faSync" class="me-2"></fa-icon>
-            Синхронизировать
-          }
-        </button>
       </div>
     </div>
+  </div>
+  <div class="position-fixed bottom-0 start-0 p-3">
+    <button type="button" class="btn btn-info" 
+      [disabled]="syncing || empty" 
+      (click)="onSync()">
+      @if (syncing) {
+        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+        Синхронизация...
+      } @else {
+        <fa-icon [icon]="faSync" class="me-2"></fa-icon>
+        Синхронизировать
+      }
+    </button>
   </div>
 </div>
 
@@ -146,17 +148,6 @@
           <fa-icon [icon]="faPlus" class="me-2"></fa-icon>
           Добавить клиента
         </a>
-        <button type="button" class="btn btn-info mb-2" 
-          [disabled]="syncing || empty" 
-          (click)="onSync()">
-          @if (syncing) {
-            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
-            Синхронизация...
-          } @else {
-            <fa-icon [icon]="faSync" class="me-2"></fa-icon>
-            Синхронизировать
-          }
-        </button>
       </div>
     </div>
   </div>
