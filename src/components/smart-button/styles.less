@@ -3,13 +3,15 @@
   overflow: hidden;
   transition: all 0.2s ease;
   
-  // Match standard Bootstrap button size like in AreaListPage
-  min-height: 38px;
+  // Use larger Bootstrap button size
+  min-height: 48px;
   min-width: 120px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   white-space: nowrap;
+  font-size: 1.1rem;
+  padding: 0.75rem 1.5rem;
   
   &--icon-text {
     // Use full available width when showing both
@@ -34,7 +36,7 @@
   // Icon styles for animated mode
   &__icon {
     position: absolute;
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
     opacity: 1;
     transform: translateX(0);
     
@@ -44,14 +46,14 @@
     }
     
     &--animating {
-      transition: opacity 0.5s ease, transform 0.5s ease;
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
   }
   
   // Text styles for animated mode
   &__text {
     position: absolute;
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
     opacity: 1;
     transform: translateX(0);
     white-space: nowrap;
@@ -62,7 +64,7 @@
     }
     
     &--animating {
-      transition: opacity 0.5s ease, transform 0.5s ease;
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
   }
   
@@ -81,11 +83,15 @@
   
   // Size variants
   &.btn-sm {
-    min-height: 32px;
+    min-height: 38px;
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
   }
   
   &.btn-lg {
-    min-height: 48px;
+    min-height: 56px;
+    font-size: 1.25rem;
+    padding: 1rem 2rem;
   }
 }
 

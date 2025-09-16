@@ -29,7 +29,7 @@ export class SmartButtonComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly minWidthForBoth = 120; // Minimum width to show both icon and text
   private readonly animationMinDelay = 10000; // Minimum delay (10 seconds)
   private readonly animationMaxDelay = 15000; // Maximum delay (15 seconds)
-  private readonly animationDuration = 500; // Fade duration
+  private readonly animationDuration = 300; // Fade duration
   private readonly iconDisplayDuration = 3000; // How long to show icon (3 seconds)
 
   ngOnInit(): void {
@@ -103,10 +103,15 @@ export class SmartButtonComponent implements OnInit, OnDestroy, AfterViewInit {
         // Start fade from text to icon
         this.isAnimating = true;
 
-        // Complete fade to icon
+        // Wait for text to fully hide before showing icon
         this.animationTimeout = window.setTimeout(() => {
           if (this.displayMode !== 'animated') return;
           this.showText = false;
+        }, this.animationDuration);
+
+        // Complete fade to icon
+        this.animationTimeout = window.setTimeout(() => {
+          if (this.displayMode !== 'animated') return;
           this.isAnimating = false;
 
           // Show icon for 3 seconds, then fade back to text
@@ -116,17 +121,22 @@ export class SmartButtonComponent implements OnInit, OnDestroy, AfterViewInit {
             // Start fade back to text
             this.isAnimating = true;
             
-            // Complete fade back to text and start next cycle
+            // Wait for icon to fully hide before showing text
             this.animationTimeout = window.setTimeout(() => {
               if (this.displayMode !== 'animated') return;
               this.showText = true;
+            }, this.animationDuration);
+            
+            // Complete fade back to text and start next cycle
+            this.animationTimeout = window.setTimeout(() => {
+              if (this.displayMode !== 'animated') return;
               this.isAnimating = false;
               
               // Schedule next cycle
               this.animationInterval = window.setTimeout(cycleAnimation, 1000);
-            }, this.animationDuration);
-          }, this.animationDuration);
-        }, this.animationDuration);
+            }, this.animationDuration * 2);
+          }, this.animationDuration * 2);
+        }, this.animationDuration * 2);
       }, randomDelay);
     };
 
