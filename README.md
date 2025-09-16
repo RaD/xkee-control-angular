@@ -1,5 +1,17 @@
 # Control
 
+Приложение для управления территориями, устройствами и клиентами с поддержкой BLE устройств и синхронизации данных.
+
+## Технологии
+
+- **Angular 20.3.0** - основной фреймворк
+- **TypeScript** - язык разработки
+- **Bootstrap 5** - UI компоненты и стили
+- **FontAwesome** - иконки
+- **NgBootstrap** - Angular компоненты Bootstrap
+- **Less** - препроцессор CSS
+- **Web Bluetooth API** - работа с BLE устройствами
+
 ## Настройка окружения
 
 ### NodeJS
@@ -20,11 +32,11 @@
 
     nvm install v22.12.0
 
-### Angular
+### Angular CLI
 
-Устанавливаем СLI:
+Устанавливаем CLI:
 
-    npm install -g @angular/cli
+    npm install -g @angular/cli@20
 
 ### Приложение
 
@@ -37,28 +49,88 @@
 
     npm install
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.6.
+## Разработка
 
-## Development server
+Запуск сервера разработки:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+    ng serve
 
-## Code scaffolding
+Приложение будет доступно по адресу `http://localhost:4200/`. 
+Приложение автоматически перезагружается при изменении исходных файлов.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Генерация компонентов
 
-## Build
+Создание нового компонента:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+    ng generate component component-name
 
-## Running unit tests
+Также можно использовать:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+    ng generate directive|pipe|service|class|guard|interface|enum|module
 
-## Running end-to-end tests
+## Сборка
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Сборка проекта для продакшена:
 
-## Further help
+    ng build
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Артефакты сборки сохраняются в каталоге `dist/`.
+
+## Тестирование
+
+Запуск юнит-тестов:
+
+    ng test
+
+Тесты выполняются через [Karma](https://karma-runner.github.io).
+
+## Docker
+
+### Сборка образа
+
+    docker build -t angular-control-app .
+
+### Запуск контейнера
+
+С настройкой базового URL:
+
+    docker run -p 8080:80 -e BASE_URL="https://api.example.com" angular-control-app
+
+Без дополнительных настроек:
+
+    docker run -p 8080:80 angular-control-app
+
+## Структура приложения
+
+### Основные модули
+
+- **src/app/** - основное приложение и конфигурация
+- **src/pages/** - страницы приложения (lazy-loaded)
+- **src/components/** - переиспользуемые компоненты
+- **src/services/** - сервисы для работы с данными
+
+### Ключевые возможности
+
+- **Управление территориями** - создание, редактирование, удаление
+- **Управление устройствами** - привязка устройств к территориям
+- **Управление клиентами** - регистрация, поиск, связывание клиентов
+- **Система платежей** - регистрация и история платежей
+- **BLE устройства** - сканирование и управление Bluetooth устройствами
+- **Синхронизация данных** - обмен данными с внешним API
+- **Импорт/экспорт** - резервное копирование данных
+
+### Хранение данных
+
+Приложение использует localStorage браузера для хранения данных:
+- Территории и их настройки
+- Устройства территорий
+- Клиенты и их связи
+- История платежей
+
+## Дополнительная помощь
+
+Для получения дополнительной помощи по Angular CLI используйте:
+
+    ng help
+
+Или посетите [Angular CLI Overview and Command Reference](https://angular.io/cli).
