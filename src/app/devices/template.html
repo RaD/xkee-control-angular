@@ -1,42 +1,48 @@
 <legend class="text-center">Устройства "{{ area?.title }}"</legend>
 <div class="row">
-    <div class="col">
-        <figure class="text-center" *ngIf="empty">
-            <blockquote class="blockquote">
-                <p>На территории "{{ area?.title }}" пока не зарегистрировано ни одного устройства...</p>
-            </blockquote>
-            <figcaption class="blockquote-footer">
-                Самое время добавить хотя бы одно...
-            </figcaption>
-        </figure>
-        <div class="table-responsive" *ngIf="!empty">
-            <table class="table">
-                <tbody>
-                    <tr *ngFor="let device of devices">
-                        <td>
-                            <a [routerLink]="['/areas', area?.pk, 'device', device.pk, 'edit']">
-                                {{ device.title }}
-                            </a>
-                        </td>
-                        <td>{{ device.description }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+  <div class="col">
+    @if (empty) {
+      <figure class="text-center">
+        <blockquote class="blockquote">
+          <p>На территории "{{ area?.title }}" пока не зарегистрировано ни одного устройства...</p>
+        </blockquote>
+        <figcaption class="blockquote-footer">
+          Самое время добавить хотя бы одно...
+        </figcaption>
+      </figure>
+    }
+    @if (!empty) {
+      <div class="table-responsive">
+        <table class="table">
+          <tbody>
+            @for (device of devices; track device) {
+              <tr>
+                <td>
+                  <a [routerLink]="['/areas', area?.pk, 'device', device.pk, 'edit']">
+                    {{ device.title }}
+                  </a>
+                </td>
+                <td>{{ device.description }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
 </div>
 
 <div class="mb-3 fixed-bottom">
-    <div class="container-fluid">
-        <div class="mb-3 d-grid gap-2">
-            <a [routerLink]="['/areas', area?.pk]" routerLinkActive="active"
-                type="button" class="btn btn-secondary">
-                Назад
-            </a>
-            <a [routerLink]="['/areas', area?.pk, 'devices', 'create']" routerLinkActive="active"
-                type="button" class="btn btn-primary">
-                Добавить устройство
-            </a>
-        </div>
+  <div class="container-fluid">
+    <div class="mb-3 d-grid gap-2">
+      <a [routerLink]="['/areas', area?.pk]" routerLinkActive="active"
+        type="button" class="btn btn-secondary">
+        Назад
+      </a>
+      <a [routerLink]="['/areas', area?.pk, 'devices', 'create']" routerLinkActive="active"
+        type="button" class="btn btn-primary">
+        Добавить устройство
+      </a>
     </div>
+  </div>
 </div>

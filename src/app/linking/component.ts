@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, ViewChild } from '@angular/core';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -13,9 +13,8 @@ import { Customer } from '../customer/interface';
   standalone: true,
   imports: [
     FontAwesomeModule,
-    CommonModule,
     RouterLink,
-    FormsModule,
+    FormsModule
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'

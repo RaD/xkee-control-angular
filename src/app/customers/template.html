@@ -1,90 +1,102 @@
 <legend class="text-center">Клиенты "{{ area?.title }}"</legend>
 <div class="row">
-    <div class="col">
-        <figure class="text-center" *ngIf="empty">
-            <blockquote class="blockquote">
-                <p>На территории "{{ area?.title }}" пока не зарегистрировано ни одного клиента...</p>
-            </blockquote>
-            <figcaption class="blockquote-footer">
-                Самое время добавить хотя бы одного...
-            </figcaption>
-        </figure>
-        <div *ngIf="!empty">
-            <form #form_search="ngForm" (ngSubmit)="onSearch()"
-                class="d-flex g-3 align-items-center" novalidate>
-                <div class="p-2 flex-grow-1">
-                    <label for="search" class="visually-hidden">Поиск</label>
-                    <div class="input-group">
-                        <div class="input-group-text">
-                            <fa-icon [icon]="faSearch"></fa-icon>
-                        </div>
-                        <input id="search" name="search"
-                            placeholder="Укажите любую информацию о пользователе"
-                            class="form-control"
-                            [(ngModel)]="search_query" #search="ngModel"
-                            required="true" minlength="10"/>
-                    </div>
-                </div>
-                <div class="p-2">
-                    <button type="submit" class="btn btn-primary">Найти</button>
-                </div>
-            </form>
-            <div class="table-responsive">
-                <table class="table">
-                    <tbody>
-                        <tr *ngFor="let customer of customers">
-                            <td>
-                                <div>
-                                    <a [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'edit']">
-                                        {{ customer.pk }}
-                                    </a>
-                                </div>
-                                <div>
-                                    {{ customer.last_name }}
-                                    {{ customer.first_name }}
-                                    {{ customer.middle_name }}
-                                </div>
-                                <div class="d-flex">
-                                    <div class="p-1">
-                                        <fa-icon [icon]="faChildren"
-                                            *ngIf="getLinkedNamesFor(customer.pk).length > 0"></fa-icon>
-                                    </div>
-                                    <div class="p-1">
-                                        {{ getLinkedNamesFor(customer.pk) }}
-                                    </div>
-                                </div>
-                            </td>
-                            <td>{{ customer.address }}</td>
-                            <td>{{ customer.vehicle }}</td>
-                            <td>
-                                <fa-icon [icon]="faUser" *ngIf="customer.active"></fa-icon>
-                                <fa-icon [icon]="faUserSlash" *ngIf="!customer.active"></fa-icon>
-                            </td>
-                            <td>
-                                <button class="btn btn-secondary"
-                                    [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'linking']">
-                                    <fa-icon [icon]="faLink"></fa-icon>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+  <div class="col">
+    @if (empty) {
+      <figure class="text-center">
+        <blockquote class="blockquote">
+          <p>На территории "{{ area?.title }}" пока не зарегистрировано ни одного клиента...</p>
+        </blockquote>
+        <figcaption class="blockquote-footer">
+          Самое время добавить хотя бы одного...
+        </figcaption>
+      </figure>
+    }
+    @if (!empty) {
+      <div>
+        <form #form_search="ngForm" (ngSubmit)="onSearch()"
+          class="d-flex g-3 align-items-center" novalidate>
+          <div class="p-2 flex-grow-1">
+            <label for="search" class="visually-hidden">Поиск</label>
+            <div class="input-group">
+              <div class="input-group-text">
+                <fa-icon [icon]="faSearch"></fa-icon>
+              </div>
+              <input id="search" name="search"
+                placeholder="Укажите любую информацию о пользователе"
+                class="form-control"
+                [(ngModel)]="search_query" #search="ngModel"
+                required="true" minlength="10"/>
             </div>
+          </div>
+          <div class="p-2">
+            <button type="submit" class="btn btn-primary">Найти</button>
+          </div>
+        </form>
+        <div class="table-responsive">
+          <table class="table">
+            <tbody>
+              @for (customer of customers; track customer) {
+                <tr>
+                  <td>
+                    <div>
+                      <a [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'edit']">
+                        {{ customer.pk }}
+                      </a>
+                    </div>
+                    <div>
+                      {{ customer.last_name }}
+                      {{ customer.first_name }}
+                      {{ customer.middle_name }}
+                    </div>
+                    <div class="d-flex">
+                      <div class="p-1">
+                        @if (getLinkedNamesFor(customer.pk).length > 0) {
+                          <fa-icon [icon]="faChildren"
+                          ></fa-icon>
+                        }
+                      </div>
+                      <div class="p-1">
+                        {{ getLinkedNamesFor(customer.pk) }}
+                      </div>
+                    </div>
+                  </td>
+                  <td>{{ customer.address }}</td>
+                  <td>{{ customer.vehicle }}</td>
+                  <td>
+                    @if (customer.active) {
+                      <fa-icon [icon]="faUser"></fa-icon>
+                    }
+                    @if (!customer.active) {
+                      <fa-icon [icon]="faUserSlash"></fa-icon>
+                    }
+                  </td>
+                  <td>
+                    <button class="btn btn-secondary"
+                      [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'linking']">
+                      <fa-icon [icon]="faLink"></fa-icon>
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
         </div>
-    </div>
+      </div>
+    }
+  </div>
 </div>
 
 <div class="mb-3 fixed-bottom">
-    <div class="container-fluid">
-        <div class="mb-3 d-grid gap-2">
-            <a [routerLink]="['/areas', area?.pk]" routerLinkActive="active"
-                type="button" class="btn btn-secondary">
-                Назад
-            </a>
-            <a [routerLink]="['/areas', area?.pk, 'customers', 'create']" routerLinkActive="active"
-                type="button" class="btn btn-primary">
-                Добавить клиента
-            </a>
-        </div>
+  <div class="container-fluid">
+    <div class="mb-3 d-grid gap-2">
+      <a [routerLink]="['/areas', area?.pk]" routerLinkActive="active"
+        type="button" class="btn btn-secondary">
+        Назад
+      </a>
+      <a [routerLink]="['/areas', area?.pk, 'customers', 'create']" routerLinkActive="active"
+        type="button" class="btn btn-primary">
+        Добавить клиента
+      </a>
     </div>
+  </div>
 </div>

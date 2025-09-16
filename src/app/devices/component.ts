@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -12,8 +12,7 @@ import { Device } from '../device/interface';
   standalone: true,
   imports: [
     FontAwesomeModule,
-    CommonModule,
-    RouterLink,
+    RouterLink
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'

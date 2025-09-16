@@ -1,103 +1,113 @@
 <legend class="text-center">Клиенты территории "{{ area?.title }}"</legend>
 <form #form_customer="ngForm" (ngSubmit)="onSubmit()" class="g-3" novalidate>
-    <div class="mb-3 form-check form-switch">
-        <input id="active" name="active" type="checkbox" role="switch"
-            class="form-check-input"
-            [(ngModel)]="fields.active" #active="ngModel"
-            required="false"/>
-        <label for="active" class="form-check-label position-relative">
-            Разрешён доступ
-        </label>
+  <div class="mb-3 form-check form-switch">
+    <input id="active" name="active" type="checkbox" role="switch"
+      class="form-check-input"
+      [(ngModel)]="fields.active" #active="ngModel"
+      required="false"/>
+    <label for="active" class="form-check-label position-relative">
+      Разрешён доступ
+    </label>
+  </div>
+  @if (showPk()) {
+    <div class="mb-3">
+      <label for="pk" class="form-label position-relative">
+        Телефон
+        @if (pk.invalid && (pk.dirty || pk.touched)) {
+          <div class="alert">
+            @if (pk.errors?.['minlength']) {
+              <div
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                Минимально 10 символов
+              </div>
+            }
+          </div>
+        }
+      </label>
+      <input id="pk" name="pk" placeholder="+79161234567"
+        class="form-control"
+        [(ngModel)]="fields.pk" #pk="ngModel"
+        required="true" minlength="10"/>
     </div>
-    <div class="mb-3" *ngIf="showPk()">
-        <label for="pk" class="form-label position-relative">
-            Телефон
-            <div *ngIf="pk.invalid && (pk.dirty || pk.touched)" class="alert">
-                <div *ngIf="pk.errors?.['minlength']"
-                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    Минимально 10 символов
-                </div>
+  }
+  <div class="mb-3">
+    <label for="last_name" class="form-label position-relative">
+      Фамилия
+    </label>
+    <input id="last_name" name="last_name" placeholder="Иванов"
+      class="form-control"
+      [(ngModel)]="fields.last_name" #last_name="ngModel"
+      required="true"/>
+  </div>
+  <div class="mb-3">
+    <label for="first_name" class="form-label position-relative">
+      Имя
+    </label>
+    <input id="first_name" name="first_name" placeholder="Иван"
+      class="form-control"
+      [(ngModel)]="fields.first_name" #first_name="ngModel"
+      required="true"/>
+  </div>
+  <div class="mb-3">
+    <label for="middle_name" class="form-label position-relative">
+      Отчество
+    </label>
+    <input id="middle_name" name="middle_name" placeholder="Иванович"
+      class="form-control"
+      [(ngModel)]="fields.middle_name" #middle_name="ngModel"
+      required="false"/>
+  </div>
+  <div class="mb-3">
+    <label for="address" class="form-label position-relative">
+      Адрес
+      @if (address.invalid && (address.dirty || address.touched)) {
+        <div class="alert">
+          @if (address.errors?.['minlength']) {
+            <div
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              Минимально 3 символа
             </div>
-        </label>
-        <input id="pk" name="pk" placeholder="+79161234567"
-            class="form-control"
-            [(ngModel)]="fields.pk" #pk="ngModel"
-            required="true" minlength="10"/>
-    </div>
-    <div class="mb-3">
-        <label for="last_name" class="form-label position-relative">
-            Фамилия
-        </label>
-        <input id="last_name" name="last_name" placeholder="Иванов"
-            class="form-control"
-            [(ngModel)]="fields.last_name" #last_name="ngModel"
-            required="true"/>
-    </div>
-    <div class="mb-3">
-        <label for="first_name" class="form-label position-relative">
-            Имя
-        </label>
-        <input id="first_name" name="first_name" placeholder="Иван"
-            class="form-control"
-            [(ngModel)]="fields.first_name" #first_name="ngModel"
-            required="true"/>
-    </div>
-    <div class="mb-3">
-        <label for="middle_name" class="form-label position-relative">
-            Отчество
-        </label>
-        <input id="middle_name" name="middle_name" placeholder="Иванович"
-            class="form-control"
-            [(ngModel)]="fields.middle_name" #middle_name="ngModel"
-            required="false"/>
-    </div>
-    <div class="mb-3">
-        <label for="address" class="form-label position-relative">
-            Адрес
-            <div *ngIf="address.invalid && (address.dirty || address.touched)" class="alert">
-                <div *ngIf="address.errors?.['minlength']"
-                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    Минимально 3 символа
-                </div>
-            </div>
-        </label>
-        <input id="address" name="address" placeholder="У первого подъезда"
-            class="form-control"
-            [(ngModel)]="fields.address" #address="ngModel"
-            required="false" minlength="3"/>
-    </div>
-    <div class="mb-3">
-        <label for="vehicle" class="form-label position-relative">
-            Машина и регистрационный номер
-        </label>
-        <input id="vehicle" name="vehicle" placeholder="Audi A6 007aa777"
-            class="form-control"
-            [(ngModel)]="fields.vehicle" #vehicle="ngModel"
-            required="false"/>
-    </div>
-    <div class="mb-3">
-        <label for="comment" class="form-label position-relative">
-            Комментарий
-        </label>
-        <textarea id="comment" name="comment"
-            placeholder="Дополнительные сведения о клиенте"
-            class="form-control"
-            [(ngModel)]="fields.comment" #comment="ngModel"
-            required="false">
-        </textarea>
-    </div>
-    <div class="mb-3 d-grid gap-2">
-        <button type="submit" class="btn btn-success"
-            [disabled]="form_customer.invalid">Применить</button>
-        <a [routerLink]="['/areas', area?.pk, 'customers']"
-            type="button" class="btn btn-secondary">Назад</a>
-    </div>
+          }
+        </div>
+      }
+    </label>
+    <input id="address" name="address" placeholder="У первого подъезда"
+      class="form-control"
+      [(ngModel)]="fields.address" #address="ngModel"
+      required="false" minlength="3"/>
+  </div>
+  <div class="mb-3">
+    <label for="vehicle" class="form-label position-relative">
+      Машина и регистрационный номер
+    </label>
+    <input id="vehicle" name="vehicle" placeholder="Audi A6 007aa777"
+      class="form-control"
+      [(ngModel)]="fields.vehicle" #vehicle="ngModel"
+      required="false"/>
+  </div>
+  <div class="mb-3">
+    <label for="comment" class="form-label position-relative">
+      Комментарий
+    </label>
+    <textarea id="comment" name="comment"
+      placeholder="Дополнительные сведения о клиенте"
+      class="form-control"
+      [(ngModel)]="fields.comment" #comment="ngModel"
+      required="false">
+    </textarea>
+  </div>
+  <div class="mb-3 d-grid gap-2">
+    <button type="submit" class="btn btn-success"
+    [disabled]="form_customer.invalid">Применить</button>
+    <a [routerLink]="['/areas', area?.pk, 'customers']"
+    type="button" class="btn btn-secondary">Назад</a>
+  </div>
 </form>
 
 <div class="mb-3 fixed-bottom">
-    <div class="container-fluid">
-        <div class="d-grid gap-2">
-            <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', area?.pk, 'customer', fields.pk]">Удалить</a>
-        </div>
+  <div class="container-fluid">
+    <div class="d-grid gap-2">
+      <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', area?.pk, 'customer', fields.pk]">Удалить</a>
     </div>
+  </div>
 </div>

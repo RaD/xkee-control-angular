@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { StorageService } from '../storage.service';
@@ -10,9 +10,8 @@ import { Device } from './interface';
   selector: 'app-device',
   standalone: true,
   imports: [
-    CommonModule,
     RouterLink,
-    FormsModule,
+    FormsModule
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'

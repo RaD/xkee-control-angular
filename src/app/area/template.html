@@ -1,83 +1,99 @@
 <legend class="text-center">Территория</legend>
 <form #form_area="ngForm" (ngSubmit)="onSubmit()" class="g-3" novalidate>
-    <div class="mb-3">
-        <label for="title" class="form-label position-relative">
-            Название
-            <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert">
-                <div *ngIf="title.errors?.['minlength']"
-                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    Минимально 3 символа
-                </div>
+  <div class="mb-3">
+    <label for="title" class="form-label position-relative">
+      Название
+      @if (title.invalid && (title.dirty || title.touched)) {
+        <div class="alert">
+          @if (title.errors?.['minlength']) {
+            <div
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              Минимально 3 символа
             </div>
-        </label>
-        <input id="title" name="title" placeholder="Мой двор"
-            class="form-control"
-            [(ngModel)]="fields.title" #title="ngModel"
-            required="true" minlength="3"/>
-    </div>
-    <div class="mb-3">
-        <label for="address" class="form-label position-relative">
-            Адрес
-            <div *ngIf="address.invalid && (address.dirty || address.touched)" class="alert">
-                <div *ngIf="address.errors?.['minlength']"
-                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    Минимально 3 символа
-                </div>
+          }
+        </div>
+      }
+    </label>
+    <input id="title" name="title" placeholder="Мой двор"
+      class="form-control"
+      [(ngModel)]="fields.title" #title="ngModel"
+      required="true" minlength="3"/>
+  </div>
+  <div class="mb-3">
+    <label for="address" class="form-label position-relative">
+      Адрес
+      @if (address.invalid && (address.dirty || address.touched)) {
+        <div class="alert">
+          @if (address.errors?.['minlength']) {
+            <div
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              Минимально 3 символа
             </div>
-        </label>
-        <input id="address" name="address" placeholder="Адрес территории"
-            class="form-control"
-            [(ngModel)]="fields.address" #address="ngModel"
-            required="true" minlength="3"/>
-    </div>
+          }
+        </div>
+      }
+    </label>
+    <input id="address" name="address" placeholder="Адрес территории"
+      class="form-control"
+      [(ngModel)]="fields.address" #address="ngModel"
+      required="true" minlength="3"/>
+  </div>
+  <div class="mb-3">
+    <label for="kind" class="form-label position-relative">
+      Тип
+    </label>
+    <select id="kind" name="kind" placeholder="Выберите тип управления"
+      class="form-select"
+      [(ngModel)]="fields.kind" #kind="ngModel"
+      required="true">
+      <!--
+      <option value="autonomous">Автономный</option>
+      <option value="homeass">Home Assistant</option>
+      <option value="homekit">Apple HomeKit</option>
+      //-->
+      <option value="xkee" selected>XKee Cloud</option>
+    </select>
+  </div>
+  @if (need_credentials()) {
     <div class="mb-3">
-        <label for="kind" class="form-label position-relative">
-            Тип
-        </label>
-        <select id="kind" name="kind" placeholder="Выберите тип управления"
-            class="form-select"
-            [(ngModel)]="fields.kind" #kind="ngModel"
-            required="true">
-            <!--
-            <option value="autonomous">Автономный</option>
-            <option value="homeass">Home Assistant</option>
-            <option value="homekit">Apple HomeKit</option>
-            //-->
-            <option value="xkee" selected>XKee Cloud</option>
-        </select>
+      <label for="access" class="form-label position-relative">
+        Access Key
+      </label>
+      <input id="access" name="access"
+        class="form-control"
+        [(ngModel)]="fields.access" #access="ngModel"
+        required="true" minlength="3"/>
     </div>
-    <div class="mb-3" *ngIf="need_credentials()">
-        <label for="access" class="form-label position-relative">
-            Access Key
-        </label>
-        <input id="access" name="access"
-            class="form-control"
-            [(ngModel)]="fields.access" #access="ngModel"
-            required="true" minlength="3"/>
+  }
+  @if (need_credentials()) {
+    <div class="mb-3">
+      <label for="secret" class="form-label position-relative">
+        Secret Key
+      </label>
+      <input id="secret" name="secret"
+        class="form-control"
+        [(ngModel)]="fields.secret" #secret="ngModel"
+        required="true" minlength="3"/>
     </div>
-    <div class="mb-3" *ngIf="need_credentials()">
-        <label for="secret" class="form-label position-relative">
-            Secret Key
-        </label>
-        <input id="secret" name="secret"
-            class="form-control"
-            [(ngModel)]="fields.secret" #secret="ngModel"
-            required="true" minlength="3"/>
-    </div>
-    <div class="mb-3 d-grid gap-2">
-        <button type="submit" class="btn btn-success"
-            [disabled]="form_area.invalid">Применить</button>
-        <a routerLink="/areas"
-            type="button" class="btn btn-secondary">Назад</a>
-    </div>
+  }
+  <div class="mb-3 d-grid gap-2">
+    <button type="submit" class="btn btn-success"
+    [disabled]="form_area.invalid">Применить</button>
+    <a routerLink="/areas"
+    type="button" class="btn btn-secondary">Назад</a>
+  </div>
 </form>
 
 <div class="mb-3 fixed-bottom">
-    <div class="container-fluid">
-        <div class="d-grid gap-2">
-            <a *ngIf="!is_creation()" type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', fields.pk]">Удалить</a>
-            <a type="button" class="btn btn-info" [routerLink]="['/areas', 'import']">Импорт</a>
-            <a *ngIf="!is_creation()" type="button" class="btn btn-info" (click)="export()">Экспорт</a>
-        </div>
+  <div class="container-fluid">
+    <div class="d-grid gap-2">
+      @if (!is_creation()) {
+        <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', fields.pk]">Удалить</a>
+      }
+      <a type="button" class="btn btn-info" [routerLink]="['/areas', 'import']">Импорт</a>
+      @if (!is_creation()) {
+        <a type="button" class="btn btn-info" (click)="export()">Экспорт</a>
+      }
     </div>
+  </div>
 </div>

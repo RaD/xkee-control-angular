@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Area } from './interface';
@@ -9,9 +9,8 @@ import { StorageService } from '../storage.service';
   selector: 'app-area-form',
   standalone: true,
   imports: [
-    CommonModule,
     RouterLink,
-    FormsModule,
+    FormsModule
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'

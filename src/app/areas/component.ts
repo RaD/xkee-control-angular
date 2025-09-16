@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
@@ -13,8 +13,7 @@ import { Area } from '../area/interface';
   standalone: true,
   imports: [
     FontAwesomeModule,
-    CommonModule,
-    RouterLink,
+    RouterLink
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'

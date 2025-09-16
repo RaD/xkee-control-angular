@@ -12,8 +12,7 @@ import { Device } from '../device/interface';
   selector: 'app-confirmation',
   standalone: true,
   imports: [
-    CommonModule,
-    RouterLink,
+    RouterLink
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'

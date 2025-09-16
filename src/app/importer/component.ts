@@ -1,15 +1,13 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router, RouterLink, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
+import { Router, ActivatedRoute } from '@angular/router';
 import { StorageService } from '../storage.service';
 
 @Component({
   selector: 'app-importer',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterLink,
-  ],
+  imports: [],
   templateUrl: './template.html',
   styleUrl: './styles.less'
 })
