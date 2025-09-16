@@ -173,7 +173,7 @@ export class CustomerListPage implements OnInit {
   /**
    * Show notification message
    */
-  private showNotification(message: string): void {
+  protected showNotification(message: string): void {
     // Create notification element
     const notification = document.createElement('div');
     notification.className = 'alert alert-warning alert-dismissible fade show position-fixed';

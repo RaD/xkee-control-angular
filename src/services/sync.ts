@@ -54,7 +54,7 @@ export class SyncService {
 
     return this.http.post<SyncResponse[]>(url, payload, { headers }).pipe(
       timeout(10000), // 10 seconds timeout
-      catchError(this.handleError)
+      catchError((error) => this.handleError(error))
     );
   }
 
