@@ -5,6 +5,7 @@ import { timeout, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Area } from '../pages/area/interface';
 import { Customer } from '../pages/customer/interface';
+import { ConfigService } from './config';
 
 export interface SyncRequest {
   pk: string;
@@ -25,7 +26,7 @@ export interface SyncResponse {
   providedIn: 'root'
 })
 export class SyncService {
-  private baseUrl = 'https://api.example.com'; // Replace with actual backend URL
+  private baseUrl = ConfigService.getBaseUrl() || 'https://api.example.com';
 
   constructor(private http: HttpClient) {}
 
