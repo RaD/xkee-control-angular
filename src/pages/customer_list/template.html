@@ -153,22 +153,22 @@
                       <strong>Машина:</strong> {{ customer.vehicle }}
                     </div>
                     <div class="d-flex gap-1 mt-2">
-                      <button class="btn btn-secondary btn-sm"
+                      <button class="btn btn-secondary btn-sm square-btn"
                         [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'linking']">
                         <fa-icon [icon]="faLink"></fa-icon>
                       </button>
-                      <button class="btn btn-secondary btn-sm"
+                      <button class="btn btn-secondary btn-sm square-btn"
                         [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'payment']">
                         <fa-icon [icon]="faPayment"></fa-icon>
                       </button>
                     </div>
                   } @else {
-                    <div class="d-flex gap-1 mt-2">
-                      <button class="btn btn-secondary btn-sm"
+                    <div class="d-flex gap-1 mt-2 justify-content-end">
+                      <button class="btn btn-secondary btn-sm square-btn"
                         [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'linking']">
                         <fa-icon [icon]="faLink"></fa-icon>
                       </button>
-                      <button class="btn btn-secondary btn-sm"
+                      <button class="btn btn-secondary btn-sm square-btn"
                         [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'payment']">
                         <fa-icon [icon]="faPayment"></fa-icon>
                       </button>
