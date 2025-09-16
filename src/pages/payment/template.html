@@ -1,0 +1,63 @@
+<legend class="text-center">Платёж</legend>
+<form #form_area="ngForm" (ngSubmit)="onSubmit()" class="g-3" novalidate>
+    <div class="mb-3">
+        <label for="amount" class="form-label position-relative">
+            Сумма
+            <div *ngIf="amount.invalid && (amount.dirty || amount.touched)" class="alert">
+                <div *ngIf="amount.errors?.['minlength']"
+                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    Минимально 1 символ
+                </div>
+            </div>
+        </label>
+        <input id="amount" name="amount" type="text"
+            class="form-control"
+            [(ngModel)]="fields.amount" #amount="ngModel"
+            required="true" minlength="1"/>
+    </div>
+    <div class="mb-3">
+        <label for="started_in" class="form-label position-relative">
+            Разрешено с
+        </label>
+		<div class="input-group">
+			<input
+				class="form-control" placeholder="yyyy-mm-dd"
+				name="started_in" [(ngModel)]="fields.started_in"
+				ngbDatepicker #started_in="ngbDatepicker"
+				[positionTarget]="buttonStartedInEl"
+			/>
+			<button #buttonStartedInEl class="btn btn-outline-secondary" (click)="started_in.toggle()" type="button">
+                <fa-icon [icon]="faCalendar"></fa-icon>
+            </button>
+		</div>
+    </div>
+    <div class="mb-3">
+        <label for="expired_in" class="form-label position-relative">
+            Разрешено до
+        </label>
+		<div class="input-group">
+			<input
+				class="form-control" placeholder="yyyy-mm-dd"
+				name="expired_in" [(ngModel)]="fields.expired_in"
+				ngbDatepicker #expired_in="ngbDatepicker"
+				[positionTarget]="buttonExpiredInEl"
+			/>
+			<button #buttonExpiredInEl class="btn btn-outline-secondary" (click)="expired_in.toggle()" type="button">
+                <fa-icon [icon]="faCalendar"></fa-icon>
+            </button>
+		</div>
+    </div>
+    <div class="mb-3 d-grid gap-2">
+        <button type="submit" class="btn btn-success"
+            [disabled]="form_area.invalid">Применить</button>
+        <a [routerLink]="['/areas', area_pk, 'customers']"
+            type="button" class="btn btn-secondary">Назад</a>
+    </div>
+</form>
+
+<div class="mb-3 fixed-bottom">
+    <div class="container-fluid">
+        <div class="d-grid gap-2">
+        </div>
+    </div>
+</div>

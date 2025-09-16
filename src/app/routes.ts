@@ -9,10 +9,12 @@ import { CustomerListPage } from '../pages/customer_list/component';
 import { CustomerPage } from '../pages/customer/component';
 import { ImporterComponent } from '../pages/importer/component';
 import { LinkingPage } from '../pages/linking/component';
+import { PaymentPage } from '../pages/payment/component';
 
 export const routes: Routes = [
     {path: 'confirm/areas/:area_pk/:entity/:entity_pk', component: ConfirmationPage},
     {path: 'confirm/areas/:area_pk', component: ConfirmationPage},
+    {path: 'areas/:area_pk/customer/:customer_pk/payment', component: PaymentPage},
     {path: 'areas/:pk/customer/:customer_pk/linking', component: LinkingPage},
     {path: 'areas/:pk/customer/:customer_pk/:action', component: CustomerPage},
     {path: 'areas/:pk/customers/create', component: CustomerPage},

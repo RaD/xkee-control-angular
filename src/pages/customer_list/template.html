@@ -75,6 +75,11 @@
                       [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'linking']">
                       <fa-icon [icon]="faLink"></fa-icon>
                     </button>
+                    <!-- PaymentRegisterComponent-->
+                    <button class="btn btn-secondary"
+                        [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'payment']">
+                        <fa-icon [icon]="faPayment"></fa-icon>
+                    </button>
                   </td>
                 </tr>
               }
