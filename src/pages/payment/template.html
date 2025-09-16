@@ -68,7 +68,7 @@
     </div>
     <div class="col-md-6">
       <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-success" form="form_area" [disabled]="form_area.invalid">
+        <button type="submit" class="btn btn-success" (click)="onSubmit()">
           <fa-icon [icon]="faSave" class="me-2"></fa-icon>
           Применить
         </button>
@@ -87,7 +87,7 @@
           <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
           Назад
         </a>
-        <button type="submit" class="btn btn-success" form="form_area" [disabled]="form_area.invalid">
+        <button type="submit" class="btn btn-success" (click)="onSubmit()">
           <fa-icon [icon]="faSave" class="me-2"></fa-icon>
           Применить
         </button>
