@@ -45,8 +45,8 @@
             Для привязки клиентов найдите их через строку поиска ниже и нажмите на иконку связи.
           </div>
           <form #form_search="ngForm" name="form_search" (ngSubmit)="onSearch()"
-            class="d-flex g-3 align-items-center" novalidate>
-            <div class="p-2 flex-grow-1">
+            class="d-flex d-md-flex flex-column flex-md-row g-3 align-items-center" novalidate>
+            <div class="p-2 flex-grow-1 w-100">
               <label for="search" class="visually-hidden">Поиск</label>
               <div class="input-group">
                 <div class="input-group-text">
@@ -59,7 +59,7 @@
                   required="true" minlength="2"/>
               </div>
             </div>
-            <div class="p-2">
+            <div class="p-2 d-flex justify-content-end justify-content-md-start">
               <button type="submit" class="btn btn-primary"
               [disabled]="form_search.invalid">
                 <fa-icon [icon]="faSearch" class="me-2"></fa-icon>
