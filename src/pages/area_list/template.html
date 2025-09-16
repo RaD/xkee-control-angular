@@ -69,7 +69,7 @@
                   </a>
                 </div>
                 <div class="col-4">
-                  <div class="d-flex flex-column gap-1">
+                  <div class="d-flex flex-column gap-1 align-items-end">
                     <a type="button" class="btn btn-info btn-sm position-relative square-btn"
                       [routerLink]="['/areas', area.pk, 'devices']">
                       <fa-icon [icon]="faWalkieTalkie"></fa-icon>
@@ -110,11 +110,11 @@
 
 <!-- Mobile view buttons -->
 <div class="d-md-none">
-  <div class="mb-3 fixed-bottom">
+  <div class="fixed-bottom">
     <div class="container-fluid">
-      <div class="mb-3 d-flex justify-content-center">
-        <a routerLink="/areas/create" routerLinkActive="active"
-          type="button" class="btn btn-primary btn-sm">
+      <div class="d-grid">
+        <a routerLink="/areas/create" routerLinkActive="active" 
+          type="button" class="btn btn-primary">
           <fa-icon [icon]="faPlus" class="me-2"></fa-icon>
           Добавить территорию
         </a>
