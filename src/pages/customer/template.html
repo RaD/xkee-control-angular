@@ -152,7 +152,7 @@
           <fa-icon [icon]="faSave" class="me-2"></fa-icon>
           Применить
         </button>
-        <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', area?.pk, 'customer', fields.pk]">
+        <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', area?.pk, 'customer', customer?.pk || fields.pk]">
           <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
           Удалить
         </a>

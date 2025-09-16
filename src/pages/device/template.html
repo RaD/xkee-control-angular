@@ -65,7 +65,7 @@
     </div>
   </div>
   <div class="position-fixed bottom-0 start-0 p-3">
-    <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', area?.pk, 'device', fields.pk]">
+    <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', area?.pk, 'device', device?.pk || fields.pk]">
       <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
       Удалить
     </a>
@@ -85,7 +85,7 @@
           <fa-icon [icon]="faSave" class="me-2"></fa-icon>
           Применить
         </button>
-        <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', area?.pk, 'device', fields.pk]">
+        <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', area?.pk, 'device', device?.pk || fields.pk]">
           <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
           Удалить
         </a>

@@ -51,9 +51,9 @@ export class CustomerPage implements OnInit {
   ngOnInit(): void {
     if (this.area?.pk != null && this.customer?.pk && this.action != null) {
       if (this.action === 'delete') {
-        this.localStore.removeDevice(this.customer.pk, this.area.pk);
+        this.localStore.removeCustomer(this.customer.pk, this.area.pk);
         // возвращаемся на список
-        this.router.navigate(['/areas', this.area.pk, 'devices']);
+        this.router.navigate(['/areas', this.area.pk, 'customers']);
       } else {
         let o: Customer = this.customer;
         this.fields = new Customer(
