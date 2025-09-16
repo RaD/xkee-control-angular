@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { StorageService } from '../../services/storage';
@@ -14,7 +15,8 @@ import { Customer } from './interface';
   imports: [
     RouterLink,
     FormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    DatePipe
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
