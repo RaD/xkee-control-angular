@@ -95,7 +95,7 @@
 <div class="d-none d-md-block">
   <div class="row mb-3">
     <div class="col-md-6">
-      <div class="d-flex gap-2">
+      <div class="d-flex">
         <a [routerLink]="['/areas', area?.pk]" routerLinkActive="active"
           type="button" class="btn btn-secondary">
           <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
@@ -104,7 +104,7 @@
       </div>
     </div>
     <div class="col-md-6">
-      <div class="d-flex justify-content-end gap-2">
+      <div class="d-flex justify-content-end">
         <a [routerLink]="['/areas', area?.pk, 'customers', 'create']" routerLinkActive="active"
           type="button" class="btn btn-primary">
           <fa-icon [icon]="faPlus" class="me-2"></fa-icon>

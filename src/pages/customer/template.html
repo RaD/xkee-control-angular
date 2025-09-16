@@ -113,7 +113,7 @@
 <div class="d-none d-md-block">
   <div class="row mb-3">
     <div class="col-md-6">
-      <div class="d-flex gap-2">
+      <div class="d-flex">
         <a [routerLink]="['/areas', area?.pk, 'customers']"
           type="button" class="btn btn-secondary">
           <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
@@ -143,15 +143,15 @@
   <div class="mb-3 fixed-bottom">
     <div class="container-fluid">
       <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-success mb-2" form="form_customer" [disabled]="form_customer.invalid">
-          <fa-icon [icon]="faSave" class="me-2"></fa-icon>
-          Применить
-        </button>
         <a [routerLink]="['/areas', area?.pk, 'customers']"
           type="button" class="btn btn-secondary mb-2">
           <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
           Назад
         </a>
+        <button type="submit" class="btn btn-success mb-2" form="form_customer" [disabled]="form_customer.invalid">
+          <fa-icon [icon]="faSave" class="me-2"></fa-icon>
+          Применить
+        </button>
         <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', area?.pk, 'customer', fields.pk]">
           <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
           Удалить
