@@ -159,7 +159,7 @@
   <div class="mb-3 fixed-bottom">
     <div class="container-fluid">
       <!-- First row: Back, Apply, Sync -->
-      <div class="d-flex justify-content-between mb-3">
+      <div class="d-flex justify-content-center mb-3">
         <a routerLink="/areas" type="button" class="btn btn-secondary me-2">
           <fa-icon [icon]="faArrowLeft"></fa-icon>
         </a>
@@ -182,7 +182,7 @@
       </div>
       
       <!-- Second row: Delete, Import, Export -->
-      <div class="d-flex mt-3">
+      <div class="d-flex justify-content-center mt-3">
         @if (!is_creation()) {
           <a type="button" class="btn btn-danger me-2" [routerLink]="['/confirm', 'areas', fields.pk]">
             <fa-icon [icon]="faTrash"></fa-icon>
