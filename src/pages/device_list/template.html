@@ -22,7 +22,10 @@
                     {{ device.title }}
                   </a>
                 </td>
-                <td>{{ device.description }}</td>
+                <td>
+                  <fa-icon [icon]="faRoad" class="me-2"></fa-icon>
+                  {{ device.description }}
+                </td>
               </tr>
             }
           </tbody>
