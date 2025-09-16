@@ -4,6 +4,7 @@ import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faLink, faLinkSlash, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { StorageService } from '../../services/storage';
 import { Area } from '../area/interface';
 import { Customer } from '../customer/interface';
@@ -23,6 +24,8 @@ export class LinkingPage {
   faSearch = faMagnifyingGlass;
   faLink = faLink;
   faUnlink = faLinkSlash;
+  faArrowLeft = faArrowLeft;
+  faPlus = faPlus;
 
   @ViewChild('form_search', {static: false}) form_search: any;
 

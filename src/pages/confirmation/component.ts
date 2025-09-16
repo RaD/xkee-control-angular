@@ -4,6 +4,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { ConfirmationEntity } from './interface';
 import { StorageService } from '../../services/storage';
 import { Device } from '../device/interface';
@@ -12,12 +14,16 @@ import { Device } from '../device/interface';
   selector: 'app-confirmation',
   standalone: true,
   imports: [
-    RouterLink
+    RouterLink,
+    FontAwesomeModule
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
 })
 export class ConfirmationPage implements OnInit {
+  faTimes = faTimes;
+  faCheck = faCheck;
+
   protected entity: ConfirmationEntity;
   protected message: string;
 

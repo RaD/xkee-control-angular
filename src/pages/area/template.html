@@ -77,10 +77,16 @@
     </div>
   }
   <div class="mb-3 d-grid gap-2">
-    <button type="submit" class="btn btn-success"
-    [disabled]="form_area.invalid">Применить</button>
+    <button type="submit" class="btn btn-success mb-2"
+    [disabled]="form_area.invalid">
+      <fa-icon [icon]="faSave" class="me-2"></fa-icon>
+      Применить
+    </button>
     <a routerLink="/areas"
-    type="button" class="btn btn-secondary">Назад</a>
+    type="button" class="btn btn-secondary">
+      <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
+      Назад
+    </a>
   </div>
 </form>
 
@@ -88,11 +94,20 @@
   <div class="container-fluid">
     <div class="d-grid gap-2">
       @if (!is_creation()) {
-        <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', fields.pk]">Удалить</a>
+        <a type="button" class="btn btn-danger mb-2" [routerLink]="['/confirm', 'areas', fields.pk]">
+          <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
+          Удалить
+        </a>
       }
-      <a type="button" class="btn btn-info" [routerLink]="['/areas', 'import']">Импорт</a>
+      <a type="button" class="btn btn-info mb-2" [routerLink]="['/areas', 'import']">
+        <fa-icon [icon]="faFileImport" class="me-2"></fa-icon>
+        Импорт
+      </a>
       @if (!is_creation()) {
-        <a type="button" class="btn btn-info" (click)="export()">Экспорт</a>
+        <a type="button" class="btn btn-info mb-2" (click)="export()">
+          <fa-icon [icon]="faFileExport" class="me-2"></fa-icon>
+          Экспорт
+        </a>
       }
     </div>
   </div>

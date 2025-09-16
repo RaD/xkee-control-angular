@@ -40,17 +40,26 @@
       required="true" minlength="3"/>
   </div>
   <div class="mb-3 d-grid gap-2">
-    <button type="submit" class="btn btn-success"
-    [disabled]="form_device.invalid">Применить</button>
+    <button type="submit" class="btn btn-success mb-2"
+    [disabled]="form_device.invalid">
+      <fa-icon [icon]="faSave" class="me-2"></fa-icon>
+      Применить
+    </button>
     <a [routerLink]="['/areas', area?.pk, 'devices']"
-    type="button" class="btn btn-secondary">Назад</a>
+    type="button" class="btn btn-secondary">
+      <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
+      Назад
+    </a>
   </div>
 </form>
 
 <div class="mb-3 fixed-bottom">
   <div class="container-fluid">
     <div class="d-grid gap-2">
-      <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', area?.pk, 'device', fields.pk]">Удалить</a>
+      <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', area?.pk, 'device', fields.pk]">
+        <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
+        Удалить
+      </a>
     </div>
   </div>
 </div>

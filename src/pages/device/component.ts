@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faSave, faArrowLeft, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { StorageService } from '../../services/storage';
 import { Area } from '../area/interface';
 import { Device } from './interface';
@@ -11,12 +13,17 @@ import { Device } from './interface';
   standalone: true,
   imports: [
     RouterLink,
-    FormsModule
+    FormsModule,
+    FontAwesomeModule
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
 })
 export class DevicePage implements OnInit {
+  faSave = faSave;
+  faArrowLeft = faArrowLeft;
+  faTrash = faTrash;
+
   protected fields: Device;
   protected area: Area | null = null;
   protected device: Device | null = null;

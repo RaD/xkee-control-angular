@@ -5,6 +5,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { faWalkieTalkie } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { StorageService } from '../../services/storage';
 import { Area } from '../area/interface';
 
@@ -23,6 +24,7 @@ export class AreaListPage implements OnInit {
   faGear = faGear;
   faWalkieTalkie = faWalkieTalkie;
   faUser = faUser;
+  faPlus = faPlus;
 
   protected empty: boolean = true;
   protected areas: Area[] = [];

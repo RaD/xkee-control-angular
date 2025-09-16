@@ -13,8 +13,14 @@
           </div>
         </div>
         <div class="modal-footer">
-          <a type="button" class="btn btn-secondary" routerLink="{{ entity.url_cancel }}">Отмена</a>
-          <a type="button" class="btn btn-primary" routerLink="{{ entity.url_success }}">Да</a>
+          <a type="button" class="btn btn-secondary me-2" routerLink="{{ entity.url_cancel }}">
+            <fa-icon [icon]="faTimes" class="me-2"></fa-icon>
+            Отмена
+          </a>
+          <a type="button" class="btn btn-primary" routerLink="{{ entity.url_success }}">
+            <fa-icon [icon]="faCheck" class="me-2"></fa-icon>
+            Да
+          </a>
         </div>
       </div>
     </div>

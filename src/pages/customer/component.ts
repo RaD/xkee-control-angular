@@ -4,7 +4,7 @@ import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faSave, faArrowLeft, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { StorageService } from '../../services/storage';
 import { Area } from '../area/interface';
 import { Customer } from './interface';
@@ -23,6 +23,9 @@ import { Customer } from './interface';
 })
 export class CustomerPage implements OnInit {
   faCheck = faCheck;
+  faSave = faSave;
+  faArrowLeft = faArrowLeft;
+  faTrash = faTrash;
 
   protected fields: Customer;
   protected area: Area | null = null;

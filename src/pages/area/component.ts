@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faSave, faArrowLeft, faTrash, faFileImport, faFileExport } from '@fortawesome/free-solid-svg-icons';
 import { Area } from './interface';
 import { StorageService } from '../../services/storage';
 
@@ -10,12 +12,19 @@ import { StorageService } from '../../services/storage';
   standalone: true,
   imports: [
     RouterLink,
-    FormsModule
+    FormsModule,
+    FontAwesomeModule
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
 })
 export class AreaPage implements OnInit {
+  faSave = faSave;
+  faArrowLeft = faArrowLeft;
+  faTrash = faTrash;
+  faFileImport = faFileImport;
+  faFileExport = faFileExport;
+
   protected fields: Area;
   protected pk: string | null;
   protected action: string | null;

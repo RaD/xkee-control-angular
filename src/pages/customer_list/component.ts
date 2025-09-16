@@ -13,6 +13,7 @@ import { faMoneyCheckDollar } from '@fortawesome/free-solid-svg-icons';
 import { faSync } from '@fortawesome/free-solid-svg-icons';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { StorageService } from '../../services/storage';
 import { SyncService, SyncResponse } from '../../services/sync';
 import { Area } from '../area/interface';
@@ -41,6 +42,8 @@ export class CustomerListPage implements OnInit {
   faSync = faSync;
   faCheck = faCheck;
   faWarning = faExclamationTriangle;
+  faArrowLeft = faArrowLeft;
+  faPlus = faPlus;
 
   protected area_pk: string | null = null;
   protected area: Area | null = null;

@@ -61,7 +61,10 @@
             </div>
             <div class="p-2">
               <button type="submit" class="btn btn-primary"
-              [disabled]="form_search.invalid">Найти</button>
+              [disabled]="form_search.invalid">
+                <fa-icon [icon]="faSearch" class="me-2"></fa-icon>
+                Найти
+              </button>
             </div>
           </form>
           <div class="table-responsive">
