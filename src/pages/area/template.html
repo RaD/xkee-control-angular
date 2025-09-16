@@ -107,7 +107,7 @@
           kind="success"
           [icon]="faSave"
           text="Применить"
-          [disabled]="form_area.invalid"
+          [disabled]="form_area?.invalid || false"
           (click)="onSubmit()">
         </app-smart-button>
       </div>

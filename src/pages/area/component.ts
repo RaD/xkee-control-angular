@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSave, faArrowLeft, faTrash, faFileImport, faFileExport, faSync } from '@fortawesome/free-solid-svg-icons';
@@ -19,7 +19,8 @@ import { SmartButtonComponent } from '../../components/smart-button/component';
     FormsModule,
     FontAwesomeModule,
     HttpClientModule,
-    SmartButtonComponent
+    SmartButtonComponent,
+    RouterLink
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
@@ -37,7 +38,7 @@ export class AreaPage implements OnInit {
   protected pk: string | null;
   protected action: string | null;
   protected syncing: boolean = false;
-  protected router: Router; // Make router accessible to template
+  public router: Router; // Make router accessible to template
 
   constructor(
     private localStore: StorageService,
