@@ -19,14 +19,14 @@
               <tr>
                 <td>
                   <a [routerLink]="['/areas', area.pk, 'customers']">
-                    {{ area.title }}
+                    <div class="area-title">{{ area.title }}</div>
+                    <small class="text-muted">{{ area.kind }}</small>
                   </a>
                 </td>
                 <td>
                   <fa-icon [icon]="faUser" label="Настройки"></fa-icon>
                   {{ area.customers.length }}
                 </td>
-                <td>{{ area.kind }}</td>
                 <td>{{ area.address }}</td>
                 <td class="d-grid gap-2 d-flex justify-content-end">
                   <a type="button" class="btn btn-info position-relative"
