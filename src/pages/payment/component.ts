@@ -6,6 +6,8 @@ import { FormControl, FormsModule } from '@angular/forms';
 import { NgbCalendar, NgbDate, NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Payment } from './interface';
+import { StorageService } from '../../services/storage';
+import { Customer } from '../customer/interface';
 
 @Component({
   selector: 'app-payment',
@@ -34,6 +36,7 @@ export class PaymentPage implements OnInit{
     this.started_in.day
   );
   constructor(
+    private localStore: StorageService,
     private router: Router,
     private route: ActivatedRoute,
   ) {
@@ -45,6 +48,30 @@ export class PaymentPage implements OnInit{
   }
 
   public onSubmit(): void {
+    if (this.customer_pk) {
+      // Get customer from storage
+      let customer: Customer | null = this.localStore.getCustomer(this.customer_pk);
+      if (customer) {
+        // Initialize payments array if it doesn't exist
+        if (!customer.payments) {
+          customer.payments = [];
+        }
+        
+        // Add new payment to the beginning of the array
+        customer.payments.unshift(this.fields);
+        
+        // Keep only the latest 5 payments
+        if (customer.payments.length > 5) {
+          customer.payments = customer.payments.slice(0, 5);
+        }
+        
+        // Save updated customer back to storage
+        if (this.area_pk) {
+          this.localStore.setCustomer(this.customer_pk, this.area_pk, customer);
+        }
+      }
+    }
+    
     // возвращаемся на список
     this.router.navigate(['/areas', this.area_pk, 'customers']);
   }

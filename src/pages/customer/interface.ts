@@ -1,3 +1,5 @@
+import { IPayment } from "../payment/interface";
+
 export interface ICustomer {
     pk: string;  // номер телефона
     active: boolean;
@@ -7,6 +9,7 @@ export interface ICustomer {
     address?: string;
     vehicle?: string;
     comment?: string;
+    payments?: IPayment[];
 }
 
 
@@ -20,5 +23,6 @@ export class Customer implements ICustomer {
         public address?: string,
         public vehicle?: string,
         public comment?: string,
+        public payments?: IPayment[],
     ) {}
 }

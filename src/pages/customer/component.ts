@@ -49,7 +49,7 @@ export class CustomerPage implements OnInit {
         let o: Customer = this.customer;
         this.fields = new Customer(
           o.pk, o.active, o.last_name, o.first_name, o.middle_name,
-          o.address, o.vehicle, o.comment);
+          o.address, o.vehicle, o.comment, o.payments);
       }
     }
   }
@@ -69,7 +69,7 @@ export class CustomerPage implements OnInit {
       let f: Customer = this.fields;
       let customer: Customer = new Customer(
         f.pk, f.active, f.last_name, f.first_name, f.middle_name,
-        f.address, f.vehicle, f.comment);
+        f.address, f.vehicle, f.comment, f.payments);
       this.localStore.setCustomer(phone, area_pk, customer);
     }
     // возвращаемся на список
