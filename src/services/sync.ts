@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { timeout, catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 import { Area } from '../pages/area/interface';
 import { Customer } from '../pages/customer/interface';
 
@@ -50,7 +52,10 @@ export class SyncService {
       'X-Secret-Key': area.secret || ''
     });
 
-    return this.http.post<SyncResponse[]>(url, payload, { headers });
+    return this.http.post<SyncResponse[]>(url, payload, { headers }).pipe(
+      timeout(10000), // 10 seconds timeout
+      catchError(this.handleError)
+    );
   }
 
   /**
@@ -93,5 +98,24 @@ export class SyncService {
    */
   private formatDate(date: Date): string {
     return date.toISOString().split('T')[0];
+  }
+
+  /**
+   * Handle HTTP errors
+   */
+  private handleError(error: HttpErrorResponse | any) {
+    let errorMessage = 'Не удалось синхронизировать данные. Попробуйте позже.';
+    
+    if (error.name === 'TimeoutError') {
+      errorMessage = 'Превышено время ожидания ответа сервера. Попробуйте позже.';
+    } else if (error.status === 0) {
+      errorMessage = 'Нет соединения с сервером. Проверьте подключение к интернету.';
+    } else if (error.status >= 400 && error.status < 500) {
+      errorMessage = 'Ошибка авторизации. Проверьте настройки территории.';
+    } else if (error.status >= 500) {
+      errorMessage = 'Ошибка сервера. Попробуйте позже.';
+    }
+    
+    return throwError(() => new Error(errorMessage));
   }
 }
