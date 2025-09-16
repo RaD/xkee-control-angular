@@ -43,9 +43,25 @@ export class AreaPage implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
   ) {
-    this.fields = new Area(crypto.randomUUID(), '', '', '', [], [], {});
+    this.fields = new Area(this.generateUUID(), '', '', '', [], [], {});
     this.pk = this.route.snapshot.paramMap.get('pk');
     this.action = this.route.snapshot.paramMap.get('action');
+  }
+
+  /**
+   * Generate UUID with fallback for browsers that don't support crypto.randomUUID()
+   */
+  private generateUUID(): string {
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+      return crypto.randomUUID();
+    }
+    
+    // Fallback UUID generation
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random() * 16 | 0;
+      const v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
   }
 
   ngOnInit(): void {
