@@ -2,7 +2,6 @@
   position: relative;
   overflow: hidden;
   transition: all 0.2s ease;
-  min-width: 40px; // Minimum width for icon-only mode
   
   // Ensure consistent height regardless of content
   min-height: 38px;
@@ -10,19 +9,14 @@
   align-items: center;
   justify-content: center;
   
-  &--icon-only {
-    min-width: 40px;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
-  
   &--icon-text {
     min-width: 120px;
   }
   
   &--animated {
-    min-width: 120px;
-    width: 120px;
+    // Keep the button size constant during animation
+    // Size is determined by the text content initially
+    min-width: fit-content;
   }
   
   // Content container for animated mode
@@ -86,40 +80,10 @@
   // Size variants
   &.btn-sm {
     min-height: 32px;
-    
-    &.smart-button--icon-only {
-      min-width: 32px;
-      padding-left: 0.375rem;
-      padding-right: 0.375rem;
-    }
-    
-    &.smart-button--icon-text {
-      min-width: 100px;
-    }
-    
-    &.smart-button--animated {
-      min-width: 100px;
-      width: 100px;
-    }
   }
   
   &.btn-lg {
     min-height: 48px;
-    
-    &.smart-button--icon-only {
-      min-width: 48px;
-      padding-left: 0.75rem;
-      padding-right: 0.75rem;
-    }
-    
-    &.smart-button--icon-text {
-      min-width: 140px;
-    }
-    
-    &.smart-button--animated {
-      width: 140px;
-      min-width: 140px;
-    }
   }
 }
 

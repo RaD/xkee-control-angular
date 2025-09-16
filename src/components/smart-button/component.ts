@@ -26,12 +26,11 @@ export class SmartButtonComponent implements OnInit, OnDestroy, AfterViewInit {
   private resizeObserver?: ResizeObserver;
   private animationInterval?: number;
   private animationTimeout?: number;
-  private readonly minWidthForText = 120; // Minimum width to show text permanently
-  private readonly minWidthForAnimation = 80; // Minimum width for animation
-  private readonly animationDelay = 10000; // Base delay before first switch (10+ seconds)
+  private readonly minWidthForBoth = 120; // Minimum width to show both icon and text
+  private readonly animationMinDelay = 10000; // Minimum delay (10 seconds)
+  private readonly animationMaxDelay = 15000; // Maximum delay (15 seconds)
   private readonly animationDuration = 500; // Fade duration
-  private readonly textDisplayDuration = 8000; // How long to show text (8 seconds)
-  private readonly iconDisplayDuration = 3000; // How long to show icon before returning to text (3 seconds)
+  private readonly iconDisplayDuration = 3000; // How long to show icon (3 seconds)
 
   ngOnInit(): void {
     // Add random delay to prevent synchronized animations (0-2 seconds)
@@ -62,22 +61,24 @@ export class SmartButtonComponent implements OnInit, OnDestroy, AfterViewInit {
   private checkButtonWidth(): void {
     if (!this.buttonElement) return;
 
-    const buttonWidth = this.buttonElement.nativeElement.offsetWidth;
-    const parentWidth = this.buttonElement.nativeElement.parentElement?.offsetWidth || buttonWidth;
-    const availableWidth = Math.min(buttonWidth, parentWidth);
+    // Measure how much space we actually have
+    const element = this.buttonElement.nativeElement;
+    const computedStyle = window.getComputedStyle(element);
+    const paddingLeft = parseFloat(computedStyle.paddingLeft);
+    const paddingRight = parseFloat(computedStyle.paddingRight);
+    const availableWidth = element.offsetWidth - paddingLeft - paddingRight;
 
-    if (availableWidth < this.minWidthForAnimation) {
-      this.displayMode = 'icon-only';
-      this.showText = false;
-      this.isAnimating = false;
-      this.stopAnimationCycle();
-    } else if (availableWidth >= this.minWidthForText) {
+    // If we have enough space for both icon and text, show both
+    if (availableWidth >= this.minWidthForBoth) {
       this.displayMode = 'icon-text';
       this.showText = true;
       this.isAnimating = false;
       this.stopAnimationCycle();
     } else {
+      // Not enough space for both - start with text only and animate
       this.displayMode = 'animated';
+      this.showText = true; // Always start with text
+      this.isAnimating = false;
       this.startAnimationCycle();
     }
   }
@@ -87,37 +88,46 @@ export class SmartButtonComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.stopAnimationCycle();
     
+    // Always start with text visible
+    this.showText = true;
+    this.isAnimating = false;
+    
     const cycleAnimation = () => {
       if (this.displayMode !== 'animated') return;
 
-      // Start with text visible for 8+ seconds
-      this.showText = true;
-      this.isAnimating = false;
-
-      // After 10+ seconds (with randomness), start fade to icon
+      // Wait random time between 10-15 seconds, then fade to icon
+      const randomDelay = this.animationMinDelay + Math.random() * (this.animationMaxDelay - this.animationMinDelay);
       this.animationTimeout = window.setTimeout(() => {
         if (this.displayMode !== 'animated') return;
         
+        // Start fade from text to icon
         this.isAnimating = true;
-        this.showText = false;
 
-        // After fade completes, show icon for 3 seconds
+        // Complete fade to icon
         this.animationTimeout = window.setTimeout(() => {
           if (this.displayMode !== 'animated') return;
-          
-          // Fade back to text
-          this.isAnimating = true;
-          this.showText = true;
+          this.showText = false;
+          this.isAnimating = false;
 
-          // Complete the fade back to text and schedule next cycle
+          // Show icon for 3 seconds, then fade back to text
           this.animationTimeout = window.setTimeout(() => {
-            this.isAnimating = false;
-            // Schedule next cycle with randomness (10-12 seconds)
-            const nextDelay = this.animationDelay + (Math.random() * 2000);
-            this.animationInterval = window.setTimeout(cycleAnimation, nextDelay);
+            if (this.displayMode !== 'animated') return;
+            
+            // Start fade back to text
+            this.isAnimating = true;
+            
+            // Complete fade back to text and start next cycle
+            this.animationTimeout = window.setTimeout(() => {
+              if (this.displayMode !== 'animated') return;
+              this.showText = true;
+              this.isAnimating = false;
+              
+              // Schedule next cycle
+              this.animationInterval = window.setTimeout(cycleAnimation, 1000);
+            }, this.animationDuration);
           }, this.animationDuration);
-        }, this.iconDisplayDuration);
-      }, this.textDisplayDuration + (Math.random() * 2000)); // 8-10 seconds text display
+        }, this.animationDuration);
+      }, randomDelay);
     };
 
     // Start first cycle
