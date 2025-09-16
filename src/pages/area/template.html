@@ -158,62 +158,48 @@
 <div class="d-md-none">
   <div class="mb-3 fixed-bottom">
     <div class="container-fluid">
-      <div class="d-grid gap-2">
-        <!-- First row: Back, Apply, Sync -->
-        <div class="row g-2 mb-2">
-          <div class="col-4">
-            <a routerLink="/areas" type="button" class="btn btn-secondary w-100">
-              <fa-icon [icon]="faArrowLeft"></fa-icon>
-            </a>
-          </div>
-          <div class="col-4">
-            <button type="submit" class="btn btn-success w-100" form="form_area" [disabled]="form_area.invalid">
-              <fa-icon [icon]="faSave"></fa-icon>
-            </button>
-          </div>
-          <div class="col-4">
-            @if (!is_creation()) {
-              <button type="button" class="btn btn-info w-100" 
-                [disabled]="syncing" 
-                (click)="onSync()">
-                @if (syncing) {
-                  <span class="spinner-border spinner-border-sm" role="status"></span>
-                } @else {
-                  <fa-icon [icon]="faSync"></fa-icon>
-                }
-              </button>
+      <!-- First row: Back, Apply, Sync -->
+      <div class="d-flex justify-content-between mb-3">
+        <a routerLink="/areas" type="button" class="btn btn-secondary flex-fill me-2">
+          <fa-icon [icon]="faArrowLeft"></fa-icon>
+        </a>
+        <button type="submit" class="btn btn-success flex-fill me-2" form="form_area" [disabled]="form_area.invalid">
+          <fa-icon [icon]="faSave"></fa-icon>
+        </button>
+        @if (!is_creation()) {
+          <button type="button" class="btn btn-info flex-fill" 
+            [disabled]="syncing" 
+            (click)="onSync()">
+            @if (syncing) {
+              <span class="spinner-border spinner-border-sm" role="status"></span>
             } @else {
-              <div></div>
+              <fa-icon [icon]="faSync"></fa-icon>
             }
-          </div>
-        </div>
-        
-        <!-- Second row: Delete, Import, Export -->
-        <div class="row g-2 mt-3">
-          <div class="col-4">
-            @if (!is_creation()) {
-              <a type="button" class="btn btn-danger w-100" [routerLink]="['/confirm', 'areas', fields.pk]">
-                <fa-icon [icon]="faTrash"></fa-icon>
-              </a>
-            } @else {
-              <div></div>
-            }
-          </div>
-          <div class="col-4">
-            <a type="button" class="btn btn-info w-100" [routerLink]="['/areas', 'import']">
-              <fa-icon [icon]="faFileImport"></fa-icon>
-            </a>
-          </div>
-          <div class="col-4">
-            @if (!is_creation()) {
-              <a type="button" class="btn btn-info w-100" (click)="export()">
-                <fa-icon [icon]="faFileExport"></fa-icon>
-              </a>
-            } @else {
-              <div></div>
-            }
-          </div>
-        </div>
+          </button>
+        } @else {
+          <div class="flex-fill"></div>
+        }
+      </div>
+      
+      <!-- Second row: Delete, Import, Export -->
+      <div class="d-flex justify-content-between">
+        @if (!is_creation()) {
+          <a type="button" class="btn btn-danger flex-fill me-2" [routerLink]="['/confirm', 'areas', fields.pk]">
+            <fa-icon [icon]="faTrash"></fa-icon>
+          </a>
+        } @else {
+          <div class="flex-fill me-2"></div>
+        }
+        <a type="button" class="btn btn-info flex-fill me-2" [routerLink]="['/areas', 'import']">
+          <fa-icon [icon]="faFileImport"></fa-icon>
+        </a>
+        @if (!is_creation()) {
+          <a type="button" class="btn btn-info flex-fill" (click)="export()">
+            <fa-icon [icon]="faFileExport"></fa-icon>
+          </a>
+        } @else {
+          <div class="flex-fill"></div>
+        }
       </div>
     </div>
   </div>
