@@ -2,16 +2,19 @@ import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 
 import { Router, ActivatedRoute } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { StorageService } from '../../services/storage';
 
 @Component({
   selector: 'app-importer',
   standalone: true,
-  imports: [],
+  imports: [RouterLink, FontAwesomeModule],
   templateUrl: './template.html',
   styleUrl: './styles.less'
 })
 export class ImporterComponent {
+  faArrowLeft = faArrowLeft;
 
   constructor(
     private localStore: StorageService,
