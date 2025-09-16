@@ -93,18 +93,23 @@
   <div class="row mb-3">
     <div class="col-md-6">
       <div class="d-flex">
-        <a routerLink="/areas" type="button" class="btn btn-secondary">
-          <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
-          Назад
-        </a>
+        <app-smart-button 
+          kind="secondary"
+          [icon]="faArrowLeft"
+          text="Назад"
+          (click)="router.navigate(['/areas'])">
+        </app-smart-button>
       </div>
     </div>
     <div class="col-md-6">
       <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-success" form="form_area" [disabled]="form_area.invalid">
-          <fa-icon [icon]="faSave" class="me-2"></fa-icon>
-          Применить
-        </button>
+        <app-smart-button 
+          kind="success"
+          [icon]="faSave"
+          text="Применить"
+          [disabled]="form_area.invalid"
+          (click)="onSubmit()">
+        </app-smart-button>
       </div>
     </div>
   </div>
@@ -114,41 +119,45 @@
   
   @if (!is_creation()) {
     <div class="position-fixed bottom-0 start-0 p-3">
-      <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', fields.pk]">
-        <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
-        Удалить
-      </a>
+      <app-smart-button 
+        kind="danger"
+        [icon]="faTrash"
+        text="Удалить"
+        (click)="router.navigate(['/confirm', 'areas', fields.pk])">
+      </app-smart-button>
     </div>
     <div class="position-fixed bottom-0 end-0 p-3">
       <div class="d-flex gap-2">
-        <button type="button" class="btn btn-info d-flex align-items-center" 
-          [disabled]="syncing || is_creation()" 
+        <app-smart-button 
+          kind="info"
+          [icon]="faSync"
+          [text]="syncing ? 'Синхронизация...' : 'Синхронизировать'"
+          [disabled]="syncing || is_creation()"
           (click)="onSync()">
-          @if (syncing) {
-            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
-            Синхронизация...
-          } @else {
-            <fa-icon [icon]="faSync" class="me-2"></fa-icon>
-            Синхронизировать
-          }
-        </button>
-        <a type="button" class="btn btn-info d-flex align-items-center" [routerLink]="['/areas', 'import']">
-          <fa-icon [icon]="faFileImport" class="me-2"></fa-icon>
-          Импорт
-        </a>
-        <a type="button" class="btn btn-info d-flex align-items-center" (click)="export()">
-          <fa-icon [icon]="faFileExport" class="me-2"></fa-icon>
-          Экспорт
-        </a>
+        </app-smart-button>
+        <app-smart-button 
+          kind="info"
+          [icon]="faFileImport"
+          text="Импорт"
+          (click)="router.navigate(['/areas', 'import'])">
+        </app-smart-button>
+        <app-smart-button 
+          kind="info"
+          [icon]="faFileExport"
+          text="Экспорт"
+          (click)="export()">
+        </app-smart-button>
       </div>
     </div>
   } @else {
     <div class="position-fixed bottom-0 end-0 p-3">
       <div class="d-flex gap-2">
-        <a type="button" class="btn btn-info d-flex align-items-center" [routerLink]="['/areas', 'import']">
-          <fa-icon [icon]="faFileImport" class="me-2"></fa-icon>
-          Импорт
-        </a>
+        <app-smart-button 
+          kind="info"
+          [icon]="faFileImport"
+          text="Импорт"
+          (click)="router.navigate(['/areas', 'import'])">
+        </app-smart-button>
       </div>
     </div>
   }

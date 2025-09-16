@@ -1,0 +1,134 @@
+.smart-button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  min-width: 40px; // Minimum width for icon-only mode
+  
+  // Ensure consistent height regardless of content
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  &--icon-only {
+    min-width: 40px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  &--icon-text {
+    min-width: 120px;
+  }
+  
+  &--animated {
+    min-width: 80px;
+  }
+  
+  // Content container for animated mode
+  &__content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+  
+  // Icon styles for animated mode
+  &__icon {
+    position: absolute;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    opacity: 1;
+    transform: translateX(0);
+    
+    &--hidden {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    
+    &--animating {
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+  }
+  
+  // Text styles for animated mode
+  &__text {
+    position: absolute;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    opacity: 1;
+    transform: translateX(0);
+    white-space: nowrap;
+    
+    &--hidden {
+      opacity: 0;
+      transform: translateX(10px);
+    }
+    
+    &--animating {
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+  }
+  
+  // Responsive behavior
+  @media (max-width: 576px) {
+    &--icon-text {
+      min-width: 100px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    &--animated {
+      min-width: 60px;
+    }
+  }
+  
+  // Size variants
+  &.btn-sm {
+    min-height: 32px;
+    
+    &.smart-button--icon-only {
+      min-width: 32px;
+      padding-left: 0.375rem;
+      padding-right: 0.375rem;
+    }
+    
+    &.smart-button--icon-text {
+      min-width: 100px;
+    }
+    
+    &.smart-button--animated {
+      min-width: 70px;
+    }
+  }
+  
+  &.btn-lg {
+    min-height: 48px;
+    
+    &.smart-button--icon-only {
+      min-width: 48px;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
+    
+    &.smart-button--icon-text {
+      min-width: 140px;
+    }
+    
+    &.smart-button--animated {
+      min-width: 90px;
+    }
+  }
+}
+
+// Ensure proper spacing in button groups
+.btn-group .smart-button,
+.btn-toolbar .smart-button {
+  flex-shrink: 1;
+}
+
+// Animation performance optimization
+.smart-button__icon,
+.smart-button__text {
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+}

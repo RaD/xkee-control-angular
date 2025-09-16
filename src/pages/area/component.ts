@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Router, RouterLink, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSave, faArrowLeft, faTrash, faFileImport, faFileExport, faSync } from '@fortawesome/free-solid-svg-icons';
@@ -10,15 +10,16 @@ import { Area } from './interface';
 import { StorageService } from '../../services/storage';
 import { SyncService, SyncResponse } from '../../services/sync';
 import { Customer } from '../customer/interface';
+import { SmartButtonComponent } from '../../components/smart-button/component';
 
 @Component({
   selector: 'app-area-form',
   standalone: true,
   imports: [
-    RouterLink,
     FormsModule,
     FontAwesomeModule,
-    HttpClientModule
+    HttpClientModule,
+    SmartButtonComponent
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
@@ -36,13 +37,15 @@ export class AreaPage implements OnInit {
   protected pk: string | null;
   protected action: string | null;
   protected syncing: boolean = false;
+  protected router: Router; // Make router accessible to template
 
   constructor(
     private localStore: StorageService,
     private syncService: SyncService,
-    private router: Router,
+    router: Router,
     private route: ActivatedRoute,
   ) {
+    this.router = router;
     this.fields = new Area(this.generateUUID(), '', '', '', [], [], {});
     this.pk = this.route.snapshot.paramMap.get('pk');
     this.action = this.route.snapshot.paramMap.get('action');
