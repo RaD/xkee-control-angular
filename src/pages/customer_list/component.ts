@@ -76,4 +76,22 @@ export class CustomerListPage implements OnInit {
     // возвращаемся на список
     this.router.navigate(['/areas', area_pk, 'customers']);
   }
+
+  /**
+   * getLinkedNamesFor
+   * Получение имен связанных клиентов
+   */
+  protected getLinkedNamesFor(customer_pk: string): string {
+    if (!this.area?.linked || !this.area.linked[customer_pk]) {
+      return '';
+    }
+    
+    const linkedPks = this.area.linked[customer_pk];
+    const linkedNames = linkedPks
+      .map(pk => this.localStore.getCustomer(pk))
+      .filter(customer => customer !== null)
+      .map(customer => `${customer!.last_name} ${customer!.first_name}`.trim());
+    
+    return linkedNames.join(', ');
+  }
 }
