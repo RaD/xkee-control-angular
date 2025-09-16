@@ -4,8 +4,8 @@
   [disabled]="disabled"
   type="button">
   
-  <!-- Icon and text together (normal mode) -->
-  <ng-container *ngIf="shouldShowBoth()">
+  <!-- Icon and text together (desktop mode with enough space) -->
+  <ng-container *ngIf="displayMode === 'icon-text'">
     <fa-icon [icon]="icon" class="me-2"></fa-icon>
     <span class="button-text">{{ text }}</span>
   </ng-container>
