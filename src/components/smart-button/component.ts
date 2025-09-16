@@ -28,10 +28,10 @@ export class SmartButtonComponent implements OnInit, OnDestroy, AfterViewInit {
   private animationTimeout?: number;
   private readonly minWidthForText = 120; // Minimum width to show text permanently
   private readonly minWidthForAnimation = 80; // Minimum width for animation
-  private readonly animationDelay = 5000; // Base delay before first switch (5+ seconds)
+  private readonly animationDelay = 8000; // Base delay before first switch (8+ seconds)
   private readonly animationDuration = 500; // Fade duration
-  private readonly textDisplayDuration = 3000; // How long to show text initially
-  private readonly iconDisplayDuration = 2000; // How long to show icon before returning to text
+  private readonly textDisplayDuration = 6000; // How long to show text (6 seconds)
+  private readonly iconDisplayDuration = 3000; // How long to show icon before returning to text (3 seconds)
 
   ngOnInit(): void {
     // Add random delay to prevent synchronized animations (0-2 seconds)
@@ -90,38 +90,38 @@ export class SmartButtonComponent implements OnInit, OnDestroy, AfterViewInit {
     const cycleAnimation = () => {
       if (this.displayMode !== 'animated') return;
 
-      // Always start with text visible
+      // Start with text visible for longer duration
       this.showText = true;
       this.isAnimating = false;
 
-      // After 5+ seconds (with randomness), start fade to icon
+      // After 8+ seconds (with randomness), start fade to icon
       this.animationTimeout = window.setTimeout(() => {
         if (this.displayMode !== 'animated') return;
         
         this.isAnimating = true;
         this.showText = false;
 
-        // After fade completes, show icon for a while
+        // After fade completes, show icon for 3 seconds
         this.animationTimeout = window.setTimeout(() => {
           if (this.displayMode !== 'animated') return;
           
-          // After showing icon, fade back to text
+          // After showing icon for 3 seconds, fade back to text
           this.animationTimeout = window.setTimeout(() => {
             if (this.displayMode !== 'animated') return;
             
             this.isAnimating = true;
             this.showText = true;
 
-            // Complete the cycle and schedule next one
+            // Complete the fade back to text and schedule next cycle
             this.animationTimeout = window.setTimeout(() => {
               this.isAnimating = false;
-              // Schedule next cycle with randomness (5-7 seconds)
+              // Schedule next cycle with randomness (8-10 seconds)
               const nextDelay = this.animationDelay + (Math.random() * 2000);
               this.animationInterval = window.setTimeout(cycleAnimation, nextDelay);
             }, this.animationDuration);
           }, this.animationDuration);
         }, this.iconDisplayDuration);
-      }, this.animationDelay + (Math.random() * 2000)); // 5-7 seconds initial delay
+      }, this.animationDelay + (Math.random() * 2000)); // 8-10 seconds initial delay
     };
 
     // Start first cycle
