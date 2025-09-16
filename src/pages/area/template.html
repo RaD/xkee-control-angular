@@ -1,5 +1,5 @@
 <legend class="text-center">Территория</legend>
-<form #form_area="ngForm" (ngSubmit)="onSubmit()" class="g-3" novalidate>
+<form #form_area="ngForm" id="form_area" (ngSubmit)="onSubmit()" class="g-3" novalidate>
   <div class="mb-3">
     <label for="title" class="form-label position-relative">
       Название
@@ -95,16 +95,18 @@
   <div class="row mb-3">
     <div class="col-md-6">
       <div class="d-flex gap-2">
-        <a type="button" class="btn btn-info" [routerLink]="['/areas', 'import']">
-          <fa-icon [icon]="faFileImport" class="me-2"></fa-icon>
-          Импорт
+        <a routerLink="/areas" type="button" class="btn btn-secondary">
+          <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
+          Назад
         </a>
-        @if (!is_creation()) {
-          <a type="button" class="btn btn-info" (click)="export()">
-            <fa-icon [icon]="faFileExport" class="me-2"></fa-icon>
-            Экспорт
-          </a>
-        }
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-success" form="form_area" [disabled]="form_area.invalid">
+          <fa-icon [icon]="faSave" class="me-2"></fa-icon>
+          Применить
+        </button>
       </div>
     </div>
   </div>
@@ -113,6 +115,25 @@
       <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', fields.pk]">
         <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
         Удалить
+      </a>
+    </div>
+    <div class="position-fixed bottom-0 end-0 p-3">
+      <div class="d-flex gap-2">
+        <a type="button" class="btn btn-info" [routerLink]="['/areas', 'import']">
+          <fa-icon [icon]="faFileImport" class="me-2"></fa-icon>
+          Импорт
+        </a>
+        <a type="button" class="btn btn-info" (click)="export()">
+          <fa-icon [icon]="faFileExport" class="me-2"></fa-icon>
+          Экспорт
+        </a>
+      </div>
+    </div>
+  } @else {
+    <div class="position-fixed bottom-0 end-0 p-3">
+      <a type="button" class="btn btn-info" [routerLink]="['/areas', 'import']">
+        <fa-icon [icon]="faFileImport" class="me-2"></fa-icon>
+        Импорт
       </a>
     </div>
   }
