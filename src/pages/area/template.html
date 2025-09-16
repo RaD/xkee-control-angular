@@ -1,5 +1,6 @@
 <legend class="text-center">Территория</legend>
-<form #form_area="ngForm" id="form_area" (ngSubmit)="onSubmit()" class="g-3" novalidate>
+<div class="container-fluid">
+  <form #form_area="ngForm" id="form_area" (ngSubmit)="onSubmit()" class="g-3" novalidate>
   <div class="mb-3">
     <label for="title" class="form-label position-relative">
       Название
@@ -76,7 +77,8 @@
         required="true" minlength="3"/>
     </div>
   }
-</form>
+  </form>
+</div>
 
 <!-- Desktop view buttons -->
 <div class="d-none d-md-block">
@@ -142,10 +144,6 @@
         <a type="button" class="btn btn-info d-flex align-items-center" [routerLink]="['/areas', 'import']">
           <fa-icon [icon]="faFileImport" class="me-2"></fa-icon>
           Импорт
-        </a>
-        <a type="button" class="btn btn-info d-flex align-items-center" [routerLink]="['/areas', fields.pk, 'ble']">
-          <fa-icon [icon]="faBluetooth" class="me-2"></fa-icon>
-          BLE
         </a>
       </div>
     </div>
