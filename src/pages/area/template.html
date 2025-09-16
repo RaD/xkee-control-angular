@@ -99,6 +99,8 @@
           text="Назад"
           (click)="router.navigate(['/areas'])">
         </app-smart-button>
+          (click)="router.navigate(['/areas'])">
+        </app-smart-button>
       </div>
     </div>
     <div class="col-md-6">
@@ -123,6 +125,8 @@
         kind="danger"
         [icon]="faTrash"
         text="Удалить"
+        (click)="router.navigate(['/confirm', 'areas', fields.pk])">
+      </app-smart-button>
         (click)="router.navigate(['/confirm', 'areas', fields.pk])">
       </app-smart-button>
     </div>
@@ -158,6 +162,8 @@
           text="Импорт"
           (click)="router.navigate(['/areas', 'import'])">
         </app-smart-button>
+          (click)="router.navigate(['/areas', 'import'])">
+        </app-smart-button>
       </div>
     </div>
   }
@@ -168,14 +174,68 @@
   <div class="fixed-bottom">
     <div class="container-fluid">
       <div class="d-flex gap-1 justify-content-center">
-        <a routerLink="/areas" type="button" class="btn btn-secondary btn-sm">
+        <app-smart-button 
+          kind="secondary"
+          [icon]="faArrowLeft"
+          text="Назад"
+          size="sm"
+          (click)="router.navigate(['/areas'])">
+        </app-smart-button>
+        <app-smart-button 
+          kind="success"
+          [icon]="faSave"
+          text="Сохранить"
+          size="sm"
+          [disabled]="form_area?.invalid || false"
+          (click)="onSubmit()">
+        </app-smart-button>
+        @if (!is_creation()) {
+          <app-smart-button 
+            kind="info"
+            [icon]="faSync"
+            [text]="syncing ? 'Синхр...' : 'Синхр'"
+            size="sm"
+            [disabled]="syncing"
+            (click)="onSync()">
+          </app-smart-button>
+          <app-smart-button 
+            kind="danger"
+            [icon]="faTrash"
+            text="Удалить"
+            size="sm"
+            (click)="router.navigate(['/confirm', 'areas', fields.pk])">
+          </app-smart-button>
+        }
+        <app-smart-button 
+          kind="info"
+          [icon]="faFileImport"
+          text="Импорт"
+          size="sm"
+          (click)="router.navigate(['/areas', 'import'])">
+        </app-smart-button>
+        @if (!is_creation()) {
+          <app-smart-button 
+            kind="info"
+            [icon]="faFileExport"
+            text="Экспорт"
+            size="sm"
+            (click)="export()">
+          </app-smart-button>
+        }
+      </div>
+    </div>
+  </div>
+</div>
           <fa-icon [icon]="faArrowLeft"></fa-icon>
           <span class="d-none d-sm-inline ms-1">Назад</span>
         </a>
-        <button type="submit" class="btn btn-success btn-sm" form="form_area" [disabled]="form_area.invalid">
-          <fa-icon [icon]="faSave"></fa-icon>
-          <span class="d-none d-sm-inline ms-1">Сохранить</span>
-        </button>
+        <app-smart-button 
+          kind="success"
+          [icon]="faSave"
+          text="Применить"
+          [disabled]="form_area?.invalid || false"
+          (click)="onSubmit()">
+        </app-smart-button>
         @if (!is_creation()) {
           <button type="button" class="btn btn-info btn-sm" 
             [disabled]="syncing" 
