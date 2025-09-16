@@ -1,4 +1,12 @@
-<legend class="text-center">Территория</legend>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <legend class="mb-0">Территория</legend>
+  @if (!is_creation()) {
+    <a type="button" class="btn btn-info d-flex align-items-center" [routerLink]="['/areas', fields.pk, 'ble']">
+      <fa-icon [icon]="faBluetooth" class="me-2"></fa-icon>
+      BLE
+    </a>
+  }
+</div>
 <div class="container-fluid">
   <form #form_area="ngForm" id="form_area" (ngSubmit)="onSubmit()" class="g-3" novalidate>
   <div class="mb-3">
@@ -132,10 +140,6 @@
           <fa-icon [icon]="faFileExport" class="me-2"></fa-icon>
           Экспорт
         </a>
-        <a type="button" class="btn btn-info d-flex align-items-center" [routerLink]="['/areas', fields.pk, 'ble']">
-          <fa-icon [icon]="faBluetooth" class="me-2"></fa-icon>
-          BLE
-        </a>
       </div>
     </div>
   } @else {
@@ -185,7 +189,7 @@
         </div>
         
         <!-- Second row: Delete, Import, Export -->
-        <div class="row g-2">
+        <div class="row g-2 mt-2">
           <div class="col-4">
             @if (!is_creation()) {
               <a type="button" class="btn btn-danger w-100" [routerLink]="['/confirm', 'areas', fields.pk]">
