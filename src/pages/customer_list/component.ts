@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faUserSlash } from '@fortawesome/free-solid-svg-icons';
@@ -23,7 +24,8 @@ import { Customer } from '../customer/interface';
   imports: [
     FontAwesomeModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    HttpClientModule
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
