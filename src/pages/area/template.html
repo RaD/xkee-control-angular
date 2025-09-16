@@ -132,6 +132,14 @@
   <div class="mb-3 fixed-bottom">
     <div class="container-fluid">
       <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-success mb-2" form="form_area" [disabled]="form_area.invalid">
+          <fa-icon [icon]="faSave" class="me-2"></fa-icon>
+          Применить
+        </button>
+        <a routerLink="/areas" type="button" class="btn btn-secondary mb-2">
+          <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
+          Назад
+        </a>
         @if (!is_creation()) {
           <a type="button" class="btn btn-danger mb-2" [routerLink]="['/confirm', 'areas', fields.pk]">
             <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
