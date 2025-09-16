@@ -1,5 +1,5 @@
 <legend class="text-center">Устройства территории "{{ area?.title }}"</legend>
-<form #form_device="ngForm" (ngSubmit)="onSubmit()" class="g-3" novalidate>
+<form #form_device="ngForm" id="form_device" (ngSubmit)="onSubmit()" class="g-3" novalidate>
   @if (showPk()) {
     <div class="mb-3">
       <label for="pk" class="form-label position-relative">
@@ -39,22 +39,28 @@
       [(ngModel)]="fields.description" #description="ngModel"
       required="true" minlength="3"/>
   </div>
-  <div class="mb-3 d-grid gap-2">
-    <button type="submit" class="btn btn-success mb-2"
-    [disabled]="form_device.invalid">
-      <fa-icon [icon]="faSave" class="me-2"></fa-icon>
-      Применить
-    </button>
-    <a [routerLink]="['/areas', area?.pk, 'devices']"
-    type="button" class="btn btn-secondary">
-      <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
-      Назад
-    </a>
-  </div>
 </form>
 
 <!-- Desktop view buttons -->
 <div class="d-none d-md-block">
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="d-flex gap-2">
+        <a [routerLink]="['/areas', area?.pk, 'devices']" type="button" class="btn btn-secondary">
+          <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
+          Назад
+        </a>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-success" form="form_device" [disabled]="form_device.invalid">
+          <fa-icon [icon]="faSave" class="me-2"></fa-icon>
+          Применить
+        </button>
+      </div>
+    </div>
+  </div>
   <div class="position-fixed bottom-0 start-0 p-3">
     <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', area?.pk, 'device', fields.pk]">
       <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
@@ -68,6 +74,14 @@
   <div class="mb-3 fixed-bottom">
     <div class="container-fluid">
       <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-success mb-2" form="form_device" [disabled]="form_device.invalid">
+          <fa-icon [icon]="faSave" class="me-2"></fa-icon>
+          Применить
+        </button>
+        <a [routerLink]="['/areas', area?.pk, 'devices']" type="button" class="btn btn-secondary mb-2">
+          <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
+          Назад
+        </a>
         <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', area?.pk, 'device', fields.pk]">
           <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
           Удалить
