@@ -29,6 +29,8 @@ export class PaymentPage implements OnInit{
   @Input() customer_pk?: string;
 
   faCalendar = faCalendarDays;
+  faSave = faSave;
+  faArrowLeft = faArrowLeft;
 
   protected fields: Payment;
   protected started_in = inject(NgbCalendar).getToday();

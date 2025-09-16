@@ -106,11 +106,13 @@
     <div class="container-fluid">
       <div class="mb-3 d-grid gap-2">
         <a [routerLink]="['/areas', area?.pk, 'customers']" routerLinkActive="active"
-          type="button" class="btn btn-secondary">
+          type="button" class="btn btn-secondary mb-2">
+          <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
           Назад
         </a>
         <a [routerLink]="['/areas', area?.pk, 'customers', 'create']" routerLinkActive="active"
           type="button" class="btn btn-primary">
+          <fa-icon [icon]="faPlus" class="me-2"></fa-icon>
           Добавить клиента
         </a>
       </div>

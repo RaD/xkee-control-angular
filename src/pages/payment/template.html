@@ -48,10 +48,16 @@
 		</div>
     </div>
     <div class="mb-3 d-grid gap-2">
-        <button type="submit" class="btn btn-success"
-            [disabled]="form_area.invalid">Применить</button>
+        <button type="submit" class="btn btn-success mb-2"
+            [disabled]="form_area.invalid">
+            <fa-icon [icon]="faSave" class="me-2"></fa-icon>
+            Применить
+        </button>
         <a [routerLink]="['/areas', area_pk, 'customers']"
-            type="button" class="btn btn-secondary">Назад</a>
+            type="button" class="btn btn-secondary">
+            <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
+            Назад
+        </a>
     </div>
 </form>
 
