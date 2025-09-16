@@ -158,10 +158,6 @@
           Применить
         </button>
         @if (!is_creation()) {
-          <a type="button" class="btn btn-danger mb-2" [routerLink]="['/confirm', 'areas', fields.pk]">
-            <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
-            Удалить
-          </a>
           <button type="button" class="btn btn-info mb-2" 
             [disabled]="syncing" 
             (click)="onSync()">
@@ -182,6 +178,10 @@
           <a type="button" class="btn btn-info mb-2" (click)="export()">
             <fa-icon [icon]="faFileExport" class="me-2"></fa-icon>
             Экспорт
+          </a>
+          <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', fields.pk]">
+            <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
+            Удалить
           </a>
         }
       </div>
