@@ -1,1 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Standardize button sizes for buttons with icons and text */
+.btn {
+  min-width: 120px;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.btn fa-icon {
+  flex-shrink: 0;
+}
+
+/* Ensure consistent spacing between icon and text */
+.btn fa-icon.me-2 {
+  margin-right: 0.5rem !important;
+}
+
+/* For mobile buttons in grid layout */
+.d-grid .btn {
+  min-height: 44px;
+}
