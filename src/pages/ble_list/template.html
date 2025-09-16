@@ -8,7 +8,7 @@
         {{ error }}
       </div>
     }
-    
+
     @if (!bluetoothSupported) {
       <figure class="text-center">
         <blockquote class="blockquote">
@@ -19,7 +19,7 @@
         </figcaption>
       </figure>
     }
-    
+
     @if (bluetoothSupported && devices.length === 0 && !scanning && !error) {
       <figure class="text-center">
         <blockquote class="blockquote">
@@ -30,7 +30,7 @@
         </figcaption>
       </figure>
     }
-    
+
     @if (bluetoothSupported && devices.length === 0 && !scanning && error === 'Устройства не найдены') {
       <figure class="text-center">
         <blockquote class="blockquote">
@@ -41,7 +41,7 @@
         </figcaption>
       </figure>
     }
-    
+
     @if (scanning) {
       <div class="text-center">
         <div class="spinner-border text-primary" role="status">
@@ -50,7 +50,7 @@
         <p class="mt-2">Поиск BLE устройств...</p>
       </div>
     }
-    
+
     @if (devices.length > 0) {
       <div class="table-responsive">
         <table class="table table-hover">
@@ -105,11 +105,11 @@
     <div class="col-md-6">
       <div class="d-flex">
         <div class="d-grid" style="min-width: 120px;">
-          <app-smart-button 
+          <app-smart-button
             kind="secondary"
             [icon]="faArrowLeft"
             text="Назад"
-            (click)="router.navigate(['/areas', area?.pk, 'edit'])">
+            (click)="navigateBack()">
           </app-smart-button>
         </div>
       </div>
@@ -117,7 +117,7 @@
     <div class="col-md-6">
       <div class="d-flex justify-content-end">
         <div class="d-grid" style="min-width: 140px;">
-          <app-smart-button 
+          <app-smart-button
             kind="primary"
             [icon]="faSync"
             [text]="scanning ? 'Поиск...' : 'Обновить'"
@@ -135,13 +135,13 @@
   <div class="fixed-bottom">
     <div class="container-fluid">
       <div class="d-grid gap-2" style="grid-template-columns: 1fr 1fr;">
-        <app-smart-button 
+        <app-smart-button
           kind="secondary"
           [icon]="faArrowLeft"
           text="Назад"
-          (click)="router.navigate(['/areas', area?.pk, 'edit'])">
+          (click)="navigateBack()">
         </app-smart-button>
-        <app-smart-button 
+        <app-smart-button
           kind="primary"
           [icon]="faSync"
           [text]="scanning ? 'Поиск...' : 'Обновить'"

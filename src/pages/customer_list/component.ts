@@ -1,8 +1,8 @@
-
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faUserSlash } from '@fortawesome/free-solid-svg-icons';
@@ -11,10 +11,12 @@ import { faLink } from '@fortawesome/free-solid-svg-icons';
 import { faFolderTree } from '@fortawesome/free-solid-svg-icons';
 import { faMoneyCheckDollar } from '@fortawesome/free-solid-svg-icons';
 import { faArrowLeft, faPlus } from '@fortawesome/free-solid-svg-icons';
+
 import { StorageService } from '../../services/storage';
 import { Area } from '../area/interface';
 import { Customer } from '../customer/interface';
 import { SmartButtonComponent } from '../../components/smart-button/component';
+import { PageTransitionService } from '../../services/transitions';
 
 @Component({
   selector: 'app-customers',
@@ -23,14 +25,19 @@ import { SmartButtonComponent } from '../../components/smart-button/component';
     FontAwesomeModule,
     FormsModule,
     RouterLink,
-    HttpClientModule,
     SmartButtonComponent
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
 })
 export class CustomerListPage implements OnInit {
-  // иконки
+  private pageTransition = inject(PageTransitionService);
+  private location = inject(Location);
+  private localStore = inject(StorageService);
+  public router = inject(Router);
+  private route = inject(ActivatedRoute);
+
+    // иконки
   faUser = faUser;
   faUserSlash = faUserSlash
   faSearch = faMagnifyingGlass;
@@ -46,11 +53,7 @@ export class CustomerListPage implements OnInit {
   protected customers: Customer[] = [];
   protected search_query: string;
 
-  constructor(
-    private localStore: StorageService,
-    public router: Router,
-    private route: ActivatedRoute,
-  ) {
+  constructor() {
     this.search_query = '';
     const pk = this.route.snapshot.paramMap.get('pk');
     if (pk) {
@@ -87,13 +90,35 @@ export class CustomerListPage implements OnInit {
     if (!this.area?.linked || !this.area.linked[customer_pk]) {
       return '';
     }
-    
+
     const linkedPks = this.area.linked[customer_pk];
     const linkedNames = linkedPks
       .map(pk => this.localStore.getCustomer(pk))
       .filter(customer => customer !== null)
       .map(customer => `${customer!.last_name} ${customer!.first_name}`.trim());
-    
+
     return linkedNames.join(', ');
+  }
+
+  protected navigateBack(): void {
+    this.pageTransition.navigateBack(() => {
+      this.location.back();
+    });
+  }
+
+  protected navigateToCreate(): void {
+    this.pageTransition.navigateForward(() => {
+      this.router.navigate([
+        '/areas', this.area?.pk, 'customers', 'create'
+      ]);
+    });
+  }
+
+  protected navigateToCustomer(customer_pk: string): void {
+    this.pageTransition.navigateForward(() => {
+      this.router.navigate([
+        '/areas', this.area?.pk, 'customer', customer_pk, 'edit'
+      ]);
+    });
   }
 }

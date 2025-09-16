@@ -1,12 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, RouterLink, ActivatedRoute } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faBluetooth } from '@fortawesome/free-brands-svg-icons';
 import { faArrowLeft, faSync, faSignal } from '@fortawesome/free-solid-svg-icons';
+
 import { StorageService } from '../../services/storage';
 import { Area } from '../area/interface';
 import { SmartButtonComponent } from '../../components/smart-button/component';
+import { PageTransitionService } from '../../services/transitions';
 
 interface BleDevice {
   id: string;
@@ -22,13 +26,18 @@ interface BleDevice {
   imports: [
     CommonModule,
     FontAwesomeModule,
-    RouterLink,
     SmartButtonComponent
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
 })
 export class BleListPage implements OnInit {
+  private pageTransition = inject(PageTransitionService);
+  private location = inject(Location);
+  private localStore = inject(StorageService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
   faArrowLeft = faArrowLeft;
   faSync = faSync;
   faBluetooth = faBluetooth;
@@ -41,11 +50,7 @@ export class BleListPage implements OnInit {
   protected bluetoothSupported: boolean = false;
   protected error: string = '';
 
-  constructor(
-    private localStore: StorageService,
-    public router: Router,
-    private route: ActivatedRoute,
-  ) {
+  constructor() {
     const pk = this.route.snapshot.paramMap.get('pk');
     if (pk) {
       this.area_pk = pk;
@@ -121,5 +126,11 @@ export class BleListPage implements OnInit {
     if (rssi > -50) return 'signal-strong';
     if (rssi > -70) return 'signal-medium';
     return 'signal-weak';
+  }
+
+  protected navigateBack(): void {
+    this.pageTransition.navigateBack(() => {
+      this.location.back();
+    });
   }
 }

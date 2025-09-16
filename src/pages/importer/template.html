@@ -29,11 +29,11 @@
     <div class="col-md-12">
       <div class="d-flex">
         <div class="d-grid" style="min-width: 120px;">
-          <app-smart-button 
+          <app-smart-button
             kind="secondary"
             [icon]="faArrowLeft"
             text="Назад"
-            (click)="router.navigate(['/areas'])">
+            (click)="navigateBack();">
           </app-smart-button>
         </div>
       </div>
@@ -46,11 +46,11 @@
   <div class="fixed-bottom">
     <div class="container-fluid">
       <div class="d-grid gap-2">
-        <app-smart-button 
+        <app-smart-button
           kind="secondary"
           [icon]="faArrowLeft"
           text="Назад"
-          (click)="router.navigate(['/areas'])">
+          (click)="navigateBack();">
         </app-smart-button>
       </div>
     </div>

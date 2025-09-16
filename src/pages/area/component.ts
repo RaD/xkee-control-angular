@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, inject, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSave, faArrowLeft, faTrash, faFileImport, faFileExport, faSync } from '@fortawesome/free-solid-svg-icons';
 import { faBluetooth } from '@fortawesome/free-brands-svg-icons';
-import { HttpClientModule } from '@angular/common/http';
+
 import { Area } from './interface';
 import { StorageService } from '../../services/storage';
 import { SyncService, SyncResponse } from '../../services/sync';
-import { Customer } from '../customer/interface';
 import { SmartButtonComponent } from '../../components/smart-button/component';
+import { PageTransitionService } from '../../services/transitions';
 
 @Component({
   selector: 'app-area-form',
@@ -18,7 +19,6 @@ import { SmartButtonComponent } from '../../components/smart-button/component';
   imports: [
     FormsModule,
     FontAwesomeModule,
-    HttpClientModule,
     SmartButtonComponent,
     RouterLink
   ],
@@ -26,6 +26,13 @@ import { SmartButtonComponent } from '../../components/smart-button/component';
   styleUrl: './styles.less'
 })
 export class AreaPage implements OnInit {
+  private pageTransition = inject(PageTransitionService);
+  private location = inject(Location);
+  private syncService = inject(SyncService);
+  private localStore = inject(StorageService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
   faSave = faSave;
   faArrowLeft = faArrowLeft;
   faTrash = faTrash;
@@ -34,23 +41,10 @@ export class AreaPage implements OnInit {
   faSync = faSync;
   faBluetooth = faBluetooth;
 
-  protected fields: Area;
-  protected pk: string | null;
-  protected action: string | null;
+  protected fields: Area = new Area(this.generateUUID(), '', '', '', [], [], {});
+  protected pk: string | null = this.route.snapshot.paramMap.get('pk');
+  protected action: string | null = this.route.snapshot.paramMap.get('action');
   protected syncing: boolean = false;
-  public router: Router; // Make router accessible to template
-
-  constructor(
-    private localStore: StorageService,
-    private syncService: SyncService,
-    router: Router,
-    private route: ActivatedRoute,
-  ) {
-    this.router = router;
-    this.fields = new Area(this.generateUUID(), '', '', '', [], [], {});
-    this.pk = this.route.snapshot.paramMap.get('pk');
-    this.action = this.route.snapshot.paramMap.get('action');
-  }
 
   /**
    * Generate UUID with fallback for browsers that don't support crypto.randomUUID()
@@ -59,7 +53,7 @@ export class AreaPage implements OnInit {
     if (typeof crypto !== 'undefined' && crypto.randomUUID) {
       return crypto.randomUUID();
     }
-    
+
     // Fallback UUID generation
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
       const r = Math.random() * 16 | 0;
@@ -75,7 +69,9 @@ export class AreaPage implements OnInit {
         if (this.action === 'delete') {
           this.localStore.removeArea(this.pk);
           // возвращаемся на список
-          this.router.navigate(['/areas']);
+          this.pageTransition.navigateBack(() => {
+            this.router.navigate(['/areas']);
+          });
         } else {
           this.fields = new Area(
             area.pk, area.title, area.address, area.kind,
@@ -113,7 +109,9 @@ export class AreaPage implements OnInit {
     );
     this.localStore.setArea(pk, area);
     // возвращаемся на список
-    this.router.navigate(['/areas']);
+    this.pageTransition.navigateBack(() => {
+      this.router.navigate(['/areas']);
+    });
   }
 
   protected export(): void {
@@ -175,15 +173,33 @@ export class AreaPage implements OnInit {
       ${message}
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     `;
-    
+
     // Add to body
     document.body.appendChild(notification);
-    
+
     // Auto-remove after 5 seconds
     setTimeout(() => {
       if (notification.parentNode) {
         notification.parentNode.removeChild(notification);
       }
     }, 5000);
+  }
+
+  protected navigateBack(): void {
+    this.pageTransition.navigateBack(() => {
+      this.location.back();
+    });
+  }
+
+  protected navigateToImport(): void {
+    this.pageTransition.navigateForward(() => {
+      this.router.navigate(['/areas', 'import']);
+    });
+  }
+
+  protected navigateToConfirm(): void {
+    this.pageTransition.navigateForward(() => {
+      this.router.navigate(['/confirm', 'areas', this.fields.pk]);
+    });
   }
 }

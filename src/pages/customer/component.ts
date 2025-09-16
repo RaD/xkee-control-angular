@@ -1,20 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-
-import { Router, RouterLink, ActivatedRoute } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSave, faArrowLeft, faTrash } from '@fortawesome/free-solid-svg-icons';
+
 import { StorageService } from '../../services/storage';
 import { Area } from '../area/interface';
 import { Customer } from './interface';
 import { SmartButtonComponent } from '../../components/smart-button/component';
+import { PageTransitionService } from '../../services/transitions';
 
 @Component({
   selector: 'app-customer',
   standalone: true,
   imports: [
-    RouterLink,
     FormsModule,
     FontAwesomeModule,
     DatePipe,
@@ -24,6 +26,9 @@ import { SmartButtonComponent } from '../../components/smart-button/component';
   styleUrl: './styles.less'
 })
 export class CustomerPage implements OnInit {
+  private pageTransition = inject(PageTransitionService);
+  private location = inject(Location);
+
   faSave = faSave;
   faArrowLeft = faArrowLeft;
   faTrash = faTrash;
@@ -85,5 +90,20 @@ export class CustomerPage implements OnInit {
     }
     // возвращаемся на список
     this.router.navigate(['/areas', area_pk, 'customers']);
+  }
+
+  protected navigateBack(): void {
+    this.pageTransition.navigateBack(() => {
+      this.location.back();
+    });
+  }
+
+  protected navigateToRemove(): void {
+    this.pageTransition.navigateForward(() => {
+      this.router.navigate([
+        '/confirm', 'areas', this.area?.pk,
+        'customer', this.customer?.pk || this.fields.pk
+      ]);
+    });
   }
 }

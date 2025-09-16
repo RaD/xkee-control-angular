@@ -31,3 +31,55 @@
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
+
+/* Page transition animations */
+.page-swipe-left {
+  animation: swipeLeft 0.3s ease-in-out;
+}
+
+.page-swipe-right {
+  animation: swipeRight 0.3s ease-in-out;
+}
+
+@keyframes swipeLeft {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes swipeRight {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* Smooth page entry animation */
+main.main {
+  animation: pageEnter 0.3s ease-in-out;
+}
+
+@keyframes pageEnter {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Disable animation for initial page load */
+body.no-animation main.main {
+  animation: none;
+}

@@ -21,7 +21,7 @@
               @for (area of areas; track area) {
                 <tr>
                   <td>
-                    <a [routerLink]="['/areas', area.pk, 'customers']">
+                    <a (click)="navigateToCustomers(area)">
                       <div class="area-title">{{ area.title }}</div>
                     </a>
                     <small class="text-muted">{{ area.kind }}</small>
@@ -33,14 +33,14 @@
                   <td>{{ area.address }}</td>
                   <td class="d-grid gap-2 d-flex justify-content-end">
                     <a type="button" class="btn btn-info position-relative"
-                      [routerLink]="['/areas', area.pk, 'devices']">
+                      (click)="navigateToDevices(area)">
                       <fa-icon [icon]="faWalkieTalkie" label="Устройства"></fa-icon>
                       <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                         {{ area.devices.length }}
                       </span>
                     </a>
                     <a type="button" class="btn btn-info"
-                      [routerLink]="['/areas', area.pk, 'edit']">
+                      (click)="navigateToSettings(area)">
                       <fa-icon [icon]="faGear" label="Настройки"></fa-icon>
                     </a>
                   </td>
@@ -50,7 +50,7 @@
           </table>
         </div>
       </div>
-      
+
       <!-- Mobile view -->
       <div class="d-md-none">
         @for (area of areas; track area) {
@@ -58,7 +58,7 @@
             <div class="card-body p-2">
               <div class="row align-items-center">
                 <div class="col-8">
-                  <a [routerLink]="['/areas', area.pk, 'customers']" class="text-decoration-none">
+                  <a (click)="navigateToCustomers(area)" class="text-decoration-none">
                     <div class="fw-bold area-title">{{ area.title }}</div>
                     <small class="text-muted d-block">{{ area.kind }}</small>
                     <small class="text-muted d-block">{{ area.address }}</small>
@@ -71,14 +71,14 @@
                 <div class="col-4">
                   <div class="d-flex flex-column gap-1 align-items-end">
                     <a type="button" class="btn btn-info btn-sm position-relative square-btn"
-                      [routerLink]="['/areas', area.pk, 'devices']">
+                      (click)="navigateToDevices(area)">
                       <fa-icon [icon]="faWalkieTalkie"></fa-icon>
                       <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger badge-sm">
                         {{ area.devices.length }}
                       </span>
                     </a>
                     <a type="button" class="btn btn-info btn-sm square-btn"
-                      [routerLink]="['/areas', area.pk, 'edit']">
+                      (click)="navigateToSettings(area)">
                       <fa-icon [icon]="faGear"></fa-icon>
                     </a>
                   </div>
@@ -90,7 +90,7 @@
       </div>
     }
   </div>
-  
+
   <!-- Add spacing to prevent overlap with bottom buttons -->
   <div class="mb-5 pb-5"></div>
   </div>
@@ -102,11 +102,11 @@
     <div class="col-md-12">
       <div class="d-flex justify-content-end">
         <div class="d-grid" style="min-width: 200px;">
-          <app-smart-button 
+          <app-smart-button
             kind="primary"
             [icon]="faPlus"
             text="Добавить территорию"
-            (click)="$any(this).router.navigate(['/areas/create'])">
+            (click)="navigateToCreate()">
           </app-smart-button>
         </div>
       </div>
@@ -119,11 +119,11 @@
   <div class="fixed-bottom">
     <div class="container-fluid">
       <div class="d-grid">
-        <app-smart-button 
+        <app-smart-button
           kind="primary"
           [icon]="faPlus"
           text="Добавить территорию"
-          (click)="$any(this).router.navigate(['/areas/create'])">
+          (click)="navigateToCreate()">
         </app-smart-button>
       </div>
     </div>

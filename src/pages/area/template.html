@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
   <legend class="mb-0">Территория</legend>
   @if (!is_creation()) {
-    <a type="button" class="btn btn-info d-flex align-items-center" [routerLink]="['/areas', fields.pk, 'ble']">
+    <a type="button" class="btn btn-info btn-sm d-flex align-items-center" [routerLink]="['/areas', fields.pk, 'ble']">
       <fa-icon [icon]="faBluetooth" class="me-2"></fa-icon>
       BLE
     </a>
@@ -93,17 +93,17 @@
   <div class="row mb-3">
     <div class="col-md-6">
       <div class="d-grid">
-        <app-smart-button 
+        <app-smart-button
           kind="secondary"
           [icon]="faArrowLeft"
           text="Назад"
-          (click)="router.navigate(['/areas'])">
+          (click)="navigateBack()">
         </app-smart-button>
       </div>
     </div>
     <div class="col-md-6">
       <div class="d-grid">
-        <app-smart-button 
+        <app-smart-button
           kind="success"
           [icon]="faSave"
           text="Применить"
@@ -113,25 +113,25 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Add spacing to prevent overlap with bottom buttons -->
   <div class="mb-5 pb-5"></div>
-  
+
   @if (!is_creation()) {
     <div class="position-fixed bottom-0 start-0 p-3">
       <div class="d-grid" style="min-width: 120px;">
-        <app-smart-button 
+        <app-smart-button
           kind="danger"
           [icon]="faTrash"
           text="Удалить"
-          (click)="router.navigate(['/confirm', 'areas', fields.pk])">
+          (click)="navigateToConfirm()">
         </app-smart-button>
       </div>
     </div>
     <div class="position-fixed bottom-0 end-0 p-3">
       <div class="d-flex gap-2">
         <div class="d-grid" style="min-width: 160px;">
-          <app-smart-button 
+          <app-smart-button
             kind="info"
             [icon]="faSync"
             [text]="syncing ? 'Синхронизация...' : 'Синхронизировать'"
@@ -140,16 +140,16 @@
           </app-smart-button>
         </div>
         <div class="d-grid" style="min-width: 120px;">
-          <app-smart-button 
+          <app-smart-button
             kind="info"
             [icon]="faFileImport"
             text="Импорт"
-            (click)="router.navigate(['/areas', 'import'])"
+            (click)="navigateToImport()"
             style="width: 30vw;">
           </app-smart-button>
         </div>
         <div class="d-grid" style="min-width: 120px;">
-          <app-smart-button 
+          <app-smart-button
             kind="info"
             [icon]="faFileExport"
             text="Экспорт"
@@ -162,11 +162,11 @@
     <div class="position-fixed bottom-0 end-0 p-3">
       <div class="d-flex gap-2">
         <div class="d-grid" style="min-width: 120px;">
-          <app-smart-button 
+          <app-smart-button
             kind="info"
             [icon]="faFileImport"
             text="Импорт"
-            (click)="router.navigate(['/areas', 'import'])"
+            (click)="navigateToImport()"
             style="width: 30vw;">
           </app-smart-button>
         </div>
@@ -180,14 +180,14 @@
   <div class="fixed-bottom">
     <div class="container-fluid">
       <div class="d-grid gap-2" style="grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));">
-        <app-smart-button 
+        <app-smart-button
           kind="secondary"
           [icon]="faArrowLeft"
           text="Назад"
           size="sm"
-          (click)="router.navigate(['/areas'])">
+          (click)="navigateBack()">
         </app-smart-button>
-        <app-smart-button 
+        <app-smart-button
           kind="success"
           [icon]="faSave"
           text="Сохранить"
@@ -196,7 +196,7 @@
           (click)="onSubmit()">
         </app-smart-button>
         @if (!is_creation()) {
-          <app-smart-button 
+          <app-smart-button
             kind="info"
             [icon]="faSync"
             [text]="syncing ? 'Синхр...' : 'Синхр'"
@@ -204,23 +204,23 @@
             [disabled]="syncing"
             (click)="onSync()">
           </app-smart-button>
-          <app-smart-button 
+          <app-smart-button
             kind="danger"
             [icon]="faTrash"
             text="Удалить"
             size="sm"
-            (click)="router.navigate(['/confirm', 'areas', fields.pk])">
+            (click)="navigateToConfirm()">
           </app-smart-button>
         }
-        <app-smart-button 
+        <app-smart-button
           kind="info"
           [icon]="faFileImport"
           text="Импорт"
           size="sm"
-          (click)="router.navigate(['/areas', 'import'])">
+          (click)="navigateToImport()">
         </app-smart-button>
         @if (!is_creation()) {
-          <app-smart-button 
+          <app-smart-button
             kind="info"
             [icon]="faFileExport"
             text="Экспорт"

@@ -1,21 +1,23 @@
+import { Component, inject, ViewChild } from '@angular/core';
+import { Location } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
 
-import { Component, ViewChild } from '@angular/core';
-import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faLink, faLinkSlash, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faArrowLeft, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
+
 import { StorageService } from '../../services/storage';
 import { Area } from '../area/interface';
 import { Customer } from '../customer/interface';
 import { SmartButtonComponent } from '../../components/smart-button/component';
+import { PageTransitionService } from '../../services/transitions';
 
 @Component({
   selector: 'app-linking',
   standalone: true,
   imports: [
     FontAwesomeModule,
-    RouterLink,
     FormsModule,
     SmartButtonComponent
   ],
@@ -23,6 +25,12 @@ import { SmartButtonComponent } from '../../components/smart-button/component';
   styleUrl: './styles.less'
 })
 export class LinkingPage {
+  private pageTransition = inject(PageTransitionService);
+  private location = inject(Location);
+  private localStore = inject(StorageService);
+  public router = inject(Router);
+  private route = inject(ActivatedRoute);
+
   faSearch = faMagnifyingGlass;
   faLink = faLink;
   faUnlink = faLinkSlash;
@@ -40,11 +48,7 @@ export class LinkingPage {
   protected search_query: string;
   protected found: string[] = []; // PK из customers_search
 
-  constructor(
-    private localStore: StorageService,
-    public router: Router,
-    private route: ActivatedRoute,
-  ) {
+  constructor() {
     this.search_query = '';
     const pk = this.route.snapshot.paramMap.get('pk');
     if (pk) {
@@ -133,5 +137,17 @@ export class LinkingPage {
       this.customers_search = [];
       this.found = [];
     }
+  }
+
+  protected navigateBack(): void {
+    this.pageTransition.navigateBack(() => {
+      this.location.back();
+    });
+  }
+
+  protected navigateToCreate(): void {
+    this.pageTransition.navigateForward(() => {
+      this.router.navigate(['/areas', this.area?.pk, 'customers', 'create']);
+    });
   }
 }

@@ -1,27 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Location } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
 
-import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+
 import { StorageService } from '../../services/storage';
 import { SmartButtonComponent } from '../../components/smart-button/component';
+import { PageTransitionService } from '../../services/transitions';
 
 @Component({
   selector: 'app-importer',
   standalone: true,
-  imports: [RouterLink, FontAwesomeModule, SmartButtonComponent],
+  imports: [
+    FontAwesomeModule,
+    SmartButtonComponent,
+  ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
 })
 export class ImporterComponent {
-  faArrowLeft = faArrowLeft;
+  private pageTransition = inject(PageTransitionService);
+  private location = inject(Location);
+  private localStore = inject(StorageService);
+  public router = inject(Router);
 
-  constructor(
-    private localStore: StorageService,
-    public router: Router,
-    private route: ActivatedRoute,
-  ) {}
+  faArrowLeft = faArrowLeft;
 
   protected onFileSelected(target: any): void {
     const file: File = target.files[0];
@@ -35,5 +39,11 @@ export class ImporterComponent {
       }
       reader.readAsText(file);
     }
+  }
+
+  protected navigateBack(): void {
+    this.pageTransition.navigateBack(() => {
+      this.location.back();
+    });
   }
 }

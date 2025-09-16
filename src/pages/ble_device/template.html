@@ -8,7 +8,7 @@
         {{ error }}
       </div>
     }
-    
+
     @if (device && !error) {
       <div class="card">
         <div class="card-header">
@@ -35,8 +35,8 @@
                   @for (property of properties; track property.name) {
                     <tr>
                       <td class="fw-bold" style="width: 40%;">
-                        <fa-icon [icon]="getPropertyIcon(property.type)" 
-                          [class]="getPropertyClass(property.type)" 
+                        <fa-icon [icon]="getPropertyIcon(property.type)"
+                          [class]="getPropertyClass(property.type)"
                           class="me-2"></fa-icon>
                         {{ property.name }}
                       </td>
@@ -75,11 +75,11 @@
     <div class="col-md-12">
       <div class="d-flex">
         <div class="d-grid" style="min-width: 120px;">
-          <app-smart-button 
+          <app-smart-button
             kind="secondary"
             [icon]="faArrowLeft"
             text="Назад"
-            (click)="router.navigate(['/areas', area_pk, 'ble'])">
+            (click)="navigateToBLE()">
           </app-smart-button>
         </div>
       </div>
@@ -92,11 +92,11 @@
   <div class="fixed-bottom">
     <div class="container-fluid">
       <div class="d-grid gap-2">
-        <app-smart-button 
+        <app-smart-button
           kind="secondary"
           [icon]="faArrowLeft"
           text="Назад"
-          (click)="router.navigate(['/areas', area_pk, 'ble'])">
+          (click)="navigateToBLE()">
         </app-smart-button>
       </div>
     </div>

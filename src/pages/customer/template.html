@@ -117,11 +117,11 @@
     <div class="col-md-6">
       <div class="d-flex">
         <div class="d-grid" style="min-width: 120px;">
-          <app-smart-button 
+          <app-smart-button
             kind="secondary"
             [icon]="faArrowLeft"
             text="Назад"
-            (click)="router.navigate(['/areas', area?.pk, 'customers'])">
+            (click)="navigateBack()">
           </app-smart-button>
         </div>
       </div>
@@ -129,7 +129,7 @@
     <div class="col-md-6">
       <div class="d-flex justify-content-end">
         <div class="d-grid" style="min-width: 140px;">
-          <app-smart-button 
+          <app-smart-button
             kind="success"
             [icon]="faSave"
             text="Применить"
@@ -142,11 +142,11 @@
   </div>
   <div class="position-fixed bottom-0 start-0 p-3">
     <div class="d-grid" style="min-width: 120px;">
-      <app-smart-button 
+      <app-smart-button
         kind="danger"
         [icon]="faTrash"
         text="Удалить"
-        (click)="router.navigate(['/confirm', 'areas', area?.pk, 'customer', fields.pk])">
+        (click)="navigateToRemove()">
       </app-smart-button>
     </div>
   </div>
@@ -157,14 +157,14 @@
   <div class="fixed-bottom">
     <div class="container-fluid">
       <div class="d-grid gap-2" style="grid-template-columns: repeat(3, 1fr);">
-        <app-smart-button 
+        <app-smart-button
           kind="secondary"
           [icon]="faArrowLeft"
           text="Назад"
           size="sm"
-          (click)="router.navigate(['/areas', area?.pk, 'customers'])">
+          (click)="navigateBack()">
         </app-smart-button>
-        <app-smart-button 
+        <app-smart-button
           kind="success"
           [icon]="faSave"
           text="Применить"
@@ -172,12 +172,12 @@
           [disabled]="form_customer?.invalid || false"
           (click)="onSubmit()">
         </app-smart-button>
-        <app-smart-button 
+        <app-smart-button
           kind="danger"
           [icon]="faTrash"
           text="Удалить"
           size="sm"
-          (click)="router.navigate(['/confirm', 'areas', area?.pk, 'customer', customer?.pk || fields.pk])">
+          (click)="navigateToRemove()">
         </app-smart-button>
       </div>
     </div>

@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-
-import { Router, RouterLink, ActivatedRoute } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSave, faArrowLeft, faTrash } from '@fortawesome/free-solid-svg-icons';
+
 import { StorageService } from '../../services/storage';
 import { Area } from '../area/interface';
 import { Device } from './interface';
 import { SmartButtonComponent } from '../../components/smart-button/component';
+import { PageTransitionService } from '../../services/transitions';
 
 @Component({
   selector: 'app-device',
   standalone: true,
   imports: [
-    RouterLink,
     FormsModule,
     FontAwesomeModule,
     SmartButtonComponent
@@ -22,6 +24,12 @@ import { SmartButtonComponent } from '../../components/smart-button/component';
   styleUrl: './styles.less'
 })
 export class DevicePage implements OnInit {
+  private pageTransition = inject(PageTransitionService);
+  private location = inject(Location);
+  private localStore = inject(StorageService);
+  public router = inject(Router);
+  private route = inject(ActivatedRoute);
+
   faSave = faSave;
   faArrowLeft = faArrowLeft;
   faTrash = faTrash;
@@ -31,11 +39,7 @@ export class DevicePage implements OnInit {
   protected device: Device | null = null;
   protected action: string | null = null;
 
-  constructor(
-    private localStore: StorageService,
-    public router: Router,
-    private route: ActivatedRoute,
-  ) {
+  constructor() {
     this.fields = new Device('', '', '');
     const pk = this.route.snapshot.paramMap.get('pk');
     const device_pk = this.route.snapshot.paramMap.get('device_pk');
@@ -82,5 +86,20 @@ export class DevicePage implements OnInit {
     }
     // возвращаемся на список
     this.router.navigate(['/areas', area_pk, 'devices']);
+  }
+
+  protected navigateBack(): void {
+    this.pageTransition.navigateBack(() => {
+      this.location.back();
+    });
+  }
+
+  protected navigateToConfirm(): void {
+    this.pageTransition.navigateForward(() => {
+      this.router.navigate([
+        '/confirm', 'areas', this.area?.pk,
+        'device', this.device?.pk || this.fields.pk
+      ]);
+    });
   }
 }

@@ -102,7 +102,7 @@
     </div>
   </div>
   </div>
-  
+
   <!-- Add spacing to prevent overlap with bottom buttons -->
   <div class="mb-5 pb-5"></div>
 
@@ -115,11 +115,11 @@
       <div class="col-md-6">
         <div class="d-flex">
           <div class="d-grid" style="min-width: 120px;">
-            <app-smart-button 
+            <app-smart-button
               kind="secondary"
               [icon]="faArrowLeft"
               text="Назад"
-              (click)="router.navigate(['/areas', area?.pk, 'customers'])">
+              (click)="navigateBack()">
             </app-smart-button>
           </div>
         </div>
@@ -127,11 +127,11 @@
       <div class="col-md-6">
         <div class="d-flex justify-content-end">
           <div class="d-grid" style="min-width: 180px;">
-            <app-smart-button 
+            <app-smart-button
               kind="primary"
               [icon]="faPlus"
               text="Добавить клиента"
-              (click)="router.navigate(['/areas', area?.pk, 'customers', 'create'])">
+              (click)="navigateToCreate()">
             </app-smart-button>
           </div>
         </div>
@@ -144,17 +144,17 @@
     <div class="fixed-bottom">
       <div class="container-fluid">
         <div class="d-grid gap-2" style="grid-template-columns: 1fr 1fr;">
-          <app-smart-button 
+          <app-smart-button
             kind="secondary"
             [icon]="faArrowLeft"
             text="Назад"
-            (click)="router.navigate(['/areas', area?.pk, 'customers'])">
+            (click)="navigateBack()">
           </app-smart-button>
-          <app-smart-button 
+          <app-smart-button
             kind="primary"
             [icon]="faPlus"
             text="Добавить клиента"
-            (click)="router.navigate(['/areas', area?.pk, 'customers', 'create'])">
+            (click)="navigateToCreate()">
           </app-smart-button>
         </div>
       </div>

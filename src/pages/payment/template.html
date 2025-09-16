@@ -62,11 +62,11 @@
     <div class="col-md-6">
       <div class="d-flex">
         <div class="d-grid" style="min-width: 120px;">
-          <app-smart-button 
+          <app-smart-button
             kind="secondary"
             [icon]="faArrowLeft"
             text="Назад"
-            (click)="router.navigate(['/areas', area_pk, 'customers'])">
+            (click)="navigateBack()">
           </app-smart-button>
         </div>
       </div>
@@ -74,7 +74,7 @@
     <div class="col-md-6">
       <div class="d-flex justify-content-end">
         <div class="d-grid" style="min-width: 140px;">
-          <app-smart-button 
+          <app-smart-button
             kind="success"
             [icon]="faSave"
             text="Применить"
@@ -91,13 +91,13 @@
   <div class="fixed-bottom">
     <div class="container-fluid">
       <div class="d-grid gap-2" style="grid-template-columns: 1fr 1fr;">
-        <app-smart-button 
+        <app-smart-button
           kind="secondary"
           [icon]="faArrowLeft"
           text="Назад"
-          (click)="router.navigate(['/areas', area_pk, 'customers'])">
+          (click)="navigateBack()">
         </app-smart-button>
-        <app-smart-button 
+        <app-smart-button
           kind="success"
           [icon]="faSave"
           text="Применить"

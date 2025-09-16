@@ -1,12 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, RouterLink, ActivatedRoute } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Location } from '@angular/common';
+
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faBluetooth } from '@fortawesome/free-brands-svg-icons';
 import { faArrowLeft, faSignal, faWifi, faBatteryHalf } from '@fortawesome/free-solid-svg-icons';
+
 import { StorageService } from '../../services/storage';
 import { Area } from '../area/interface';
 import { SmartButtonComponent } from '../../components/smart-button/component';
+import { PageTransitionService } from '../../services/transitions';
 
 interface BleDevice {
   id: string;
@@ -28,13 +32,18 @@ interface DeviceProperty {
   imports: [
     CommonModule,
     FontAwesomeModule,
-    RouterLink,
     SmartButtonComponent
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
 })
 export class BleDevicePage implements OnInit {
+  private pageTransition = inject(PageTransitionService);
+  private location = inject(Location);
+  private localStore = inject(StorageService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
   faArrowLeft = faArrowLeft;
   faBluetooth = faBluetooth;
   faSignal = faSignal;
@@ -48,11 +57,7 @@ export class BleDevicePage implements OnInit {
   protected loading: boolean = false;
   protected error: string = '';
 
-  constructor(
-    private localStore: StorageService,
-    public router: Router,
-    private route: ActivatedRoute,
-  ) {
+  constructor() {
     const pk = this.route.snapshot.paramMap.get('pk');
     if (pk) {
       this.area_pk = pk;
@@ -159,5 +164,17 @@ export class BleDevicePage implements OnInit {
     if (rssi > -50) return 'text-success';
     if (rssi > -70) return 'text-warning';
     return 'text-danger';
+  }
+
+  protected navigateBack(): void {
+    this.pageTransition.navigateBack(() => {
+      this.location.back();
+    });
+  }
+
+  protected navigateToBLE(): void {
+    this.pageTransition.navigateForward(() => {
+      this.router.navigate(['/areas', this.area_pk, 'ble']);
+    });
   }
 }
