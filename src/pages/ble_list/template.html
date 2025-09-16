@@ -11,7 +11,7 @@
     @if (!bluetoothSupported) {
       <figure class="text-center">
         <blockquote class="blockquote">
-          <p>Bluetooth не поддерживается в этом браузере...</p>
+          <p>Use Browser with BLE support</p>
         </blockquote>
         <figcaption class="blockquote-footer">
           Используйте современный браузер с поддержкой Web Bluetooth API
@@ -26,6 +26,17 @@
         </blockquote>
         <figcaption class="blockquote-footer">
           Убедитесь, что Bluetooth включен на вашем устройстве
+        </figcaption>
+      </figure>
+    }
+    
+    @if (bluetoothSupported && devices.length === 0 && !scanning && error === 'Устройства не найдены') {
+      <figure class="text-center">
+        <blockquote class="blockquote">
+          <p>Nothing found</p>
+        </blockquote>
+        <figcaption class="blockquote-footer">
+          Попробуйте повторить поиск или убедитесь, что устройства включены
         </figcaption>
       </figure>
     }
