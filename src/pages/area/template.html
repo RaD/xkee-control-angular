@@ -155,41 +155,61 @@
   <div class="mb-3 fixed-bottom">
     <div class="container-fluid">
       <div class="d-grid gap-2">
-        <a routerLink="/areas" type="button" class="btn btn-secondary mb-2">
-          <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
-          Назад
-        </a>
-        <button type="submit" class="btn btn-success mb-2" form="form_area" [disabled]="form_area.invalid">
-          <fa-icon [icon]="faSave" class="me-2"></fa-icon>
-          Применить
-        </button>
-        @if (!is_creation()) {
-          <button type="button" class="btn btn-info mb-2" 
-            [disabled]="syncing" 
-            (click)="onSync()">
-            @if (syncing) {
-              <span class="spinner-border spinner-border-sm me-2" role="status"></span>
-              Синхронизация...
+        <!-- First row: Back, Apply, Sync -->
+        <div class="row g-2 mb-2">
+          <div class="col-4">
+            <a routerLink="/areas" type="button" class="btn btn-secondary w-100">
+              <fa-icon [icon]="faArrowLeft"></fa-icon>
+            </a>
+          </div>
+          <div class="col-4">
+            <button type="submit" class="btn btn-success w-100" form="form_area" [disabled]="form_area.invalid">
+              <fa-icon [icon]="faSave"></fa-icon>
+            </button>
+          </div>
+          <div class="col-4">
+            @if (!is_creation()) {
+              <button type="button" class="btn btn-info w-100" 
+                [disabled]="syncing" 
+                (click)="onSync()">
+                @if (syncing) {
+                  <span class="spinner-border spinner-border-sm" role="status"></span>
+                } @else {
+                  <fa-icon [icon]="faSync"></fa-icon>
+                }
+              </button>
             } @else {
-              <fa-icon [icon]="faSync" class="me-2"></fa-icon>
-              Синхронизировать
+              <div></div>
             }
-          </button>
-        }
-        <a type="button" class="btn btn-info mb-2" [routerLink]="['/areas', 'import']">
-          <fa-icon [icon]="faFileImport" class="me-2"></fa-icon>
-          Импорт
-        </a>
-        @if (!is_creation()) {
-          <a type="button" class="btn btn-info mb-2" (click)="export()">
-            <fa-icon [icon]="faFileExport" class="me-2"></fa-icon>
-            Экспорт
-          </a>
-          <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', fields.pk]">
-            <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
-            Удалить
-          </a>
-        }
+          </div>
+        </div>
+        
+        <!-- Second row: Delete, Import, Export -->
+        <div class="row g-2">
+          <div class="col-4">
+            @if (!is_creation()) {
+              <a type="button" class="btn btn-danger w-100" [routerLink]="['/confirm', 'areas', fields.pk]">
+                <fa-icon [icon]="faTrash"></fa-icon>
+              </a>
+            } @else {
+              <div></div>
+            }
+          </div>
+          <div class="col-4">
+            <a type="button" class="btn btn-info w-100" [routerLink]="['/areas', 'import']">
+              <fa-icon [icon]="faFileImport"></fa-icon>
+            </a>
+          </div>
+          <div class="col-4">
+            @if (!is_creation()) {
+              <a type="button" class="btn btn-info w-100" (click)="export()">
+                <fa-icon [icon]="faFileExport"></fa-icon>
+              </a>
+            } @else {
+              <div></div>
+            }
+          </div>
+        </div>
       </div>
     </div>
   </div>
