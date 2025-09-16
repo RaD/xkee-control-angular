@@ -154,7 +154,7 @@
                     <div class="text-muted small">
                       <strong>Машина:</strong> {{ customer.vehicle }}
                     </div>
-                    <div class="d-grid gap-1 mt-2" style="grid-template-columns: 1fr 1fr;">
+                    <div class="d-grid gap-1 mt-2" style="grid-template-columns: 1fr 1fr; min-height: 32px;">
                       <button class="btn btn-secondary btn-sm"
                         [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'linking']">
                         <fa-icon [icon]="faLink"></fa-icon>
@@ -165,7 +165,7 @@
                       </button>
                     </div>
                   } @else {
-                    <div class="d-grid gap-1 mt-2" style="grid-template-columns: 1fr 1fr;">
+                    <div class="d-grid gap-1 mt-2" style="grid-template-columns: 1fr 1fr; min-height: 32px;">
                       <button class="btn btn-secondary btn-sm"
                         [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'linking']">
                         <fa-icon [icon]="faLink"></fa-icon>
