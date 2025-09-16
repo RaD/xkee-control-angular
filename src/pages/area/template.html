@@ -111,7 +111,7 @@
     </div>
     <div class="position-fixed bottom-0 end-0 p-3">
       <div class="d-flex gap-2">
-        <button type="button" class="btn btn-info" 
+        <button type="button" class="btn btn-info d-flex align-items-center" 
           [disabled]="syncing || is_creation()" 
           (click)="onSync()">
           @if (syncing) {
@@ -122,15 +122,15 @@
             Синхронизировать
           }
         </button>
-        <a type="button" class="btn btn-info" [routerLink]="['/areas', 'import']">
+        <a type="button" class="btn btn-info d-flex align-items-center" [routerLink]="['/areas', 'import']">
           <fa-icon [icon]="faFileImport" class="me-2"></fa-icon>
           Импорт
         </a>
-        <a type="button" class="btn btn-info" (click)="export()">
+        <a type="button" class="btn btn-info d-flex align-items-center" (click)="export()">
           <fa-icon [icon]="faFileExport" class="me-2"></fa-icon>
           Экспорт
         </a>
-        <a type="button" class="btn btn-info mb-2" [routerLink]="['/areas', fields.pk, 'ble']">
+        <a type="button" class="btn btn-info d-flex align-items-center" [routerLink]="['/areas', fields.pk, 'ble']">
           <fa-icon [icon]="faBluetooth" class="me-2"></fa-icon>
           BLE
         </a>
@@ -139,11 +139,11 @@
   } @else {
     <div class="position-fixed bottom-0 end-0 p-3">
       <div class="d-flex gap-2">
-        <a type="button" class="btn btn-info" [routerLink]="['/areas', 'import']">
+        <a type="button" class="btn btn-info d-flex align-items-center" [routerLink]="['/areas', 'import']">
           <fa-icon [icon]="faFileImport" class="me-2"></fa-icon>
           Импорт
         </a>
-        <a type="button" class="btn btn-info" [routerLink]="['/areas', fields.pk, 'ble']">
+        <a type="button" class="btn btn-info d-flex align-items-center" [routerLink]="['/areas', fields.pk, 'ble']">
           <fa-icon [icon]="faBluetooth" class="me-2"></fa-icon>
           BLE
         </a>
