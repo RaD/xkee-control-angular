@@ -1,0 +1,33 @@
+<div class="card mt-4">
+  <div class="card-header">
+    <h5 class="card-title mb-0">История платежей</h5>
+  </div>
+  <div class="card-body">
+    @if (payments.length === 0) {
+      <p class="text-muted text-center">История платежей пуста</p>
+    } @else {
+      <div class="table-responsive">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th>Сумма</th>
+              <th>Период действия</th>
+              <th>Дата регистрации</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (payment of payments; track payment.registered_in) {
+              <tr>
+                <td>{{ formatAmount(payment.amount) }}</td>
+                <td>
+                  {{ formatDate(payment.started_in) }} - {{ formatDate(payment.expired_in) }}
+                </td>
+                <td>{{ payment.registered_in | date:'dd.MM.yyyy HH:mm' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>

@@ -8,6 +8,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Payment } from './interface';
 import { StorageService } from '../../services/storage';
 import { Customer } from '../customer/interface';
+import { PaymentHistoryComponent } from '../../components/payment_history/component';
 
 @Component({
   selector: 'app-payment',
@@ -18,6 +19,7 @@ import { Customer } from '../customer/interface';
     FormsModule,
     FontAwesomeModule,
     NgbDatepickerModule,
+    PaymentHistoryComponent,
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
