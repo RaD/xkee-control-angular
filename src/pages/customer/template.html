@@ -96,6 +96,14 @@
       required="false">
     </textarea>
   </div>
+  @if (fields.synced) {
+    <div class="mb-3">
+      <div class="alert alert-info d-flex align-items-center">
+        <fa-icon [icon]="faCheck" class="me-2"></fa-icon>
+        <span>Последняя синхронизация: {{ fields.synced | date:'dd.MM.yyyy' }}</span>
+      </div>
+    </div>
+  </div>
   <div class="mb-3 d-grid gap-2">
     <button type="submit" class="btn btn-success"
     [disabled]="form_customer.invalid">Применить</button>

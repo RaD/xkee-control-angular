@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { StorageService } from '../../services/storage';
 import { Area } from '../area/interface';
 import { Customer } from './interface';
@@ -11,12 +13,15 @@ import { Customer } from './interface';
   standalone: true,
   imports: [
     RouterLink,
-    FormsModule
+    FormsModule,
+    FontAwesomeModule
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
 })
 export class CustomerPage implements OnInit {
+  faCheck = faCheck;
+
   protected fields: Customer;
   protected area: Area | null = null;
   protected customer: Customer | null = null;
@@ -49,7 +54,7 @@ export class CustomerPage implements OnInit {
         let o: Customer = this.customer;
         this.fields = new Customer(
           o.pk, o.active, o.last_name, o.first_name, o.middle_name,
-          o.address, o.vehicle, o.comment, o.payments);
+          o.address, o.vehicle, o.comment, o.payments, o.synced);
       }
     }
   }
@@ -69,7 +74,7 @@ export class CustomerPage implements OnInit {
       let f: Customer = this.fields;
       let customer: Customer = new Customer(
         f.pk, f.active, f.last_name, f.first_name, f.middle_name,
-        f.address, f.vehicle, f.comment, f.payments);
+        f.address, f.vehicle, f.comment, f.payments, f.synced);
       this.localStore.setCustomer(phone, area_pk, customer);
     }
     // возвращаемся на список

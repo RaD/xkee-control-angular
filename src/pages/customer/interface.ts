@@ -10,6 +10,7 @@ export interface ICustomer {
     vehicle?: string;
     comment?: string;
     payments?: IPayment[];
+    synced?: string;  // дата последней синхронизации в формате YYYY-MM-DD
 }
 
 
@@ -24,5 +25,6 @@ export class Customer implements ICustomer {
         public vehicle?: string,
         public comment?: string,
         public payments?: IPayment[],
+        public synced?: string,
     ) {}
 }
