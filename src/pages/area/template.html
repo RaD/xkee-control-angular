@@ -99,8 +99,6 @@
           text="Назад"
           (click)="router.navigate(['/areas'])">
         </app-smart-button>
-          (click)="router.navigate(['/areas'])">
-        </app-smart-button>
       </div>
     </div>
     <div class="col-md-6">
@@ -125,8 +123,6 @@
         kind="danger"
         [icon]="faTrash"
         text="Удалить"
-        (click)="router.navigate(['/confirm', 'areas', fields.pk])">
-      </app-smart-button>
         (click)="router.navigate(['/confirm', 'areas', fields.pk])">
       </app-smart-button>
     </div>
@@ -160,8 +156,6 @@
           kind="info"
           [icon]="faFileImport"
           text="Импорт"
-          (click)="router.navigate(['/areas', 'import'])">
-        </app-smart-button>
           (click)="router.navigate(['/areas', 'import'])">
         </app-smart-button>
       </div>
