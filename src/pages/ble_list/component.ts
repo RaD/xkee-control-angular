@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArrowLeft, faSync, faBluetooth, faSignal } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faSync, faSignal } from '@fortawesome/free-solid-svg-icons';
+import { faBluetooth } from '@fortawesome/free-brands-svg-icons';
 import { StorageService } from '../../services/storage';
 import { Area } from '../area/interface';
 
