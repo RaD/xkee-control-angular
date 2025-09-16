@@ -76,3 +76,4 @@ export class CustomerListPage implements OnInit {
     // возвращаемся на список
     this.router.navigate(['/areas', area_pk, 'customers']);
   }
+}
