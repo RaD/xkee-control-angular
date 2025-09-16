@@ -98,6 +98,10 @@
       </div>
     </div>
   </div>
+  
+  <!-- Add spacing to prevent overlap with bottom buttons -->
+  <div class="mb-5 pb-5"></div>
+  
   @if (!is_creation()) {
     <div class="position-fixed bottom-0 start-0 p-3">
       <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', fields.pk]">
