@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
@@ -32,17 +32,18 @@ export class SmartButtonComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly animationDuration = 300; // Fade duration
   private readonly iconDisplayDuration = 3000; // How long to show icon (3 seconds)
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
   ngOnInit(): void {
-    // Add random delay to prevent synchronized animations (0-2 seconds)
-    const randomDelay = Math.random() * 2000;
-    setTimeout(() => {
-      this.startAnimationCycle();
-    }, randomDelay);
+    // DOM-dependent logic moved to ngAfterViewInit
   }
 
   ngAfterViewInit(): void {
-    this.setupResizeObserver();
-    this.checkButtonWidth();
+    // Defer DOM operations to avoid ExpressionChangedAfterItHasBeenCheckedError
+    setTimeout(() => {
+      this.setupResizeObserver();
+      this.checkButtonWidth();
+    }, 0);
   }
 
   ngOnDestroy(): void {
@@ -52,7 +53,9 @@ export class SmartButtonComponent implements OnInit, OnDestroy, AfterViewInit {
   private setupResizeObserver(): void {
     if (this.buttonElement && 'ResizeObserver' in window) {
       this.resizeObserver = new ResizeObserver(() => {
-        this.checkButtonWidth();
+        setTimeout(() => {
+          this.checkButtonWidth();
+        }, 0);
       });
       this.resizeObserver.observe(this.buttonElement.nativeElement);
     }
@@ -74,12 +77,19 @@ export class SmartButtonComponent implements OnInit, OnDestroy, AfterViewInit {
       this.showText = true;
       this.isAnimating = false;
       this.stopAnimationCycle();
+      this.cdr.detectChanges();
     } else {
       // Not enough space for both - start with text only and animate
       this.displayMode = 'animated';
       this.showText = true; // Always start with text
       this.isAnimating = false;
-      this.startAnimationCycle();
+      this.cdr.detectChanges();
+      
+      // Add random delay to prevent synchronized animations (0-2 seconds)
+      const randomDelay = Math.random() * 2000;
+      setTimeout(() => {
+        this.startAnimationCycle();
+      }, randomDelay);
     }
   }
 
@@ -102,17 +112,20 @@ export class SmartButtonComponent implements OnInit, OnDestroy, AfterViewInit {
         
         // Start fade from text to icon
         this.isAnimating = true;
+        this.cdr.detectChanges();
 
         // Wait for text to fully hide before showing icon
         this.animationTimeout = window.setTimeout(() => {
           if (this.displayMode !== 'animated') return;
           this.showText = false;
+          this.cdr.detectChanges();
         }, this.animationDuration);
 
         // Complete fade to icon
         this.animationTimeout = window.setTimeout(() => {
           if (this.displayMode !== 'animated') return;
           this.isAnimating = false;
+          this.cdr.detectChanges();
 
           // Show icon for 3 seconds, then fade back to text
           this.animationTimeout = window.setTimeout(() => {
@@ -120,17 +133,20 @@ export class SmartButtonComponent implements OnInit, OnDestroy, AfterViewInit {
             
             // Start fade back to text
             this.isAnimating = true;
+            this.cdr.detectChanges();
             
             // Wait for icon to fully hide before showing text
             this.animationTimeout = window.setTimeout(() => {
               if (this.displayMode !== 'animated') return;
               this.showText = true;
+              this.cdr.detectChanges();
             }, this.animationDuration);
             
             // Complete fade back to text and start next cycle
             this.animationTimeout = window.setTimeout(() => {
               if (this.displayMode !== 'animated') return;
               this.isAnimating = false;
+              this.cdr.detectChanges();
               
               // Schedule next cycle
               this.animationInterval = window.setTimeout(cycleAnimation, 1000);
