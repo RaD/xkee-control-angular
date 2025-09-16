@@ -99,7 +99,7 @@
   @if (fields.synced) {
     <div class="mb-3">
       <div class="alert alert-info d-flex align-items-center">
-        <fa-icon [icon]="faCheck" class="me-2"></fa-icon>
+        <i class="bi bi-check-circle me-2"></i>
         <span>Последняя синхронизация: {{ fields.synced | date:'dd.MM.yyyy' }}</span>
       </div>
     </div>
@@ -128,16 +128,10 @@
     </div>
   </div>
   <div class="position-fixed bottom-0 start-0 p-3">
-    <div class="d-flex gap-2">
-      <button type="button" class="btn btn-info">
-        <fa-icon [icon]="faCheck" class="me-2"></fa-icon>
-        Синхронизировать
-      </button>
-      <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', area?.pk, 'customer', fields.pk]">
-        <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
-        Удалить
-      </a>
-    </div>
+    <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', area?.pk, 'customer', fields.pk]">
+      <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
+      Удалить
+    </a>
   </div>
 </div>
 
@@ -146,6 +140,15 @@
   <div class="mb-3 fixed-bottom">
     <div class="container-fluid">
       <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-success mb-2" form="form_customer" [disabled]="form_customer.invalid">
+          <fa-icon [icon]="faSave" class="me-2"></fa-icon>
+          Применить
+        </button>
+        <a [routerLink]="['/areas', area?.pk, 'customers']"
+          type="button" class="btn btn-secondary mb-2">
+          <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
+          Назад
+        </a>
         <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', area?.pk, 'customer', fields.pk]">
           <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
           Удалить

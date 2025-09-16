@@ -10,12 +10,8 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 import { faFolderTree } from '@fortawesome/free-solid-svg-icons';
 import { faMoneyCheckDollar } from '@fortawesome/free-solid-svg-icons';
-import { faSync } from '@fortawesome/free-solid-svg-icons';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { faArrowLeft, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { StorageService } from '../../services/storage';
-import { SyncService, SyncResponse } from '../../services/sync';
 import { Area } from '../area/interface';
 import { Customer } from '../customer/interface';
 
@@ -39,9 +35,6 @@ export class CustomerListPage implements OnInit {
   faLink = faLink;
   faChildren = faFolderTree;
   faPayment = faMoneyCheckDollar;
-  faSync = faSync;
-  faCheck = faCheck;
-  faWarning = faExclamationTriangle;
   faArrowLeft = faArrowLeft;
   faPlus = faPlus;
 
@@ -50,11 +43,9 @@ export class CustomerListPage implements OnInit {
   protected empty: boolean = true;
   protected customers: Customer[] = [];
   protected search_query: string;
-  protected syncing: boolean = false;
 
   constructor(
     private localStore: StorageService,
-    private syncService: SyncService,
     private router: Router,
     private route: ActivatedRoute,
   ) {
@@ -117,80 +108,5 @@ export class CustomerListPage implements OnInit {
     let customers: Customer[] = this.getLinkedFor(customer_pk);
     customers.forEach(item => result += ` ${item.pk}`);
     return result;
-  }
-
-  /**
-   * Sync customers with backend
-   */
-  public onSync(): void {
-    if (!this.area || this.syncing) {
-      return;
-    }
-
-    this.syncing = true;
-
-    this.syncService.syncCustomers(this.area, this.customers).subscribe({
-      next: (responses: SyncResponse[]) => {
-        // Update customers with sync responses
-        responses.forEach(response => {
-          const customer = this.customers.find(c => c.pk === response.pk);
-          if (customer) {
-            customer.active = response.active;
-            customer.synced = response.synced;
-            // Save updated customer to localStorage
-            if (this.area_pk) {
-              this.localStore.setCustomer(customer.pk, this.area_pk, customer);
-            }
-          }
-        });
-        this.syncing = false;
-        // Refresh customer list
-        if (this.area_pk) {
-          this.customers = this.localStore.getCustomerList(this.area_pk);
-        }
-      },
-      error: (error) => {
-        this.syncing = false;
-        console.error('Sync failed:', error);
-        this.showNotification(error.message || 'Не удалось синхронизировать данные. Попробуйте позже.');
-      }
-    });
-  }
-
-  /**
-   * Check if customer is synced (within last 24 hours)
-   */
-  protected isSynced(customer: Customer): boolean {
-    if (!customer.synced) {
-      return false;
-    }
-    const syncDate = new Date(customer.synced);
-    const now = new Date();
-    const diffHours = (now.getTime() - syncDate.getTime()) / (1000 * 60 * 60);
-    return diffHours < 24;
-  }
-
-  /**
-   * Show notification message
-   */
-  protected showNotification(message: string): void {
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = 'alert alert-warning alert-dismissible fade show position-fixed';
-    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; max-width: 300px;';
-    notification.innerHTML = `
-      ${message}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    `;
-    
-    // Add to body
-    document.body.appendChild(notification);
-    
-    // Auto-remove after 5 seconds
-    setTimeout(() => {
-      if (notification.parentNode) {
-        notification.parentNode.removeChild(notification);
-      }
-    }, 5000);
   }
 }

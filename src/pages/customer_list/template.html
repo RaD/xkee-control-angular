@@ -80,11 +80,6 @@
                         [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'payment']">
                         <fa-icon [icon]="faPayment"></fa-icon>
                     </button>
-                    @if (isSynced(customer)) {
-                      <fa-icon [icon]="faCheck" class="text-success ms-2" title="Синхронизировано"></fa-icon>
-                    } @else {
-                      <fa-icon [icon]="faWarning" class="text-warning ms-2" title="Требуется синхронизация"></fa-icon>
-                    }
                   </td>
                 </tr>
               }
@@ -117,19 +112,6 @@
         </a>
       </div>
     </div>
-  </div>
-  <div class="position-fixed bottom-0 start-0 p-3">
-    <button type="button" class="btn btn-info" 
-      [disabled]="syncing || empty" 
-      (click)="onSync()">
-      @if (syncing) {
-        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
-        Синхронизация...
-      } @else {
-        <fa-icon [icon]="faSync" class="me-2"></fa-icon>
-        Синхронизировать
-      }
-    </button>
   </div>
 </div>
 

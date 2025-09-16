@@ -3,9 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faSave, faArrowLeft, faTrash, faFileImport, faFileExport } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faArrowLeft, faTrash, faFileImport, faFileExport, faSync } from '@fortawesome/free-solid-svg-icons';
+import { HttpClientModule } from '@angular/common/http';
 import { Area } from './interface';
 import { StorageService } from '../../services/storage';
+import { SyncService, SyncResponse } from '../../services/sync';
+import { Customer } from '../customer/interface';
 
 @Component({
   selector: 'app-area-form',
@@ -13,7 +16,8 @@ import { StorageService } from '../../services/storage';
   imports: [
     RouterLink,
     FormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    HttpClientModule
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
@@ -24,13 +28,16 @@ export class AreaPage implements OnInit {
   faTrash = faTrash;
   faFileImport = faFileImport;
   faFileExport = faFileExport;
+  faSync = faSync;
 
   protected fields: Area;
   protected pk: string | null;
   protected action: string | null;
+  protected syncing: boolean = false;
 
   constructor(
     private localStore: StorageService,
+    private syncService: SyncService,
     private router: Router,
     private route: ActivatedRoute,
   ) {
@@ -98,5 +105,63 @@ export class AreaPage implements OnInit {
       a.download = `xkee-area-${pk}-${ts}.json`;
       a.click();
     }
+  }
+
+  /**
+   * Sync customers with backend
+   */
+  protected onSync(): void {
+    if (!this.fields || this.syncing) {
+      return;
+    }
+
+    this.syncing = true;
+    const customers = this.localStore.getCustomerList(this.fields.pk);
+
+    this.syncService.syncCustomers(this.fields, customers).subscribe({
+      next: (responses: SyncResponse[]) => {
+        // Update customers with sync responses
+        responses.forEach(response => {
+          const customer = customers.find(c => c.pk === response.pk);
+          if (customer) {
+            customer.active = response.active;
+            customer.synced = response.synced;
+            // Save updated customer to localStorage
+            this.localStore.setCustomer(customer.pk, this.fields.pk, customer);
+          }
+        });
+        this.syncing = false;
+        this.showNotification('Синхронизация завершена успешно', 'success');
+      },
+      error: (error) => {
+        this.syncing = false;
+        console.error('Sync failed:', error);
+        this.showNotification(error.message || 'Не удалось синхронизировать данные. Попробуйте позже.', 'danger');
+      }
+    });
+  }
+
+  /**
+   * Show notification message
+   */
+  protected showNotification(message: string, type: string = 'info'): void {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; max-width: 300px;';
+    notification.innerHTML = `
+      ${message}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    `;
+    
+    // Add to body
+    document.body.appendChild(notification);
+    
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.parentNode.removeChild(notification);
+      }
+    }, 5000);
   }
 }
