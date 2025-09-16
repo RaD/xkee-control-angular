@@ -102,19 +102,46 @@
     </div>
   </div>
 
-  <div class="mb-3 fixed-bottom">
-    <div class="container-fluid">
-      <div class="mb-3 d-grid gap-2">
-        <a [routerLink]="['/areas', area?.pk, 'customers']" routerLinkActive="active"
-          type="button" class="btn btn-secondary mb-2">
-          <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
-          Назад
-        </a>
-        <a [routerLink]="['/areas', area?.pk, 'customers', 'create']" routerLinkActive="active"
-          type="button" class="btn btn-primary">
-          <fa-icon [icon]="faPlus" class="me-2"></fa-icon>
-          Добавить клиента
-        </a>
+  <!-- Desktop view buttons -->
+  <div class="d-none d-md-block">
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <div class="d-flex gap-2">
+          <a [routerLink]="['/areas', area?.pk, 'customers']" routerLinkActive="active"
+            type="button" class="btn btn-secondary">
+            <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
+            Назад
+          </a>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="d-flex justify-content-end">
+          <a [routerLink]="['/areas', area?.pk, 'customers', 'create']" routerLinkActive="active"
+            type="button" class="btn btn-primary">
+            <fa-icon [icon]="faPlus" class="me-2"></fa-icon>
+            Добавить клиента
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile view buttons -->
+  <div class="d-md-none">
+    <div class="mb-3 fixed-bottom">
+      <div class="container-fluid">
+        <div class="mb-3 d-grid gap-2">
+          <a [routerLink]="['/areas', area?.pk, 'customers']" routerLinkActive="active"
+            type="button" class="btn btn-secondary mb-2">
+            <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
+            Назад
+          </a>
+          <a [routerLink]="['/areas', area?.pk, 'customers', 'create']" routerLinkActive="active"
+            type="button" class="btn btn-primary">
+            <fa-icon [icon]="faPlus" class="me-2"></fa-icon>
+            Добавить клиента
+          </a>
+        </div>
       </div>
     </div>
   </div>

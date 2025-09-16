@@ -50,14 +50,32 @@
   </div>
 </div>
 
-<div class="mb-3 fixed-bottom">
-  <div class="container-fluid">
-    <div class="mb-3 d-grid gap-2">
-      <a routerLink="/areas/create" routerLinkActive="active"
-        type="button" class="btn btn-primary">
-        <fa-icon [icon]="faPlus" class="me-2"></fa-icon>
-        Добавить территорию
-      </a>
+<!-- Desktop view buttons -->
+<div class="d-none d-md-block">
+  <div class="row mb-3">
+    <div class="col-md-6 offset-md-6">
+      <div class="d-flex justify-content-end">
+        <a routerLink="/areas/create" routerLinkActive="active"
+          type="button" class="btn btn-primary">
+          <fa-icon [icon]="faPlus" class="me-2"></fa-icon>
+          Добавить территорию
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile view buttons -->
+<div class="d-md-none">
+  <div class="mb-3 fixed-bottom">
+    <div class="container-fluid">
+      <div class="mb-3 d-grid gap-2">
+        <a routerLink="/areas/create" routerLinkActive="active"
+          type="button" class="btn btn-primary">
+          <fa-icon [icon]="faPlus" class="me-2"></fa-icon>
+          Добавить территорию
+        </a>
+      </div>
     </div>
   </div>
 </div>

@@ -90,25 +90,56 @@
   </div>
 </form>
 
-<div class="mb-3 fixed-bottom">
-  <div class="container-fluid">
-    <div class="d-grid gap-2">
-      @if (!is_creation()) {
-        <a type="button" class="btn btn-danger mb-2" [routerLink]="['/confirm', 'areas', fields.pk]">
-          <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
-          Удалить
+<!-- Desktop view buttons -->
+<div class="d-none d-md-block">
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="d-flex gap-2">
+        <a type="button" class="btn btn-info" [routerLink]="['/areas', 'import']">
+          <fa-icon [icon]="faFileImport" class="me-2"></fa-icon>
+          Импорт
         </a>
-      }
-      <a type="button" class="btn btn-info mb-2" [routerLink]="['/areas', 'import']">
-        <fa-icon [icon]="faFileImport" class="me-2"></fa-icon>
-        Импорт
+        @if (!is_creation()) {
+          <a type="button" class="btn btn-info" (click)="export()">
+            <fa-icon [icon]="faFileExport" class="me-2"></fa-icon>
+            Экспорт
+          </a>
+        }
+      </div>
+    </div>
+  </div>
+  @if (!is_creation()) {
+    <div class="position-fixed bottom-0 start-0 p-3">
+      <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', fields.pk]">
+        <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
+        Удалить
       </a>
-      @if (!is_creation()) {
-        <a type="button" class="btn btn-info mb-2" (click)="export()">
-          <fa-icon [icon]="faFileExport" class="me-2"></fa-icon>
-          Экспорт
+    </div>
+  }
+</div>
+
+<!-- Mobile view buttons -->
+<div class="d-md-none">
+  <div class="mb-3 fixed-bottom">
+    <div class="container-fluid">
+      <div class="d-grid gap-2">
+        @if (!is_creation()) {
+          <a type="button" class="btn btn-danger mb-2" [routerLink]="['/confirm', 'areas', fields.pk]">
+            <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
+            Удалить
+          </a>
+        }
+        <a type="button" class="btn btn-info mb-2" [routerLink]="['/areas', 'import']">
+          <fa-icon [icon]="faFileImport" class="me-2"></fa-icon>
+          Импорт
         </a>
-      }
+        @if (!is_creation()) {
+          <a type="button" class="btn btn-info mb-2" (click)="export()">
+            <fa-icon [icon]="faFileExport" class="me-2"></fa-icon>
+            Экспорт
+          </a>
+        }
+      </div>
     </div>
   </div>
 </div>

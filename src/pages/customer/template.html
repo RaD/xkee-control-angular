@@ -118,13 +118,26 @@
   </div>
 </form>
 
-<div class="mb-3 fixed-bottom">
-  <div class="container-fluid">
-    <div class="d-grid gap-2">
-      <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', area?.pk, 'customer', fields.pk]">
-        <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
-        Удалить
-      </a>
+<!-- Desktop view buttons -->
+<div class="d-none d-md-block">
+  <div class="position-fixed bottom-0 start-0 p-3">
+    <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', area?.pk, 'customer', fields.pk]">
+      <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
+      Удалить
+    </a>
+  </div>
+</div>
+
+<!-- Mobile view buttons -->
+<div class="d-md-none">
+  <div class="mb-3 fixed-bottom">
+    <div class="container-fluid">
+      <div class="d-grid gap-2">
+        <a type="button" class="btn btn-danger" [routerLink]="['/confirm', 'areas', area?.pk, 'customer', fields.pk]">
+          <fa-icon [icon]="faTrash" class="me-2"></fa-icon>
+          Удалить
+        </a>
+      </div>
     </div>
   </div>
 </div>
