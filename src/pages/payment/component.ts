@@ -9,6 +9,7 @@ import { Payment } from './interface';
 import { StorageService } from '../../services/storage';
 import { Customer } from '../customer/interface';
 import { PaymentHistoryComponent } from '../../components/payment_history/component';
+import { SmartButtonComponent } from '../../components/smart-button/component';
 
 @Component({
   selector: 'app-payment',
@@ -20,6 +21,7 @@ import { PaymentHistoryComponent } from '../../components/payment_history/compon
     FontAwesomeModule,
     NgbDatepickerModule,
     PaymentHistoryComponent,
+    SmartButtonComponent,
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
@@ -41,7 +43,7 @@ export class PaymentPage implements OnInit{
   );
   constructor(
     private localStore: StorageService,
-    private router: Router,
+    public router: Router,
     private route: ActivatedRoute,
   ) {
     const registered_in = Date.now();

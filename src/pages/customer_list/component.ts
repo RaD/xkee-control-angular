@@ -14,6 +14,7 @@ import { faArrowLeft, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { StorageService } from '../../services/storage';
 import { Area } from '../area/interface';
 import { Customer } from '../customer/interface';
+import { SmartButtonComponent } from '../../components/smart-button/component';
 
 @Component({
   selector: 'app-customers',
@@ -22,7 +23,8 @@ import { Customer } from '../customer/interface';
     FontAwesomeModule,
     FormsModule,
     RouterLink,
-    HttpClientModule
+    HttpClientModule,
+    SmartButtonComponent
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
@@ -46,7 +48,7 @@ export class CustomerListPage implements OnInit {
 
   constructor(
     private localStore: StorageService,
-    private router: Router,
+    public router: Router,
     private route: ActivatedRoute,
   ) {
     this.search_query = '';

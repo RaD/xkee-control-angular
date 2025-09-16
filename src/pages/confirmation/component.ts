@@ -9,13 +9,15 @@ import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { ConfirmationEntity } from './interface';
 import { StorageService } from '../../services/storage';
 import { Device } from '../device/interface';
+import { SmartButtonComponent } from '../../components/smart-button/component';
 
 @Component({
   selector: 'app-confirmation',
   standalone: true,
   imports: [
     RouterLink,
-    FontAwesomeModule
+    FontAwesomeModule,
+    SmartButtonComponent
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
@@ -29,7 +31,7 @@ export class ConfirmationPage implements OnInit {
 
   constructor(
     private localStore: StorageService,
-    private router: Router,
+    public router: Router,
     private route: ActivatedRoute,
   ) {
     this.entity = new ConfirmationEntity('', '', '', '', '', '');

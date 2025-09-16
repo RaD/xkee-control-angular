@@ -28,10 +28,14 @@
   <div class="row mb-3">
     <div class="col-md-12">
       <div class="d-flex">
-        <a routerLink="/areas" type="button" class="btn btn-secondary">
-          <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
-          Назад
-        </a>
+        <div class="d-grid" style="min-width: 120px;">
+          <app-smart-button 
+            kind="secondary"
+            [icon]="faArrowLeft"
+            text="Назад"
+            (click)="router.navigate(['/areas'])">
+          </app-smart-button>
+        </div>
       </div>
     </div>
   </div>
@@ -42,10 +46,12 @@
   <div class="mb-3 fixed-bottom">
     <div class="container-fluid">
       <div class="d-grid gap-2">
-        <a routerLink="/areas" type="button" class="btn btn-secondary">
-          <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
-          Назад
-        </a>
+        <app-smart-button 
+          kind="secondary"
+          [icon]="faArrowLeft"
+          text="Назад"
+          (click)="router.navigate(['/areas'])">
+        </app-smart-button>
       </div>
     </div>
   </div>

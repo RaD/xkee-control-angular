@@ -6,6 +6,7 @@ import { faBluetooth } from '@fortawesome/free-brands-svg-icons';
 import { faArrowLeft, faSignal, faWifi, faBatteryHalf } from '@fortawesome/free-solid-svg-icons';
 import { StorageService } from '../../services/storage';
 import { Area } from '../area/interface';
+import { SmartButtonComponent } from '../../components/smart-button/component';
 
 interface BleDevice {
   id: string;
@@ -27,7 +28,8 @@ interface DeviceProperty {
   imports: [
     CommonModule,
     FontAwesomeModule,
-    RouterLink
+    RouterLink,
+    SmartButtonComponent
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
@@ -48,7 +50,7 @@ export class BleDevicePage implements OnInit {
 
   constructor(
     private localStore: StorageService,
-    private router: Router,
+    public router: Router,
     private route: ActivatedRoute,
   ) {
     const pk = this.route.snapshot.paramMap.get('pk');

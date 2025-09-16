@@ -7,13 +7,15 @@ import { faArrowLeft, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { StorageService } from '../../services/storage';
 import { Area } from '../area/interface';
 import { Device } from '../device/interface';
+import { SmartButtonComponent } from '../../components/smart-button/component';
 
 @Component({
   selector: 'app-devices',
   standalone: true,
   imports: [
     FontAwesomeModule,
-    RouterLink
+    RouterLink,
+    SmartButtonComponent
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
@@ -32,7 +34,7 @@ export class DeviceListPage implements OnInit {
 
   constructor(
     private localStore: StorageService,
-    private router: Router,
+    public router: Router,
     private route: ActivatedRoute,
   ) {
     const pk = this.route.snapshot.paramMap.get('pk');

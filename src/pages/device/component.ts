@@ -7,6 +7,7 @@ import { faSave, faArrowLeft, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { StorageService } from '../../services/storage';
 import { Area } from '../area/interface';
 import { Device } from './interface';
+import { SmartButtonComponent } from '../../components/smart-button/component';
 
 @Component({
   selector: 'app-device',
@@ -14,7 +15,8 @@ import { Device } from './interface';
   imports: [
     RouterLink,
     FormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    SmartButtonComponent
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
@@ -31,7 +33,7 @@ export class DevicePage implements OnInit {
 
   constructor(
     private localStore: StorageService,
-    private router: Router,
+    public router: Router,
     private route: ActivatedRoute,
   ) {
     this.fields = new Device('', '', '');

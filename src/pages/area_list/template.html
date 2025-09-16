@@ -98,11 +98,14 @@
   <div class="row mb-3">
     <div class="col-md-12">
       <div class="d-flex justify-content-end">
-        <a routerLink="/areas/create" routerLinkActive="active"
-          type="button" class="btn btn-primary">
-          <fa-icon [icon]="faPlus" class="me-2"></fa-icon>
-          Добавить территорию
-        </a>
+        <div class="d-grid" style="min-width: 200px;">
+          <app-smart-button 
+            kind="primary"
+            [icon]="faPlus"
+            text="Добавить территорию"
+            (click)="$any(this).router.navigate(['/areas/create'])">
+          </app-smart-button>
+        </div>
       </div>
     </div>
   </div>
@@ -113,11 +116,12 @@
   <div class="fixed-bottom">
     <div class="container-fluid">
       <div class="d-grid">
-        <a routerLink="/areas/create" routerLinkActive="active" 
-          type="button" class="btn btn-primary">
-          <fa-icon [icon]="faPlus" class="me-2"></fa-icon>
-          Добавить территорию
-        </a>
+        <app-smart-button 
+          kind="primary"
+          [icon]="faPlus"
+          text="Добавить территорию"
+          (click)="$any(this).router.navigate(['/areas/create'])">
+        </app-smart-button>
       </div>
     </div>
   </div>

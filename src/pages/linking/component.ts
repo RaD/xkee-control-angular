@@ -8,6 +8,7 @@ import { faArrowLeft, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons
 import { StorageService } from '../../services/storage';
 import { Area } from '../area/interface';
 import { Customer } from '../customer/interface';
+import { SmartButtonComponent } from '../../components/smart-button/component';
 
 @Component({
   selector: 'app-linking',
@@ -15,7 +16,8 @@ import { Customer } from '../customer/interface';
   imports: [
     FontAwesomeModule,
     RouterLink,
-    FormsModule
+    FormsModule,
+    SmartButtonComponent
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
@@ -40,7 +42,7 @@ export class LinkingPage {
 
   constructor(
     private localStore: StorageService,
-    private router: Router,
+    public router: Router,
     private route: ActivatedRoute,
   ) {
     this.search_query = '';

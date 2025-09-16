@@ -8,6 +8,7 @@ import { faSave, faArrowLeft, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { StorageService } from '../../services/storage';
 import { Area } from '../area/interface';
 import { Customer } from './interface';
+import { SmartButtonComponent } from '../../components/smart-button/component';
 
 @Component({
   selector: 'app-customer',
@@ -16,7 +17,8 @@ import { Customer } from './interface';
     RouterLink,
     FormsModule,
     FontAwesomeModule,
-    DatePipe
+    DatePipe,
+    SmartButtonComponent
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
@@ -33,7 +35,7 @@ export class CustomerPage implements OnInit {
 
   constructor(
     private localStore: StorageService,
-    private router: Router,
+    public router: Router,
     private route: ActivatedRoute,
   ) {
     this.fields = new Customer('', false, '', '');

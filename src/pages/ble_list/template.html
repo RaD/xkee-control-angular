@@ -104,25 +104,27 @@
   <div class="row mb-3">
     <div class="col-md-6">
       <div class="d-flex">
-        <a [routerLink]="['/areas', area?.pk, 'edit']" type="button" class="btn btn-secondary">
-          <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
-          Назад
-        </a>
+        <div class="d-grid" style="min-width: 120px;">
+          <app-smart-button 
+            kind="secondary"
+            [icon]="faArrowLeft"
+            text="Назад"
+            (click)="router.navigate(['/areas', area?.pk, 'edit'])">
+          </app-smart-button>
+        </div>
       </div>
     </div>
     <div class="col-md-6">
       <div class="d-flex justify-content-end">
-        <button type="button" class="btn btn-primary" 
-          [disabled]="!bluetoothSupported || scanning" 
-          (click)="onRefresh()">
-          @if (scanning) {
-            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
-            Поиск...
-          } @else {
-            <fa-icon [icon]="faSync" class="me-2"></fa-icon>
-            Обновить
-          }
-        </button>
+        <div class="d-grid" style="min-width: 140px;">
+          <app-smart-button 
+            kind="primary"
+            [icon]="faSync"
+            [text]="scanning ? 'Поиск...' : 'Обновить'"
+            [disabled]="!bluetoothSupported || scanning"
+            (click)="onRefresh()">
+          </app-smart-button>
+        </div>
       </div>
     </div>
   </div>
@@ -133,21 +135,19 @@
   <div class="mb-3 fixed-bottom">
     <div class="container-fluid">
       <div class="d-grid gap-2">
-        <a [routerLink]="['/areas', area?.pk, 'edit']" type="button" class="btn btn-secondary mb-2">
-          <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
-          Назад
-        </a>
-        <button type="button" class="btn btn-primary" 
-          [disabled]="!bluetoothSupported || scanning" 
+        <app-smart-button 
+          kind="secondary"
+          [icon]="faArrowLeft"
+          text="Назад"
+          (click)="router.navigate(['/areas', area?.pk, 'edit'])">
+        </app-smart-button>
+        <app-smart-button 
+          kind="primary"
+          [icon]="faSync"
+          [text]="scanning ? 'Поиск...' : 'Обновить'"
+          [disabled]="!bluetoothSupported || scanning"
           (click)="onRefresh()">
-          @if (scanning) {
-            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
-            Поиск...
-          } @else {
-            <fa-icon [icon]="faSync" class="me-2"></fa-icon>
-            Обновить
-          }
-        </button>
+        </app-smart-button>
       </div>
     </div>
   </div>

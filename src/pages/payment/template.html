@@ -61,19 +61,26 @@
   <div class="row mb-3">
     <div class="col-md-6">
       <div class="d-flex">
-        <a [routerLink]="['/areas', area_pk, 'customers']"
-          type="button" class="btn btn-secondary">
-          <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
-          Назад
-        </a>
+        <div class="d-grid" style="min-width: 120px;">
+          <app-smart-button 
+            kind="secondary"
+            [icon]="faArrowLeft"
+            text="Назад"
+            (click)="router.navigate(['/areas', area_pk, 'customers'])">
+          </app-smart-button>
+        </div>
       </div>
     </div>
     <div class="col-md-6">
       <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-success" (click)="onSubmit()">
-          <fa-icon [icon]="faSave" class="me-2"></fa-icon>
-          Применить
-        </button>
+        <div class="d-grid" style="min-width: 140px;">
+          <app-smart-button 
+            kind="success"
+            [icon]="faSave"
+            text="Применить"
+            (click)="onSubmit()">
+          </app-smart-button>
+        </div>
       </div>
     </div>
   </div>
@@ -84,15 +91,18 @@
   <div class="mb-3 fixed-bottom">
     <div class="container-fluid">
       <div class="d-grid gap-2">
-        <a [routerLink]="['/areas', area_pk, 'customers']"
-          type="button" class="btn btn-secondary mb-2">
-          <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
-          Назад
-        </a>
-        <button type="submit" class="btn btn-success" (click)="onSubmit()">
-          <fa-icon [icon]="faSave" class="me-2"></fa-icon>
-          Применить
-        </button>
+        <app-smart-button 
+          kind="secondary"
+          [icon]="faArrowLeft"
+          text="Назад"
+          (click)="router.navigate(['/areas', area_pk, 'customers'])">
+        </app-smart-button>
+        <app-smart-button 
+          kind="success"
+          [icon]="faSave"
+          text="Применить"
+          (click)="onSubmit()">
+        </app-smart-button>
       </div>
     </div>
   </div>
