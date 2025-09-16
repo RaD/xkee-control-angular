@@ -9,10 +9,10 @@ import { Customer } from '../pages/customer/interface';
 export interface SyncRequest {
   pk: string;
   active: boolean;
-  period: {
+  payment: {
     started: string;
     expired: string;
-  };
+  } | null;
 }
 
 export interface SyncResponse {
@@ -42,7 +42,7 @@ export class SyncService {
     const payload: SyncRequest[] = customers.map(customer => ({
       pk: customer.pk,
       active: customer.active,
-      period: this.getCustomerPeriod(customer)
+      payment: this.getCustomerPayment(customer)
     }));
 
     // Prepare headers with authentication
@@ -59,27 +59,38 @@ export class SyncService {
   }
 
   /**
-   * Get customer's current active period from latest payment
+   * Get customer's current active payment period
    * @param customer - Customer object
-   * @returns Period object with started and expired dates
+   * @returns Payment object with started and expired dates, or null if no valid payment
    */
-  private getCustomerPeriod(customer: Customer): { started: string; expired: string } {
+  private getCustomerPayment(customer: Customer): { started: string; expired: string } | null {
     if (!customer.payments || customer.payments.length === 0) {
-      // Default period if no payments
-      const today = new Date();
-      const nextYear = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate());
-      return {
-        started: this.formatDate(today),
-        expired: this.formatDate(nextYear)
-      };
+      // No payments
+      return null;
     }
 
     // Get the latest payment
     const latestPayment = customer.payments[0];
+    const expiredDate = this.ngbDateToDate(latestPayment.expired_in);
+    const today = new Date();
+    
+    // Check if payment period is in the past
+    if (expiredDate < today) {
+      return null;
+    }
+    
     return {
       started: this.ngbDateToString(latestPayment.started_in),
       expired: this.ngbDateToString(latestPayment.expired_in)
     };
+  }
+
+  /**
+   * Convert NgbDateStruct to Date object
+   */
+  private ngbDateToDate(dateStruct: any): Date {
+    if (!dateStruct) return new Date();
+    return new Date(dateStruct.year, dateStruct.month - 1, dateStruct.day);
   }
 
   /**
