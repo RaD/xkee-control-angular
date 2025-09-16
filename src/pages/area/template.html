@@ -92,7 +92,7 @@
 <div class="d-none d-md-block">
   <div class="row mb-3">
     <div class="col-md-6">
-      <div class="d-flex">
+      <div class="d-grid">
         <app-smart-button 
           kind="secondary"
           [icon]="faArrowLeft"
@@ -102,7 +102,7 @@
       </div>
     </div>
     <div class="col-md-6">
-      <div class="d-flex justify-content-end">
+      <div class="d-grid">
         <app-smart-button 
           kind="success"
           [icon]="faSave"
@@ -119,45 +119,55 @@
   
   @if (!is_creation()) {
     <div class="position-fixed bottom-0 start-0 p-3">
-      <app-smart-button 
-        kind="danger"
-        [icon]="faTrash"
-        text="Удалить"
-        (click)="router.navigate(['/confirm', 'areas', fields.pk])">
-      </app-smart-button>
+      <div class="d-grid" style="min-width: 120px;">
+        <app-smart-button 
+          kind="danger"
+          [icon]="faTrash"
+          text="Удалить"
+          (click)="router.navigate(['/confirm', 'areas', fields.pk])">
+        </app-smart-button>
+      </div>
     </div>
     <div class="position-fixed bottom-0 end-0 p-3">
       <div class="d-flex gap-2">
-        <app-smart-button 
-          kind="info"
-          [icon]="faSync"
-          [text]="syncing ? 'Синхронизация...' : 'Синхронизировать'"
-          [disabled]="syncing || is_creation()"
-          (click)="onSync()">
-        </app-smart-button>
-        <app-smart-button 
-          kind="info"
-          [icon]="faFileImport"
-          text="Импорт"
-          (click)="router.navigate(['/areas', 'import'])">
-        </app-smart-button>
-        <app-smart-button 
-          kind="info"
-          [icon]="faFileExport"
-          text="Экспорт"
-          (click)="export()">
-        </app-smart-button>
+        <div class="d-grid" style="min-width: 160px;">
+          <app-smart-button 
+            kind="info"
+            [icon]="faSync"
+            [text]="syncing ? 'Синхронизация...' : 'Синхронизировать'"
+            [disabled]="syncing || is_creation()"
+            (click)="onSync()">
+          </app-smart-button>
+        </div>
+        <div class="d-grid" style="min-width: 120px;">
+          <app-smart-button 
+            kind="info"
+            [icon]="faFileImport"
+            text="Импорт"
+            (click)="router.navigate(['/areas', 'import'])">
+          </app-smart-button>
+        </div>
+        <div class="d-grid" style="min-width: 120px;">
+          <app-smart-button 
+            kind="info"
+            [icon]="faFileExport"
+            text="Экспорт"
+            (click)="export()">
+          </app-smart-button>
+        </div>
       </div>
     </div>
   } @else {
     <div class="position-fixed bottom-0 end-0 p-3">
       <div class="d-flex gap-2">
-        <app-smart-button 
-          kind="info"
-          [icon]="faFileImport"
-          text="Импорт"
-          (click)="router.navigate(['/areas', 'import'])">
-        </app-smart-button>
+        <div class="d-grid" style="min-width: 120px;">
+          <app-smart-button 
+            kind="info"
+            [icon]="faFileImport"
+            text="Импорт"
+            (click)="router.navigate(['/areas', 'import'])">
+          </app-smart-button>
+        </div>
       </div>
     </div>
   }
@@ -167,7 +177,7 @@
 <div class="d-md-none">
   <div class="fixed-bottom">
     <div class="container-fluid">
-      <div class="d-flex gap-1 justify-content-center">
+      <div class="d-grid gap-2" style="grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));">
         <app-smart-button 
           kind="secondary"
           [icon]="faArrowLeft"

@@ -3,20 +3,22 @@
   overflow: hidden;
   transition: all 0.2s ease;
   
-  // Ensure consistent height regardless of content
+  // Match standard Bootstrap button size like in AreaListPage
   min-height: 38px;
+  min-width: 120px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  white-space: nowrap;
   
   &--icon-text {
-    min-width: 120px;
+    // Use full available width when showing both
+    width: 100%;
   }
   
   &--animated {
-    // Keep the button size constant during animation
-    // Size is determined by the text content initially
-    min-width: fit-content;
+    // Keep constant size during animation - use full width
+    width: 100%;
   }
   
   // Content container for animated mode
