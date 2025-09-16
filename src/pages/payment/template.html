@@ -1,5 +1,6 @@
 <legend class="text-center">Платёж</legend>
-<form #form_area="ngForm" (ngSubmit)="onSubmit()" class="g-3" novalidate>
+<div class="container-fluid px-2">
+  <form #form_area="ngForm" (ngSubmit)="onSubmit()" class="g-3" novalidate>
     <div class="mb-3">
         <label for="amount" class="form-label position-relative">
             Сумма
@@ -47,9 +48,10 @@
             </button>
 		</div>
     </div>
-</form>
+  </form>
 
-<app-payment-history [customer_pk]="customer_pk"></app-payment-history>
+  <app-payment-history [customer_pk]="customer_pk"></app-payment-history>
+</div>
 
 <!-- Add spacing to prevent overlap with bottom buttons -->
 <div class="mb-5 pb-5"></div>

@@ -1,5 +1,6 @@
 <legend class="text-center">Клиенты территории "{{ area?.title }}"</legend>
-<form #form_customer="ngForm" id="form_customer" (ngSubmit)="onSubmit()" class="g-3" novalidate>
+<div class="container-fluid px-2">
+  <form #form_customer="ngForm" id="form_customer" (ngSubmit)="onSubmit()" class="g-3" novalidate>
   <div class="mb-3 form-check form-switch">
     <input id="active" name="active" type="checkbox" role="switch"
       class="form-check-input"
@@ -104,7 +105,8 @@
       </div>
     </div>
   }
-</form>
+  </form>
+</div>
 
 <!-- Add spacing to prevent overlap with bottom buttons -->
 <div class="mb-5 pb-5"></div>

@@ -1,5 +1,6 @@
 <legend class="text-center">Устройства территории "{{ area?.title }}"</legend>
-<form #form_device="ngForm" id="form_device" (ngSubmit)="onSubmit()" class="g-3" novalidate>
+<div class="container-fluid px-2">
+  <form #form_device="ngForm" id="form_device" (ngSubmit)="onSubmit()" class="g-3" novalidate>
   @if (showPk()) {
     <div class="mb-3">
       <label for="pk" class="form-label position-relative">
@@ -39,7 +40,8 @@
       [(ngModel)]="fields.description" #description="ngModel"
       required="true" minlength="3"/>
   </div>
-</form>
+  </form>
+</div>
 
 <!-- Add spacing to prevent overlap with bottom buttons -->
 <div class="mb-5 pb-5"></div>
