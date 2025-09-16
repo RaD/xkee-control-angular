@@ -1,0 +1,141 @@
+<legend class="text-center">BLE устройства "{{ area?.title }}"</legend>
+<div class="row">
+  <div class="col">
+    @if (error) {
+      <div class="alert alert-danger" role="alert">
+        <fa-icon [icon]="faBluetooth" class="me-2"></fa-icon>
+        {{ error }}
+      </div>
+    }
+    
+    @if (!bluetoothSupported) {
+      <figure class="text-center">
+        <blockquote class="blockquote">
+          <p>Bluetooth не поддерживается в этом браузере...</p>
+        </blockquote>
+        <figcaption class="blockquote-footer">
+          Используйте современный браузер с поддержкой Web Bluetooth API
+        </figcaption>
+      </figure>
+    }
+    
+    @if (bluetoothSupported && devices.length === 0 && !scanning && !error) {
+      <figure class="text-center">
+        <blockquote class="blockquote">
+          <p>Нажмите "Обновить" для поиска BLE устройств...</p>
+        </blockquote>
+        <figcaption class="blockquote-footer">
+          Убедитесь, что Bluetooth включен на вашем устройстве
+        </figcaption>
+      </figure>
+    }
+    
+    @if (scanning) {
+      <div class="text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Поиск устройств...</span>
+        </div>
+        <p class="mt-2">Поиск BLE устройств...</p>
+      </div>
+    }
+    
+    @if (devices.length > 0) {
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Устройство</th>
+              <th>Сигнал</th>
+              <th>Статус</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (device of devices; track device.id) {
+              <tr class="cursor-pointer" (click)="onDeviceClick(device)">
+                <td>
+                  <div class="d-flex align-items-center">
+                    <fa-icon [icon]="faBluetooth" class="me-2 text-primary"></fa-icon>
+                    <div>
+                      <div class="fw-bold">{{ device.name }}</div>
+                      <small class="text-muted">ID: {{ device.id }}</small>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <fa-icon [icon]="faSignal" [class]="getRssiClass(device.rssi)" class="me-2"></fa-icon>
+                    <span [class]="getRssiClass(device.rssi)">{{ device.rssi }} dBm</span>
+                  </div>
+                </td>
+                <td>
+                  @if (device.connected) {
+                    <span class="badge bg-success">Подключено</span>
+                  } @else {
+                    <span class="badge bg-secondary">Отключено</span>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>
+
+<!-- Add spacing to prevent overlap with bottom buttons -->
+<div class="mb-5 pb-5"></div>
+
+<!-- Desktop view buttons -->
+<div class="d-none d-md-block">
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="d-flex">
+        <a [routerLink]="['/areas', area?.pk, 'edit']" type="button" class="btn btn-secondary">
+          <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
+          Назад
+        </a>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-primary" 
+          [disabled]="!bluetoothSupported || scanning" 
+          (click)="onRefresh()">
+          @if (scanning) {
+            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+            Поиск...
+          } @else {
+            <fa-icon [icon]="faSync" class="me-2"></fa-icon>
+            Обновить
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile view buttons -->
+<div class="d-md-none">
+  <div class="mb-3 fixed-bottom">
+    <div class="container-fluid">
+      <div class="d-grid gap-2">
+        <a [routerLink]="['/areas', area?.pk, 'edit']" type="button" class="btn btn-secondary mb-2">
+          <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
+          Назад
+        </a>
+        <button type="button" class="btn btn-primary" 
+          [disabled]="!bluetoothSupported || scanning" 
+          (click)="onRefresh()">
+          @if (scanning) {
+            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+            Поиск...
+          } @else {
+            <fa-icon [icon]="faSync" class="me-2"></fa-icon>
+            Обновить
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

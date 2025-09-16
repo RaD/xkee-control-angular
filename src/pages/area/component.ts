@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faSave, faArrowLeft, faTrash, faFileImport, faFileExport, faSync } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faArrowLeft, faTrash, faFileImport, faFileExport, faSync, faBluetooth } from '@fortawesome/free-solid-svg-icons';
 import { HttpClientModule } from '@angular/common/http';
 import { Area } from './interface';
 import { StorageService } from '../../services/storage';
@@ -29,6 +29,7 @@ export class AreaPage implements OnInit {
   faFileImport = faFileImport;
   faFileExport = faFileExport;
   faSync = faSync;
+  faBluetooth = faBluetooth;
 
   protected fields: Area;
   protected pk: string | null;

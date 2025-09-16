@@ -1,0 +1,96 @@
+<legend class="text-center">BLE устройство</legend>
+<div class="row">
+  <div class="col">
+    @if (error) {
+      <div class="alert alert-danger" role="alert">
+        <fa-icon [icon]="faBluetooth" class="me-2"></fa-icon>
+        {{ error }}
+      </div>
+    }
+    
+    @if (device && !error) {
+      <div class="card">
+        <div class="card-header">
+          <div class="d-flex align-items-center">
+            <fa-icon [icon]="faBluetooth" class="me-2 text-primary fs-4"></fa-icon>
+            <div>
+              <h5 class="card-title mb-0">{{ device.name }}</h5>
+              <small class="text-muted">{{ device.id }}</small>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          @if (loading) {
+            <div class="text-center">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Загрузка свойств...</span>
+              </div>
+              <p class="mt-2">Загрузка свойств устройства...</p>
+            </div>
+          } @else {
+            <div class="table-responsive">
+              <table class="table table-borderless">
+                <tbody>
+                  @for (property of properties; track property.name) {
+                    <tr>
+                      <td class="fw-bold" style="width: 40%;">
+                        <fa-icon [icon]="getPropertyIcon(property.type)" 
+                          [class]="getPropertyClass(property.type)" 
+                          class="me-2"></fa-icon>
+                        {{ property.name }}
+                      </td>
+                      <td>
+                        @if (property.name === 'Уровень сигнала') {
+                          <span [class]="getRssiClass(device!.rssi)">{{ property.value }}</span>
+                        } @else if (property.name === 'Статус подключения') {
+                          @if (device!.connected) {
+                            <span class="badge bg-success">{{ property.value }}</span>
+                          } @else {
+                            <span class="badge bg-secondary">{{ property.value }}</span>
+                          }
+                        } @else {
+                          {{ property.value }}
+                        }
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+<!-- Add spacing to prevent overlap with bottom buttons -->
+<div class="mb-5 pb-5"></div>
+
+<!-- Desktop view buttons -->
+<div class="d-none d-md-block">
+  <div class="row mb-3">
+    <div class="col-md-12">
+      <div class="d-flex">
+        <a [routerLink]="['/areas', area_pk, 'ble']" type="button" class="btn btn-secondary">
+          <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
+          Назад
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile view buttons -->
+<div class="d-md-none">
+  <div class="mb-3 fixed-bottom">
+    <div class="container-fluid">
+      <div class="d-grid gap-2">
+        <a [routerLink]="['/areas', area_pk, 'ble']" type="button" class="btn btn-secondary">
+          <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>
+          Назад
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

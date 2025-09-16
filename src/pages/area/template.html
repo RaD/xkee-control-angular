@@ -130,6 +130,14 @@
           <fa-icon [icon]="faFileExport" class="me-2"></fa-icon>
           Экспорт
         </a>
+        <a type="button" class="btn btn-info mb-2" [routerLink]="['/areas', fields.pk, 'ble']">
+          <fa-icon [icon]="faBluetooth" class="me-2"></fa-icon>
+          BLE
+        </a>
+        <a type="button" class="btn btn-info" [routerLink]="['/areas', fields.pk, 'ble']">
+          <fa-icon [icon]="faBluetooth" class="me-2"></fa-icon>
+          BLE
+        </a>
       </div>
     </div>
   } @else {
@@ -138,6 +146,10 @@
         <a type="button" class="btn btn-info" [routerLink]="['/areas', 'import']">
           <fa-icon [icon]="faFileImport" class="me-2"></fa-icon>
           Импорт
+        </a>
+        <a type="button" class="btn btn-info" [routerLink]="['/areas', fields.pk, 'ble']">
+          <fa-icon [icon]="faBluetooth" class="me-2"></fa-icon>
+          BLE
         </a>
       </div>
     </div>
