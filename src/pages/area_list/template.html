@@ -1,5 +1,5 @@
 <legend class="text-center">Территории</legend>
-<div class="container-fluid px-2">
+<div class="container-fluid px-1">
   <div class="row">
     <div class="col">
     @if (empty) {
@@ -13,39 +13,80 @@
       </figure>
     }
     @if (!empty) {
-      <div class="table-responsive">
-        <table class="table">
-          <tbody>
-            @for (area of areas; track area) {
-              <tr>
-                <td>
-                  <a [routerLink]="['/areas', area.pk, 'customers']">
-                    <div class="area-title">{{ area.title }}</div>
+      <!-- Desktop view -->
+      <div class="d-none d-md-block">
+        <div class="table-responsive">
+          <table class="table">
+            <tbody>
+              @for (area of areas; track area) {
+                <tr>
+                  <td>
+                    <a [routerLink]="['/areas', area.pk, 'customers']">
+                      <div class="area-title">{{ area.title }}</div>
+                    </a>
+                    <small class="text-muted">{{ area.kind }}</small>
+                  </td>
+                  <td>
+                    <fa-icon [icon]="faUser" label="Настройки"></fa-icon>
+                    {{ area.customers.length }}
+                  </td>
+                  <td>{{ area.address }}</td>
+                  <td class="d-grid gap-2 d-flex justify-content-end">
+                    <a type="button" class="btn btn-info position-relative"
+                      [routerLink]="['/areas', area.pk, 'devices']">
+                      <fa-icon [icon]="faWalkieTalkie" label="Устройства"></fa-icon>
+                      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{ area.devices.length }}
+                      </span>
+                    </a>
+                    <a type="button" class="btn btn-info"
+                      [routerLink]="['/areas', area.pk, 'edit']">
+                      <fa-icon [icon]="faGear" label="Настройки"></fa-icon>
+                    </a>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Mobile view -->
+      <div class="d-md-none">
+        @for (area of areas; track area) {
+          <div class="card mb-2">
+            <div class="card-body p-2">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <a [routerLink]="['/areas', area.pk, 'customers']" class="text-decoration-none">
+                    <div class="fw-bold area-title">{{ area.title }}</div>
+                    <small class="text-muted d-block">{{ area.kind }}</small>
+                    <small class="text-muted d-block">{{ area.address }}</small>
+                    <small class="text-muted">
+                      <fa-icon [icon]="faUser" class="me-1"></fa-icon>
+                      {{ area.customers.length }}
+                    </small>
                   </a>
-                  <small class="text-muted">{{ area.kind }}</small>
-                </td>
-                <td>
-                  <fa-icon [icon]="faUser" label="Настройки"></fa-icon>
-                  {{ area.customers.length }}
-                </td>
-                <td>{{ area.address }}</td>
-                <td class="d-grid gap-2 d-flex justify-content-end">
-                  <a type="button" class="btn btn-info position-relative"
-                    [routerLink]="['/areas', area.pk, 'devices']">
-                    <fa-icon [icon]="faWalkieTalkie" label="Устройства"></fa-icon>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                      {{ area.devices.length }}
-                    </span>
-                  </a>
-                  <a type="button" class="btn btn-info"
-                    [routerLink]="['/areas', area.pk, 'edit']">
-                    <fa-icon [icon]="faGear" label="Настройки"></fa-icon>
-                  </a>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
+                </div>
+                <div class="col-4">
+                  <div class="d-flex flex-column gap-1">
+                    <a type="button" class="btn btn-info btn-sm position-relative square-btn"
+                      [routerLink]="['/areas', area.pk, 'devices']">
+                      <fa-icon [icon]="faWalkieTalkie"></fa-icon>
+                      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger badge-sm">
+                        {{ area.devices.length }}
+                      </span>
+                    </a>
+                    <a type="button" class="btn btn-info btn-sm square-btn"
+                      [routerLink]="['/areas', area.pk, 'edit']">
+                      <fa-icon [icon]="faGear"></fa-icon>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
       </div>
     }
   </div>
