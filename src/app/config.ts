@@ -10,3 +10,8 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient()
   ]
 };
+
+export const environment = {
+    SOURCE_VERSION: "__SOURCE_VERSION__",
+    SOURCE_COMMIT: "__SOURCE_COMMIT__",
+}

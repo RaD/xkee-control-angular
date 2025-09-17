@@ -1,7 +1,6 @@
 #!/bin/sh
 
-# Substitute environment variables in the template
-envsubst '${BASE_URL}' < /usr/share/nginx/html/assets/env-config.template.js > /usr/share/nginx/html/assets/env-config.js
+sed -i "s|__APP_BACKEND_URL__|$APP_BACKEND_URL|g" \
+    /usr/share/nginx/html/assets/env_config.js
 
-# Start nginx
-exec "$@"
+nginx -g 'daemon off;'

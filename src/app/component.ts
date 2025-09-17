@@ -5,6 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { StorageService } from '../services/storage';
 import { NavigationComponent } from '../components/navigation/component';
 import { PageTransitionService } from '../services/transitions';
+import { environment } from './config';
+
+const BACKEND_URL = (window as any)?.env?.APP_BACKEND_URL || 'https://backend.xkee.ru';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +23,8 @@ import { PageTransitionService } from '../services/transitions';
 
 export class AppComponent {
   title: string = 'XKee : Управление';
+  version: string = environment.SOURCE_VERSION;
+  commit: string = environment.SOURCE_COMMIT;
 
   constructor(
     private localStore: StorageService,
@@ -27,6 +32,10 @@ export class AppComponent {
   ) { }
 
   ngOnInit(): void {
+    console.log('Backend:', BACKEND_URL);
+    console.log('Version:', this.version);
+    console.log('Commit:', this.commit);
+
     // Disable initial animation
     document.body.classList.add('no-animation');
 
