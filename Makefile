@@ -37,6 +37,7 @@ container:
 release: title clean build login push
 
 build:
+	DOCKER_BUILDKIT=0 \
 	docker build $(PLATFORM) --compress \
 		-t $(IMAGE_NAME_TAGGED) \
 		-t $(REGISTRY)/$(IMAGE_NAME_TAGGED) \
@@ -54,4 +55,4 @@ login:
 push:
 	docker push $(REGISTRY)/$(IMAGE_NAME_TAGGED)
 
-.PHONY: tests release build login push
+.PHONY: build release build login push

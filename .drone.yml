@@ -1,0 +1,162 @@
+---
+kind: pipeline
+type: docker
+name: xkee-control
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: "[branch] bump version"
+    image: registry.halfakop.ru/golang/bumpversion:0.1.3
+    environment:
+      GIT_USERNAME:
+        from_secret: GIT_USERNAME
+      GIT_EMAIL:
+        from_secret: GIT_EMAIL
+    entrypoint: ["/bumpversion"]
+    command: ["--no-commit", "--no-tag", "patch"]
+    load: false  # do not use /bin/sh -c here
+    when:
+      branch:
+        - task-*
+      event:
+        - push
+
+  - name: "[branch] build"
+    image: plugins/docker
+    volumes:
+      - name: docker-sock
+        path: /var/run/docker.sock
+    environment:
+      DOCKER_USERNAME:
+        from_secret: DOCKER_USERNAME
+      DOCKER_PASSWORD:
+        from_secret: DOCKER_PASSWORD
+    commands:
+      - apk add make git bash
+      - make login build DOCKER_OPTS="--network devtools" PLATFORM=''
+    when:
+      branch:
+        - task-*
+      status:
+        - success
+
+  - name: "[master] bump version"
+    image: registry.halfakop.ru/golang/bumpversion:0.1.3
+    environment:
+      GIT_USERNAME:
+        from_secret: GIT_USERNAME
+      GIT_EMAIL:
+        from_secret: GIT_EMAIL
+    entrypoint: ["/bumpversion"]
+    command: ["patch"]
+    load: false  # do not use /bin/sh -c here
+    when:
+      branch:
+        - master
+      event:
+        - push
+
+  - name: "[master] build"
+    image: plugins/docker
+    volumes:
+      - name: docker-sock
+        path: /var/run/docker.sock
+    environment:
+      DOCKER_USERNAME:
+        from_secret: DOCKER_USERNAME
+      DOCKER_PASSWORD:
+        from_secret: DOCKER_PASSWORD
+    commands:
+      - apk add make git bash
+      - make login build DOCKER_OPTS="--network devtools" PLATFORM=''
+    when:
+      branch:
+        - master
+      status:
+        - success
+
+  - name: "[master] tagging"
+    image: alpine/git
+    commands:
+      - git push origin master
+      - git push origin master --tags
+    when:
+      branch:
+        - master
+      status:
+        - success
+
+  - name: "[master] push"
+    image: plugins/docker
+    volumes:
+      - name: docker-sock
+        path: /var/run/docker.sock
+    environment:
+      DOCKER_USERNAME:
+        from_secret: DOCKER_USERNAME
+      DOCKER_PASSWORD:
+        from_secret: DOCKER_PASSWORD
+    commands:
+      - apk add make git bash
+      - make login push DOCKER_OPTS="--network devtools"
+    when:
+      branch:
+        - master
+      status:
+        - success
+
+  - name: "[release] get deployment repo"
+    image: plugins/ansible:1
+    commands:
+      - git clone https://git.halfakop.ru/xkee/deployment.git
+    when:
+      branch:
+        - release
+      event:
+        - push
+
+  - name: "[release] check playbook"
+    image: plugins/ansible:1
+    environment:
+      SERVICE_NAME: control
+    settings:
+      playbook: deployment/control/playbook.yml
+      inventory: deployment/control/inventory.yml
+      syntax_check: true
+    when:
+      branch:
+        - release
+      status:
+        - success
+
+  - name: "[release] deploy service"
+    image: plugins/ansible:1
+    environment:
+      SERVICE_NAME: control
+    settings:
+      playbook: deployment/control/playbook.yml
+      inventory: deployment/control/inventory.yml
+      private_key:
+        from_secret: SSHKEY
+      verbose: 1  # 0 .. 4
+    when:
+      branch:
+        - release
+      status:
+        - success
+
+trigger:
+  event:
+    exclude:
+    - tag
+
+volumes:
+  - name: docker-sock
+    host:
+      path: /var/run/docker.sock
+
+image_pull_secrets:
+  - dockerconfigjson
