@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Router, RouterLink, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -17,7 +17,6 @@ import { PageTransitionService } from '../../services/transitions';
   standalone: true,
   imports: [
     FontAwesomeModule,
-    RouterLink,
     SmartButtonComponent
   ],
   templateUrl: './template.html',
@@ -65,6 +64,12 @@ export class DeviceListPage implements OnInit {
   protected navigateToCreate(): void {
     this.pageTransition.navigateForward(() => {
       this.router.navigate(['/areas', this.area?.pk, 'devices', 'create']);
+    });
+  }
+
+  protected navigateToEdit(device_pk: string): void {
+    this.pageTransition.navigateForward(() => {
+      this.router.navigate(['/areas', this.area?.pk, 'device', device_pk, 'editcreate']);
     });
   }
 }

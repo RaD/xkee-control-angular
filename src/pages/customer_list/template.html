@@ -41,7 +41,7 @@
                 <tr>
                   <td>
                     <div>
-                      <a [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'edit']">
+                      <a (click)="navigateToCustomer(customer.pk)">
                         {{ customer.pk }}
                       </a>
                     </div>
@@ -74,13 +74,11 @@
                   </td>
                   <td>
                     <div class="d-grid gap-2" style="grid-template-columns: 1fr 1fr;">
-                      <button class="btn btn-secondary"
-                      [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'linking']">
+                      <button class="btn btn-secondary" (click)="navigateToLinking(customer.pk)">
                         <fa-icon [icon]="faLink"></fa-icon>
                       </button>
                       <!-- PaymentRegisterComponent-->
-                      <button class="btn btn-secondary"
-                        [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'payment']">
+                      <button class="btn btn-secondary" (click)="navigateToPayment(customer.pk)">
                           <fa-icon [icon]="faPayment"></fa-icon>
                       </button>
                     </div>
@@ -155,23 +153,19 @@
                       <strong>Машина:</strong> {{ customer.vehicle }}
                     </div>
                     <div class="d-grid gap-1 mt-2" style="grid-template-columns: 1fr 1fr; min-height: 32px;">
-                      <button class="btn btn-secondary btn-sm"
-                        [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'linking']">
+                      <button class="btn btn-secondary btn-sm" (click)="navigateToLinking(customer.pk)">
                         <fa-icon [icon]="faLink"></fa-icon>
                       </button>
-                      <button class="btn btn-secondary btn-sm"
-                        [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'payment']">
+                      <button class="btn btn-secondary btn-sm" (click)="navigateToPayment(customer.pk)">
                         <fa-icon [icon]="faPayment"></fa-icon>
                       </button>
                     </div>
                   } @else {
                     <div class="d-grid gap-1 mt-2" style="grid-template-columns: 1fr 1fr; min-height: 32px;">
-                      <button class="btn btn-secondary btn-sm"
-                        [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'linking']">
+                      <button class="btn btn-secondary btn-sm" (click)="navigateToLinking(customer.pk)">
                         <fa-icon [icon]="faLink"></fa-icon>
                       </button>
-                      <button class="btn btn-secondary btn-sm"
-                        [routerLink]="['/areas', area?.pk, 'customer', customer.pk, 'payment']">
+                      <button class="btn btn-secondary btn-sm" (click)="navigateToPayment(customer.pk)">
                         <fa-icon [icon]="faPayment"></fa-icon>
                       </button>
                     </div>

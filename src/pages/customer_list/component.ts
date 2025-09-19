@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { Router, RouterLink, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -24,7 +24,6 @@ import { PageTransitionService } from '../../services/transitions';
   imports: [
     FontAwesomeModule,
     FormsModule,
-    RouterLink,
     SmartButtonComponent
   ],
   templateUrl: './template.html',
@@ -118,6 +117,22 @@ export class CustomerListPage implements OnInit {
     this.pageTransition.navigateForward(() => {
       this.router.navigate([
         '/areas', this.area?.pk, 'customer', customer_pk, 'edit'
+      ]);
+    });
+  }
+
+  protected navigateToLinking(customer_pk: string): void {
+    this.pageTransition.navigateForward(() => {
+      this.router.navigate([
+        '/areas', this.area?.pk, 'customer', customer_pk, 'linking'
+      ]);
+    });
+  }
+
+  protected navigateToPayment(customer_pk: string): void {
+    this.pageTransition.navigateForward(() => {
+      this.router.navigate([
+        '/areas', this.area?.pk, 'customer', customer_pk, 'payment'
       ]);
     });
   }

@@ -1,7 +1,8 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
   <legend class="mb-0">Территория</legend>
   @if (!is_creation()) {
-    <a type="button" class="btn btn-info btn-sm d-flex align-items-center" [routerLink]="['/areas', fields.pk, 'ble']">
+    <a type="button" class="btn btn-info btn-sm d-flex align-items-center"
+      (click)="navigateToBLE()">
       <fa-icon [icon]="faBluetooth" class="me-2"></fa-icon>
       BLE
     </a>

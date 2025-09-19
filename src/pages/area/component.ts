@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -20,7 +20,6 @@ import { PageTransitionService } from '../../services/transitions';
     FormsModule,
     FontAwesomeModule,
     SmartButtonComponent,
-    RouterLink
   ],
   templateUrl: './template.html',
   styleUrl: './styles.less'
@@ -200,6 +199,12 @@ export class AreaPage implements OnInit {
   protected navigateToConfirm(): void {
     this.pageTransition.navigateForward(() => {
       this.router.navigate(['/confirm', 'areas', this.fields.pk]);
+    });
+  }
+
+  protected navigateToBLE(): void {
+    this.pageTransition.navigateForward(() => {
+      this.router.navigate(['/areas', this.fields.pk, 'ble']);
     });
   }
 }

@@ -19,7 +19,7 @@
             @for (device of devices; track device) {
               <tr>
                 <td>
-                  <a [routerLink]="['/areas', area?.pk, 'device', device.pk, 'edit']">
+                  <a (click)="navigateToEdit(device.pk)">
                     {{ device.title }}
                   </a>
                 </td>
