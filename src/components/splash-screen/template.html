@@ -1,0 +1,41 @@
+<div class="splash-screen" 
+     [class.fade-in]="showContent" 
+     [class.fade-out]="fadeOut"
+     (click)="onSplashClick()">
+  <div class="splash-content">
+    <div class="logo-container">
+      <svg
+        width="80%"
+        height="auto"
+        viewBox="0 0 210 297"
+        version="1.1"
+        class="xkee-logo">
+        <g>
+          <rect
+            style="fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:0.264583;stroke-opacity:1"
+            width="172.26649"
+            height="74.999992"
+            x="24.999998"
+            y="50" />
+        </g>
+        <g>
+          <text
+            xml:space="preserve"
+            style="font-style:normal;font-weight:normal;font-size:50.8px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+            x="36.183075"
+            y="105.56709">
+            <tspan
+              style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:50.8px;font-family:Verdana;-inkscape-font-specification:'Verdana Bold';stroke:#ffffff;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+              x="36.183075"
+              y="105.56709">XKEE</tspan>
+          </text>
+        </g>
+      </svg>
+      
+      <div class="version-info">
+        <div class="version-left">v{{ version }}</div>
+        <div class="commit-right">@{{ commit }}</div>
+      </div>
+    </div>
+  </div>
+</div>

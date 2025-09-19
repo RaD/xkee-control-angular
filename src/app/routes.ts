@@ -2,6 +2,10 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
     {
+        path: 'splash',
+        loadComponent: () => import('../components/splash-screen/component').then(m => m.SplashScreenComponent)
+    },
+    {
         path: 'confirm/areas/:area_pk/:entity/:entity_pk', 
         loadComponent: () => import('../pages/confirmation/component').then(m => m.ConfirmationPage)
     },
@@ -68,10 +72,10 @@ export const routes: Routes = [
     {
         path: '', 
         pathMatch: 'full', 
-        redirectTo: '/areas'
+        redirectTo: '/splash'
     },
     {
         path: '**', 
-        redirectTo: '/areas'
+        redirectTo: '/splash'
     },
 ];
