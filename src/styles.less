@@ -1,6 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global styles */
 
-/* Standardize button sizes for buttons with icons and text */
+/* Standardize button sizes */
 .btn {
   min-width: 120px;
   min-height: 38px;
@@ -8,28 +8,26 @@
   align-items: center;
   justify-content: center;
   white-space: nowrap;
+  
+  fa-icon {
+    flex-shrink: 0;
+    
+    &.me-2 {
+      margin-right: 0.5rem !important;
+    }
+  }
 }
 
-.btn fa-icon {
-  flex-shrink: 0;
-}
-
-/* Ensure consistent spacing between icon and text */
-.btn fa-icon.me-2 {
-  margin-right: 0.5rem !important;
-}
-
-/* For mobile buttons in grid layout */
+/* Mobile buttons */
 .d-grid .btn {
   min-height: 44px;
 }
 
-/* Fixed bottom button panel with background */
+/* Fixed bottom button panel */
 .fixed-bottom .container-fluid {
   background-color: #f8f9fa;
   border-top: 1px solid #dee2e6;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding: 1rem;
 }
 
 /* Page transition animations */
@@ -42,44 +40,26 @@
 }
 
 @keyframes swipeLeft {
-  0% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
+  0% { transform: translateX(0); opacity: 1; }
+  100% { transform: translateX(-100%); opacity: 0; }
 }
 
 @keyframes swipeRight {
-  0% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(100%);
-    opacity: 0;
-  }
+  0% { transform: translateX(0); opacity: 1; }
+  100% { transform: translateX(100%); opacity: 0; }
 }
 
-/* Smooth page entry animation */
+/* Page entry animation */
 main.main {
   animation: pageEnter 0.3s ease-in-out;
 }
 
 @keyframes pageEnter {
-  0% {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
+  0% { transform: translateX(100%); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
 }
 
-/* Disable animation for initial page load */
+/* Disable animation for initial load */
 body.no-animation main.main {
   animation: none;
 }

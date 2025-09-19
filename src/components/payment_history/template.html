@@ -19,9 +19,7 @@
             @for (payment of payments; track payment.registered_in) {
               <tr>
                 <td>{{ formatAmount(payment.amount) }}</td>
-                <td>
-                  {{ formatDate(payment.started_in) }} - {{ formatDate(payment.expired_in) }}
-                </td>
+                <td>{{ formatDate(payment.started_in) }} - {{ formatDate(payment.expired_in) }}</td>
                 <td>{{ payment.registered_in | date:'dd.MM.yyyy HH:mm' }}</td>
               </tr>
             }

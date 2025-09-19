@@ -2,8 +2,6 @@
   position: relative;
   overflow: hidden;
   transition: all 0.2s ease;
-  
-  // Use larger Bootstrap button size
   min-height: 48px;
   min-width: 120px;
   display: inline-flex;
@@ -13,17 +11,10 @@
   font-size: 1.1rem;
   padding: 0.75rem 1.5rem;
   
-  &--icon-text {
-    // Use full available width when showing both
+  &--icon-text, &--animated {
     width: 100%;
   }
   
-  &--animated {
-    // Keep constant size during animation - use full width
-    width: 100%;
-  }
-  
-  // Content container for animated mode
   &__content {
     position: relative;
     display: flex;
@@ -33,16 +24,16 @@
     height: 100%;
   }
   
-  // Icon styles for animated mode
-  &__icon {
+  &__icon, &__text {
     position: absolute;
     transition: opacity 0.3s ease, transform 0.3s ease;
     opacity: 1;
     transform: translateX(0);
+    will-change: opacity, transform;
+    backface-visibility: hidden;
     
     &--hidden {
       opacity: 0;
-      transform: translateX(-10px);
     }
     
     &--animating {
@@ -50,25 +41,18 @@
     }
   }
   
-  // Text styles for animated mode
+  &__icon--hidden {
+    transform: translateX(-10px);
+  }
+  
   &__text {
-    position: absolute;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    opacity: 1;
-    transform: translateX(0);
     white-space: nowrap;
     
     &--hidden {
-      opacity: 0;
       transform: translateX(10px);
-    }
-    
-    &--animating {
-      transition: opacity 0.3s ease, transform 0.3s ease;
     }
   }
   
-  // Responsive behavior
   @media (max-width: 576px) {
     &--icon-text {
       min-width: 100px;
@@ -81,7 +65,6 @@
     }
   }
   
-  // Size variants
   &.btn-sm {
     min-height: 38px;
     font-size: 0.95rem;
@@ -95,15 +78,7 @@
   }
 }
 
-// Ensure proper spacing in button groups
 .btn-group .smart-button,
 .btn-toolbar .smart-button {
   flex-shrink: 1;
-}
-
-// Animation performance optimization
-.smart-button__icon,
-.smart-button__text {
-  will-change: opacity, transform;
-  backface-visibility: hidden;
 }

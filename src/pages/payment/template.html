@@ -1,109 +1,71 @@
 <legend class="text-center">Платёж</legend>
 <div class="container-fluid px-2">
-  <form #form_area="ngForm" (ngSubmit)="onSubmit()" class="g-3" novalidate>
+  <form #form_area="ngForm" (ngSubmit)="onSubmit()" novalidate>
     <div class="mb-3">
-        <label for="amount" class="form-label position-relative">
-            Сумма
-            <div *ngIf="amount.invalid && (amount.dirty || amount.touched)" class="alert">
-                <div *ngIf="amount.errors?.['minlength']"
-                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    Минимально 1 символ
-                </div>
-            </div>
-        </label>
-        <input id="amount" name="amount" type="text"
-            class="form-control"
-            [(ngModel)]="fields.amount" #amount="ngModel"
-            required="true" minlength="1"/>
+      <label for="amount" class="form-label position-relative">
+        Сумма
+        @if (amount.invalid && (amount.dirty || amount.touched) && amount.errors?.['minlength']) {
+          <div class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            Минимально 1 символ
+          </div>
+        }
+      </label>
+      <input id="amount" name="amount" type="text" class="form-control"
+        [(ngModel)]="fields.amount" #amount="ngModel" required minlength="1">
     </div>
+    
     <div class="mb-3">
-        <label for="started_in" class="form-label position-relative">
-            Разрешено с
-        </label>
-		<div class="input-group">
-			<input
-				class="form-control" placeholder="yyyy-mm-dd"
-				name="started_in" [(ngModel)]="fields.started_in"
-				ngbDatepicker #started_in="ngbDatepicker"
-				[positionTarget]="buttonStartedInEl"
-			/>
-			<button #buttonStartedInEl class="btn btn-outline-secondary" (click)="started_in.toggle()" type="button">
-                <fa-icon [icon]="faCalendar"></fa-icon>
-            </button>
-		</div>
+      <label for="started_in" class="form-label">Разрешено с</label>
+      <div class="input-group">
+        <input class="form-control" placeholder="yyyy-mm-dd" name="started_in" [(ngModel)]="fields.started_in"
+          ngbDatepicker #started_in="ngbDatepicker" [positionTarget]="buttonStartedInEl">
+        <button #buttonStartedInEl class="btn btn-outline-secondary" (click)="started_in.toggle()" type="button">
+          <fa-icon [icon]="faCalendar"></fa-icon>
+        </button>
+      </div>
     </div>
+    
     <div class="mb-3">
-        <label for="expired_in" class="form-label position-relative">
-            Разрешено до
-        </label>
-		<div class="input-group">
-			<input
-				class="form-control" placeholder="yyyy-mm-dd"
-				name="expired_in" [(ngModel)]="fields.expired_in"
-				ngbDatepicker #expired_in="ngbDatepicker"
-				[positionTarget]="buttonExpiredInEl"
-			/>
-			<button #buttonExpiredInEl class="btn btn-outline-secondary" (click)="expired_in.toggle()" type="button">
-                <fa-icon [icon]="faCalendar"></fa-icon>
-            </button>
-		</div>
+      <label for="expired_in" class="form-label">Разрешено до</label>
+      <div class="input-group">
+        <input class="form-control" placeholder="yyyy-mm-dd" name="expired_in" [(ngModel)]="fields.expired_in"
+          ngbDatepicker #expired_in="ngbDatepicker" [positionTarget]="buttonExpiredInEl">
+        <button #buttonExpiredInEl class="btn btn-outline-secondary" (click)="expired_in.toggle()" type="button">
+          <fa-icon [icon]="faCalendar"></fa-icon>
+        </button>
+      </div>
     </div>
   </form>
 
   <app-payment-history [customer_pk]="customer_pk"></app-payment-history>
+  <div class="mb-5 pb-5"></div>
 </div>
 
-<!-- Add spacing to prevent overlap with bottom buttons -->
-<div class="mb-5 pb-5"></div>
-
-<!-- Desktop view buttons -->
+<!-- Buttons -->
 <div class="d-none d-md-block">
   <div class="row mb-3">
     <div class="col-md-6">
-      <div class="d-flex">
-        <div class="d-grid" style="min-width: 120px;">
-          <app-smart-button
-            kind="secondary"
-            [icon]="faArrowLeft"
-            text="Назад"
-            (click)="navigateBack()">
-          </app-smart-button>
-        </div>
+      <div class="d-grid" style="min-width: 120px;">
+        <app-smart-button kind="secondary" [icon]="faArrowLeft" text="Назад" (click)="navigateBack()">
+        </app-smart-button>
       </div>
     </div>
-    <div class="col-md-6">
-      <div class="d-flex justify-content-end">
-        <div class="d-grid" style="min-width: 140px;">
-          <app-smart-button
-            kind="success"
-            [icon]="faSave"
-            text="Применить"
-            (click)="onSubmit()">
-          </app-smart-button>
-        </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <div class="d-grid" style="min-width: 140px;">
+        <app-smart-button kind="success" [icon]="faSave" text="Применить" (click)="onSubmit()">
+        </app-smart-button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Mobile view buttons -->
-<div class="d-md-none">
-  <div class="fixed-bottom">
-    <div class="container-fluid">
-      <div class="d-grid gap-2" style="grid-template-columns: 1fr 1fr;">
-        <app-smart-button
-          kind="secondary"
-          [icon]="faArrowLeft"
-          text="Назад"
-          (click)="navigateBack()">
-        </app-smart-button>
-        <app-smart-button
-          kind="success"
-          [icon]="faSave"
-          text="Применить"
-          (click)="onSubmit()">
-        </app-smart-button>
-      </div>
+<div class="d-md-none fixed-bottom">
+  <div class="container-fluid">
+    <div class="d-grid gap-2" style="grid-template-columns: 1fr 1fr;">
+      <app-smart-button kind="secondary" [icon]="faArrowLeft" text="Назад" (click)="navigateBack()">
+      </app-smart-button>
+      <app-smart-button kind="success" [icon]="faSave" text="Применить" (click)="onSubmit()">
+      </app-smart-button>
     </div>
   </div>
 </div>

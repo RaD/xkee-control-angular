@@ -1,38 +1,24 @@
-<button 
-  #buttonElement
-  [class]="getButtonClasses()"
-  [disabled]="disabled"
-  type="button">
-  
-  <!-- Icon and text together (desktop mode with enough space) -->
-  <ng-container *ngIf="displayMode === 'icon-text'">
+<button #buttonElement [class]="getButtonClasses()" [disabled]="disabled" type="button">
+  @if (displayMode === 'icon-text') {
     <fa-icon [icon]="icon" class="me-2"></fa-icon>
-    <span class="button-text">{{ text }}</span>
-  </ng-container>
+    <span>{{ text }}</span>
+  }
   
-  <!-- Icon only mode -->
-  <ng-container *ngIf="displayMode === 'icon-only'">
+  @if (displayMode === 'icon-only') {
     <fa-icon [icon]="icon"></fa-icon>
-  </ng-container>
+  }
   
-  <!-- Animated mode -->
-  <ng-container *ngIf="displayMode === 'animated'">
+  @if (displayMode === 'animated') {
     <div class="smart-button__content">
-      <!-- Icon (always present in animated mode) -->
-      <fa-icon 
-        [icon]="icon" 
-        class="smart-button__icon"
+      <fa-icon [icon]="icon" class="smart-button__icon"
         [class.smart-button__icon--hidden]="showText && !isAnimating"
         [class.smart-button__icon--animating]="isAnimating">
       </fa-icon>
-      
-      <!-- Text (fades in/out) -->
-      <span 
-        class="smart-button__text"
+      <span class="smart-button__text"
         [class.smart-button__text--hidden]="!showText && !isAnimating"
         [class.smart-button__text--animating]="isAnimating">
         {{ text }}
       </span>
     </div>
-  </ng-container>
+  }
 </button>

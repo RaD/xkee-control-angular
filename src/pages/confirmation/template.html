@@ -1,40 +1,30 @@
-<div class="container-fluid px-2" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Удаление {{ entity.name }}</h5>
-          <a type="button" class="btn-close" routerLink="navigateBack()" aria-label="Закрыть"></a>
+<div class="container-fluid px-2">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Удаление {{ entity.name }}</h5>
+        <a class="btn-close" (click)="navigateBack()"></a>
+      </div>
+      <div class="modal-body">
+        <p>{{ entity.message }}</p>
+        <div>
+          <h6>{{ entity.title }}</h6>
+          <p>{{ entity.description }}</p>
         </div>
-        <div class="modal-body">
-          <p>{{ entity.message }}</p>
-          <div>
-            <h6>{{ entity.title }}</h6>
-            <p>{{ entity.description }}</p>
+      </div>
+      <div class="modal-footer">
+        <div class="d-flex gap-2">
+          <div class="d-grid" style="min-width: 120px;">
+            <app-smart-button kind="secondary" [icon]="faTimes" text="Отмена" (click)="navigateBack()">
+            </app-smart-button>
           </div>
-        </div>
-        <div class="modal-footer">
-          <div class="d-flex gap-2">
-            <div class="d-grid" style="min-width: 120px;">
-              <app-smart-button
-                kind="secondary"
-                [icon]="faTimes"
-                text="Отмена"
-                (click)="navigateBack()">
-              </app-smart-button>
-            </div>
-            <div class="d-grid" style="min-width: 80px;">
-              <app-smart-button
-                kind="primary"
-                [icon]="faCheck"
-                text="Да"
-                (click)="navigateConfirmed()">
-              </app-smart-button>
-            </div>
+          <div class="d-grid" style="min-width: 80px;">
+            <app-smart-button kind="primary" [icon]="faCheck" text="Да" (click)="navigateConfirmed()">
+            </app-smart-button>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-<!-- Add spacing to prevent overlap with bottom buttons -->
-<div class="mb-5 pb-5"></div>
+  <div class="mb-5 pb-5"></div>
+</div>

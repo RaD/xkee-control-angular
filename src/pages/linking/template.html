@@ -1,162 +1,109 @@
 <legend class="text-center">Связаны с {{ customer?.last_name}} {{ customer?.first_name}} {{ customer?.middle_name }}</legend>
 <div class="container-fluid px-2">
-  <div class="row">
-    <div class="col">
-    @if (customers_linked.length == 0) {
-      <figure class="text-center">
-        <blockquote class="blockquote">
-          <p>Нет привязанных клиентов...</p>
-        </blockquote>
-      </figure>
-    }
-    <div class="table-responsive">
-      <table class="table">
-        <tbody>
-          @for (o of customers_linked; track o) {
-            <tr>
-              <td>
-                <div>
-                  {{ o.pk }}
-                </div>
-                <div>
-                  {{ o.last_name }}
-                  {{ o.first_name }}
-                  {{ o.middle_name }}
-                </div>
-              </td>
-              <td>{{ o.address }}</td>
-              <td>{{ o.vehicle }}</td>
-              <td>
-                <button class="btn btn-info"
-                  (click)="onUnlink(o.pk);">
-                  <fa-icon [icon]="faUnlink"></fa-icon>
-                </button>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <div class="card" style="background-color: lightgray;">
-        <div class="card-body">
-          <div class="card-title">
-            Для привязки клиентов найдите их через строку поиска ниже и нажмите на иконку связи.
-          </div>
-          <form #form_search="ngForm" name="form_search" (ngSubmit)="onSearch()"
-            class="d-flex d-md-flex flex-column flex-md-row g-3 align-items-center" novalidate>
-            <div class="p-2 flex-grow-1 w-100">
-              <label for="search" class="visually-hidden">Поиск</label>
-              <div class="input-group">
-                <div class="input-group-text">
-                  <fa-icon [icon]="faSearch"></fa-icon>
-                </div>
-                <input id="search" name="search"
-                  placeholder="Укажите любую информацию о пользователе"
-                  class="form-control"
-                  [(ngModel)]="search_query" #search="ngModel"
-                  required="true" minlength="2"/>
-              </div>
-            </div>
-            <div class="p-2 d-flex justify-content-end justify-content-md-start">
-              <button type="submit" class="btn btn-primary"
-              [disabled]="form_search.invalid">
-                <fa-icon [icon]="faSearch" class="me-2"></fa-icon>Найти
+  @if (customers_linked.length == 0) {
+    <figure class="text-center">
+      <blockquote class="blockquote">
+        <p>Нет привязанных клиентов...</p>
+      </blockquote>
+    </figure>
+  }
+  
+  <div class="table-responsive">
+    <table class="table">
+      <tbody>
+        @for (o of customers_linked; track o) {
+          <tr>
+            <td>
+              <div>{{ o.pk }}</div>
+              <div>{{ o.last_name }} {{ o.first_name }} {{ o.middle_name }}</div>
+            </td>
+            <td>{{ o.address }}</td>
+            <td>{{ o.vehicle }}</td>
+            <td>
+              <button class="btn btn-info" (click)="onUnlink(o.pk)">
+                <fa-icon [icon]="faUnlink"></fa-icon>
               </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card" style="background-color: lightgray;">
+    <div class="card-body">
+      <div class="card-title">
+        Для привязки клиентов найдите их через строку поиска ниже и нажмите на иконку связи.
+      </div>
+      <form #form_search="ngForm" (ngSubmit)="onSearch()" class="d-flex flex-column flex-md-row g-3 align-items-center" novalidate>
+        <div class="p-2 flex-grow-1 w-100">
+          <div class="input-group">
+            <div class="input-group-text">
+              <fa-icon [icon]="faSearch"></fa-icon>
             </div>
-          </form>
-          <div class="table-responsive">
-            <table class="table">
-              <tbody>
-                @for (o of customers_search; track o) {
-                  <tr>
-                    <td>
-                      <div>
-                        {{ o.pk }}
-                      </div>
-                      <div>
-                        {{ o.last_name }}
-                        {{ o.first_name }}
-                        {{ o.middle_name }}
-                      </div>
-                    </td>
-                    <td>{{ o.address }}</td>
-                    <td>{{ o.vehicle }}</td>
-                    <td>
-                      <!-- не позволяем привязывать самого себя -->
-                      <button class="btn btn-info"
-                        [disabled]="customer_pk == o.pk"
-                        (click)="onLink(o.pk);">
-                        <fa-icon [icon]="faLink"></fa-icon>
-                      </button>
-                    </td>
-                  </tr>
-                }
-              </tbody>
-            </table>
+            <input id="search" name="search" placeholder="Укажите любую информацию о пользователе" class="form-control"
+              [(ngModel)]="search_query" #search="ngModel" required minlength="2">
           </div>
         </div>
+        <div class="p-2 d-flex justify-content-end justify-content-md-start">
+          <button type="submit" class="btn btn-primary" [disabled]="form_search.invalid">
+            <fa-icon [icon]="faSearch" class="me-2"></fa-icon>Найти
+          </button>
+        </div>
+      </form>
+      
+      <div class="table-responsive">
+        <table class="table">
+          <tbody>
+            @for (o of customers_search; track o) {
+              <tr>
+                <td>
+                  <div>{{ o.pk }}</div>
+                  <div>{{ o.last_name }} {{ o.first_name }} {{ o.middle_name }}</div>
+                </td>
+                <td>{{ o.address }}</td>
+                <td>{{ o.vehicle }}</td>
+                <td>
+                  <button class="btn btn-info" [disabled]="customer_pk == o.pk" (click)="onLink(o.pk)">
+                    <fa-icon [icon]="faLink"></fa-icon>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
-  </div>
 
-  <!-- Add spacing to prevent overlap with bottom buttons -->
   <div class="mb-5 pb-5"></div>
+</div>
 
-  <!-- Add spacing to prevent overlap with bottom buttons -->
-  <div class="mb-5 pb-5"></div>
-
-  <!-- Desktop view buttons -->
-  <div class="d-none d-md-block">
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <div class="d-flex">
-          <div class="d-grid" style="min-width: 120px;">
-            <app-smart-button
-              kind="secondary"
-              [icon]="faArrowLeft"
-              text="Назад"
-              (click)="navigateBack()">
-            </app-smart-button>
-          </div>
-        </div>
+<!-- Buttons -->
+<div class="d-none d-md-block">
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="d-grid" style="min-width: 120px;">
+        <app-smart-button kind="secondary" [icon]="faArrowLeft" text="Назад" (click)="navigateBack()">
+        </app-smart-button>
       </div>
-      <div class="col-md-6">
-        <div class="d-flex justify-content-end">
-          <div class="d-grid" style="min-width: 180px;">
-            <app-smart-button
-              kind="primary"
-              [icon]="faPlus"
-              text="Добавить клиента"
-              (click)="navigateToCreate()">
-            </app-smart-button>
-          </div>
-        </div>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <div class="d-grid" style="min-width: 180px;">
+        <app-smart-button kind="primary" [icon]="faPlus" text="Добавить клиента" (click)="navigateToCreate()">
+        </app-smart-button>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Mobile view buttons -->
-  <div class="d-md-none">
-    <div class="fixed-bottom">
-      <div class="container-fluid">
-        <div class="d-grid gap-2" style="grid-template-columns: 1fr 1fr;">
-          <app-smart-button
-            kind="secondary"
-            [icon]="faArrowLeft"
-            text="Назад"
-            (click)="navigateBack()">
-          </app-smart-button>
-          <app-smart-button
-            kind="primary"
-            [icon]="faPlus"
-            text="Добавить клиента"
-            (click)="navigateToCreate()">
-          </app-smart-button>
-        </div>
-      </div>
+<div class="d-md-none fixed-bottom">
+  <div class="container-fluid">
+    <div class="d-grid gap-2" style="grid-template-columns: 1fr 1fr;">
+      <app-smart-button kind="secondary" [icon]="faArrowLeft" text="Назад" (click)="navigateBack()">
+      </app-smart-button>
+      <app-smart-button kind="primary" [icon]="faPlus" text="Добавить клиента" (click)="navigateToCreate()">
+      </app-smart-button>
     </div>
   </div>
+</div>

@@ -1,233 +1,109 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
   <legend class="mb-0">Территория</legend>
   @if (!is_creation()) {
-    <a type="button" class="btn btn-info btn-sm d-flex align-items-center"
-      (click)="navigateToBLE()">
-      <fa-icon [icon]="faBluetooth" class="me-2"></fa-icon>
-      BLE
+    <a type="button" class="btn btn-info btn-sm d-flex align-items-center" (click)="navigateToBLE()">
+      <fa-icon [icon]="faBluetooth" class="me-2"></fa-icon>BLE
     </a>
   }
 </div>
+
 <div class="container-fluid">
-  <form #form_area="ngForm" id="form_area" (ngSubmit)="onSubmit()" class="g-3" novalidate>
-  <div class="mb-3">
-    <label for="title" class="form-label position-relative">
-      Название
-      @if (title.invalid && (title.dirty || title.touched)) {
-        <div class="alert">
-          @if (title.errors?.['minlength']) {
-            <div
-              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-              Минимально 3 символа
-            </div>
-          }
-        </div>
-      }
-    </label>
-    <input id="title" name="title" placeholder="Мой двор"
-      class="form-control"
-      [(ngModel)]="fields.title" #title="ngModel"
-      required="true" minlength="3"/>
-  </div>
-  <div class="mb-3">
-    <label for="address" class="form-label position-relative">
-      Адрес
-      @if (address.invalid && (address.dirty || address.touched)) {
-        <div class="alert">
-          @if (address.errors?.['minlength']) {
-            <div
-              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-              Минимально 3 символа
-            </div>
-          }
-        </div>
-      }
-    </label>
-    <input id="address" name="address" placeholder="Адрес территории"
-      class="form-control"
-      [(ngModel)]="fields.address" #address="ngModel"
-      required="true" minlength="3"/>
-  </div>
-  <div class="mb-3">
-    <label for="kind" class="form-label position-relative">
-      Тип
-    </label>
-    <select id="kind" name="kind" placeholder="Выберите тип управления"
-      class="form-select"
-      [(ngModel)]="fields.kind" #kind="ngModel"
-      required="true">
-      <!--
-      <option value="autonomous">Автономный</option>
-      <option value="homeass">Home Assistant</option>
-      <option value="homekit">Apple HomeKit</option>
-      //-->
-      <option value="xkee" selected>XKee Cloud</option>
-    </select>
-  </div>
-  @if (need_credentials()) {
+  <form #form_area="ngForm" (ngSubmit)="onSubmit()" novalidate>
+    <!-- Title Field -->
     <div class="mb-3">
-      <label for="access" class="form-label position-relative">
-        Access Key
+      <label for="title" class="form-label position-relative">
+        Название
+        @if (title.invalid && (title.dirty || title.touched) && title.errors?.['minlength']) {
+          <div class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            Минимально 3 символа
+          </div>
+        }
       </label>
-      <input id="access" name="access"
-        class="form-control"
-        [(ngModel)]="fields.access" #access="ngModel"
-        required="true" minlength="3"/>
+      <input id="title" name="title" placeholder="Мой двор" class="form-control"
+        [(ngModel)]="fields.title" #title="ngModel" required minlength="3"/>
     </div>
-  }
-  @if (need_credentials()) {
+
+    <!-- Address Field -->
     <div class="mb-3">
-      <label for="secret" class="form-label position-relative">
-        Secret Key
+      <label for="address" class="form-label position-relative">
+        Адрес
+        @if (address.invalid && (address.dirty || address.touched) && address.errors?.['minlength']) {
+          <div class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            Минимально 3 символа
+          </div>
+        }
       </label>
-      <input id="secret" name="secret"
-        class="form-control"
-        [(ngModel)]="fields.secret" #secret="ngModel"
-        required="true" minlength="3"/>
+      <input id="address" name="address" placeholder="Адрес территории" class="form-control"
+        [(ngModel)]="fields.address" #address="ngModel" required minlength="3"/>
     </div>
-  }
+
+    <!-- Kind Field -->
+    <div class="mb-3">
+      <label for="kind" class="form-label">Тип</label>
+      <select id="kind" name="kind" class="form-select" [(ngModel)]="fields.kind" #kind="ngModel" required>
+        <option value="xkee" selected>XKee Cloud</option>
+      </select>
+    </div>
+
+    <!-- Credentials Fields -->
+    @if (need_credentials()) {
+      <div class="mb-3">
+        <label for="access" class="form-label">Access Key</label>
+        <input id="access" name="access" class="form-control"
+          [(ngModel)]="fields.access" #access="ngModel" required minlength="3"/>
+      </div>
+      <div class="mb-3">
+        <label for="secret" class="form-label">Secret Key</label>
+        <input id="secret" name="secret" class="form-control"
+          [(ngModel)]="fields.secret" #secret="ngModel" required minlength="3"/>
+      </div>
+    }
   </form>
 </div>
 
-<!-- Desktop view buttons -->
-<div class="d-none d-md-block">
-  <div class="row mb-3">
-    <div class="col-md-6">
-      <div class="d-grid">
-        <app-smart-button
-          kind="secondary"
-          [icon]="faArrowLeft"
-          text="Назад"
-          (click)="navigateBack()">
-        </app-smart-button>
-      </div>
+<!-- Button Actions -->
+<div class="button-actions">
+  <!-- Desktop Buttons -->
+  <div class="d-none d-md-block">
+    <div class="main-buttons">
+      <app-smart-button kind="secondary" [icon]="faArrowLeft" text="Назад" (click)="navigateBack()"></app-smart-button>
+      <app-smart-button kind="success" [icon]="faSave" text="Применить" 
+        [disabled]="form_area?.invalid || false" (click)="onSubmit()"></app-smart-button>
     </div>
-    <div class="col-md-6">
-      <div class="d-grid">
-        <app-smart-button
-          kind="success"
-          [icon]="faSave"
-          text="Применить"
-          [disabled]="form_area?.invalid || false"
-          (click)="onSubmit()">
-        </app-smart-button>
+
+    @if (!is_creation()) {
+      <div class="action-buttons">
+        <app-smart-button kind="info" [icon]="faSync" 
+          [text]="syncing ? 'Синхронизация...' : 'Синхронизировать'"
+          [disabled]="syncing" (click)="onSync()"></app-smart-button>
+        <app-smart-button kind="info" [icon]="faFileImport" text="Импорт" (click)="navigateToImport()"></app-smart-button>
+        <app-smart-button kind="info" [icon]="faFileExport" text="Экспорт" (click)="export()"></app-smart-button>
       </div>
-    </div>
+      <div class="danger-button">
+        <app-smart-button kind="danger" [icon]="faTrash" text="Удалить" (click)="navigateToConfirm()"></app-smart-button>
+      </div>
+    } @else {
+      <div class="import-button">
+        <app-smart-button kind="info" [icon]="faFileImport" text="Импорт" (click)="navigateToImport()"></app-smart-button>
+      </div>
+    }
   </div>
 
-  <!-- Add spacing to prevent overlap with bottom buttons -->
-  <div class="mb-5 pb-5"></div>
-
-  @if (!is_creation()) {
-    <div class="position-fixed bottom-0 start-0 p-3">
-      <div class="d-grid" style="min-width: 120px;">
-        <app-smart-button
-          kind="danger"
-          [icon]="faTrash"
-          text="Удалить"
-          (click)="navigateToConfirm()">
-        </app-smart-button>
-      </div>
-    </div>
-    <div class="position-fixed bottom-0 end-0 p-3">
-      <div class="d-flex gap-2">
-        <div class="d-grid" style="min-width: 160px;">
-          <app-smart-button
-            kind="info"
-            [icon]="faSync"
-            [text]="syncing ? 'Синхронизация...' : 'Синхронизировать'"
-            [disabled]="syncing || is_creation()"
-            (click)="onSync()">
-          </app-smart-button>
-        </div>
-        <div class="d-grid" style="min-width: 120px;">
-          <app-smart-button
-            kind="info"
-            [icon]="faFileImport"
-            text="Импорт"
-            (click)="navigateToImport()"
-            style="width: 30vw;">
-          </app-smart-button>
-        </div>
-        <div class="d-grid" style="min-width: 120px;">
-          <app-smart-button
-            kind="info"
-            [icon]="faFileExport"
-            text="Экспорт"
-            (click)="export()">
-          </app-smart-button>
-        </div>
-      </div>
-    </div>
-  } @else {
-    <div class="position-fixed bottom-0 end-0 p-3">
-      <div class="d-flex gap-2">
-        <div class="d-grid" style="min-width: 120px;">
-          <app-smart-button
-            kind="info"
-            [icon]="faFileImport"
-            text="Импорт"
-            (click)="navigateToImport()"
-            style="width: 30vw;">
-          </app-smart-button>
-        </div>
-      </div>
-    </div>
-  }
-</div>
-
-<!-- Mobile view buttons -->
-<div class="d-md-none">
-  <div class="fixed-bottom">
+  <!-- Mobile Buttons -->
+  <div class="d-md-none mobile-buttons">
     <div class="container-fluid">
-      <div class="d-grid gap-2" style="grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));">
-        <app-smart-button
-          kind="secondary"
-          [icon]="faArrowLeft"
-          text="Назад"
-          size="sm"
-          (click)="navigateBack()">
-        </app-smart-button>
-        <app-smart-button
-          kind="success"
-          [icon]="faSave"
-          text="Сохранить"
-          size="sm"
-          [disabled]="form_area?.invalid || false"
-          (click)="onSubmit()">
-        </app-smart-button>
+      <div class="mobile-grid">
+        <app-smart-button kind="secondary" [icon]="faArrowLeft" text="Назад" size="sm" (click)="navigateBack()"></app-smart-button>
+        <app-smart-button kind="success" [icon]="faSave" text="Сохранить" size="sm" 
+          [disabled]="form_area?.invalid || false" (click)="onSubmit()"></app-smart-button>
         @if (!is_creation()) {
-          <app-smart-button
-            kind="info"
-            [icon]="faSync"
-            [text]="syncing ? 'Синхр...' : 'Синхр'"
-            size="sm"
-            [disabled]="syncing"
-            (click)="onSync()">
-          </app-smart-button>
-          <app-smart-button
-            kind="danger"
-            [icon]="faTrash"
-            text="Удалить"
-            size="sm"
-            (click)="navigateToConfirm()">
-          </app-smart-button>
+          <app-smart-button kind="info" [icon]="faSync" [text]="syncing ? 'Синхр...' : 'Синхр'" 
+            size="sm" [disabled]="syncing" (click)="onSync()"></app-smart-button>
+          <app-smart-button kind="danger" [icon]="faTrash" text="Удалить" size="sm" (click)="navigateToConfirm()"></app-smart-button>
         }
-        <app-smart-button
-          kind="info"
-          [icon]="faFileImport"
-          text="Импорт"
-          size="sm"
-          (click)="navigateToImport()">
-        </app-smart-button>
+        <app-smart-button kind="info" [icon]="faFileImport" text="Импорт" size="sm" (click)="navigateToImport()"></app-smart-button>
         @if (!is_creation()) {
-          <app-smart-button
-            kind="info"
-            [icon]="faFileExport"
-            text="Экспорт"
-            size="sm"
-            (click)="export()">
-          </app-smart-button>
+          <app-smart-button kind="info" [icon]="faFileExport" text="Экспорт" size="sm" (click)="export()"></app-smart-button>
         }
       </div>
     </div>

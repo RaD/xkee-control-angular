@@ -1,0 +1,67 @@
+.button-actions {
+  margin-top: 2rem;
+  
+  .main-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .action-buttons {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    
+    app-smart-button {
+      min-width: 120px;
+    }
+  }
+  
+  .danger-button {
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+    
+    app-smart-button {
+      min-width: 120px;
+    }
+  }
+  
+  .import-button {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    
+    app-smart-button {
+      min-width: 120px;
+    }
+  }
+  
+  .mobile-buttons {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    padding: 1rem 0;
+  }
+  
+  .mobile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 0.5rem;
+  }
+}
+
+// Add spacing to prevent content overlap with fixed buttons
+.container-fluid {
+  margin-bottom: 8rem;
+  
+  @media (min-width: 768px) {
+    margin-bottom: 2rem;
+  }
+}

@@ -1,185 +1,117 @@
 <legend class="text-center">Клиенты территории "{{ area?.title }}"</legend>
 <div class="container-fluid px-2">
-  <form #form_customer="ngForm" id="form_customer" (ngSubmit)="onSubmit()" class="g-3" novalidate>
-  <div class="mb-3 form-check form-switch">
-    <input id="active" name="active" type="checkbox" role="switch"
-      class="form-check-input"
-      [(ngModel)]="fields.active" #active="ngModel"
-      required="false"/>
-    <label for="active" class="form-check-label position-relative">
-      Разрешён доступ
-    </label>
-  </div>
-  @if (showPk()) {
+  <form #form_customer="ngForm" (ngSubmit)="onSubmit()" novalidate>
+    <div class="mb-3 form-check form-switch">
+      <input id="active" name="active" type="checkbox" class="form-check-input" [(ngModel)]="fields.active" #active="ngModel">
+      <label for="active" class="form-check-label">Разрешён доступ</label>
+    </div>
+    
+    @if (showPk()) {
+      <div class="mb-3">
+        <label for="pk" class="form-label position-relative">
+          Телефон
+          @if (pk.invalid && (pk.dirty || pk.touched) && pk.errors?.['minlength']) {
+            <div class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              Минимально 10 символов
+            </div>
+          }
+        </label>
+        <input id="pk" name="pk" placeholder="+79161234567" class="form-control"
+          [(ngModel)]="fields.pk" #pk="ngModel" required minlength="10">
+      </div>
+    }
+    
     <div class="mb-3">
-      <label for="pk" class="form-label position-relative">
-        Телефон
-        @if (pk.invalid && (pk.dirty || pk.touched)) {
-          <div class="alert">
-            @if (pk.errors?.['minlength']) {
-              <div
-                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                Минимально 10 символов
-              </div>
-            }
+      <label for="last_name" class="form-label">Фамилия</label>
+      <input id="last_name" name="last_name" placeholder="Иванов" class="form-control"
+        [(ngModel)]="fields.last_name" #last_name="ngModel" required>
+    </div>
+    
+    <div class="mb-3">
+      <label for="first_name" class="form-label">Имя</label>
+      <input id="first_name" name="first_name" placeholder="Иван" class="form-control"
+        [(ngModel)]="fields.first_name" #first_name="ngModel" required>
+    </div>
+    
+    <div class="mb-3">
+      <label for="middle_name" class="form-label">Отчество</label>
+      <input id="middle_name" name="middle_name" placeholder="Иванович" class="form-control"
+        [(ngModel)]="fields.middle_name" #middle_name="ngModel">
+    </div>
+    
+    <div class="mb-3">
+      <label for="address" class="form-label position-relative">
+        Адрес
+        @if (address.invalid && (address.dirty || address.touched) && address.errors?.['minlength']) {
+          <div class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            Минимально 3 символа
           </div>
         }
       </label>
-      <input id="pk" name="pk" placeholder="+79161234567"
-        class="form-control"
-        [(ngModel)]="fields.pk" #pk="ngModel"
-        required="true" minlength="10"/>
+      <input id="address" name="address" placeholder="У первого подъезда" class="form-control"
+        [(ngModel)]="fields.address" #address="ngModel" minlength="3">
     </div>
-  }
-  <div class="mb-3">
-    <label for="last_name" class="form-label position-relative">
-      Фамилия
-    </label>
-    <input id="last_name" name="last_name" placeholder="Иванов"
-      class="form-control"
-      [(ngModel)]="fields.last_name" #last_name="ngModel"
-      required="true"/>
-  </div>
-  <div class="mb-3">
-    <label for="first_name" class="form-label position-relative">
-      Имя
-    </label>
-    <input id="first_name" name="first_name" placeholder="Иван"
-      class="form-control"
-      [(ngModel)]="fields.first_name" #first_name="ngModel"
-      required="true"/>
-  </div>
-  <div class="mb-3">
-    <label for="middle_name" class="form-label position-relative">
-      Отчество
-    </label>
-    <input id="middle_name" name="middle_name" placeholder="Иванович"
-      class="form-control"
-      [(ngModel)]="fields.middle_name" #middle_name="ngModel"
-      required="false"/>
-  </div>
-  <div class="mb-3">
-    <label for="address" class="form-label position-relative">
-      Адрес
-      @if (address.invalid && (address.dirty || address.touched)) {
-        <div class="alert">
-          @if (address.errors?.['minlength']) {
-            <div
-              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-              Минимально 3 символа
-            </div>
-          }
-        </div>
-      }
-    </label>
-    <input id="address" name="address" placeholder="У первого подъезда"
-      class="form-control"
-      [(ngModel)]="fields.address" #address="ngModel"
-      required="false" minlength="3"/>
-  </div>
-  <div class="mb-3">
-    <label for="vehicle" class="form-label position-relative">
-      Машина и регистрационный номер
-    </label>
-    <input id="vehicle" name="vehicle" placeholder="Audi A6 007aa777"
-      class="form-control"
-      [(ngModel)]="fields.vehicle" #vehicle="ngModel"
-      required="false"/>
-  </div>
-  <div class="mb-3">
-    <label for="comment" class="form-label position-relative">
-      Комментарий
-    </label>
-    <textarea id="comment" name="comment"
-      placeholder="Дополнительные сведения о клиенте"
-      class="form-control"
-      [(ngModel)]="fields.comment" #comment="ngModel"
-      required="false">
-    </textarea>
-  </div>
-  @if (fields.synced) {
+    
     <div class="mb-3">
-      <div class="alert alert-info d-flex align-items-center">
-        <i class="bi bi-check-circle me-2"></i>
-        <span>Последняя синхронизация: {{ fields.synced | date:'dd.MM.yyyy' }}</span>
-      </div>
+      <label for="vehicle" class="form-label">Машина и регистрационный номер</label>
+      <input id="vehicle" name="vehicle" placeholder="Audi A6 007aa777" class="form-control"
+        [(ngModel)]="fields.vehicle" #vehicle="ngModel">
     </div>
-  }
+    
+    <div class="mb-3">
+      <label for="comment" class="form-label">Комментарий</label>
+      <textarea id="comment" name="comment" placeholder="Дополнительные сведения о клиенте" class="form-control"
+        [(ngModel)]="fields.comment" #comment="ngModel"></textarea>
+    </div>
+    
+    @if (fields.synced) {
+      <div class="mb-3">
+        <div class="alert alert-info d-flex align-items-center">
+          <i class="bi bi-check-circle me-2"></i>
+          <span>Последняя синхронизация: {{ fields.synced | date:'dd.MM.yyyy' }}</span>
+        </div>
+      </div>
+    }
   </form>
+
+  <div class="mb-5 pb-5"></div>
 </div>
 
-<!-- Add spacing to prevent overlap with bottom buttons -->
-<div class="mb-5 pb-5"></div>
-
-<!-- Desktop view buttons -->
+<!-- Buttons -->
 <div class="d-none d-md-block">
   <div class="row mb-3">
     <div class="col-md-6">
-      <div class="d-flex">
-        <div class="d-grid" style="min-width: 120px;">
-          <app-smart-button
-            kind="secondary"
-            [icon]="faArrowLeft"
-            text="Назад"
-            (click)="navigateBack()">
-          </app-smart-button>
-        </div>
+      <div class="d-grid" style="min-width: 120px;">
+        <app-smart-button kind="secondary" [icon]="faArrowLeft" text="Назад" (click)="navigateBack()">
+        </app-smart-button>
       </div>
     </div>
-    <div class="col-md-6">
-      <div class="d-flex justify-content-end">
-        <div class="d-grid" style="min-width: 140px;">
-          <app-smart-button
-            kind="success"
-            [icon]="faSave"
-            text="Применить"
-            [disabled]="form_customer?.invalid || false"
-            (click)="onSubmit()">
-          </app-smart-button>
-        </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <div class="d-grid" style="min-width: 140px;">
+        <app-smart-button kind="success" [icon]="faSave" text="Применить"
+          [disabled]="form_customer?.invalid || false" (click)="onSubmit()">
+        </app-smart-button>
       </div>
     </div>
   </div>
   <div class="position-fixed bottom-0 start-0 p-3">
     <div class="d-grid" style="min-width: 120px;">
-      <app-smart-button
-        kind="danger"
-        [icon]="faTrash"
-        text="Удалить"
-        (click)="navigateToRemove()">
+      <app-smart-button kind="danger" [icon]="faTrash" text="Удалить" (click)="navigateToRemove()">
       </app-smart-button>
     </div>
   </div>
 </div>
 
-<!-- Mobile view buttons -->
-<div class="d-md-none">
-  <div class="fixed-bottom">
-    <div class="container-fluid">
-      <div class="d-grid gap-2" style="grid-template-columns: repeat(3, 1fr);">
-        <app-smart-button
-          kind="secondary"
-          [icon]="faArrowLeft"
-          text="Назад"
-          size="sm"
-          (click)="navigateBack()">
-        </app-smart-button>
-        <app-smart-button
-          kind="success"
-          [icon]="faSave"
-          text="Применить"
-          size="sm"
-          [disabled]="form_customer?.invalid || false"
-          (click)="onSubmit()">
-        </app-smart-button>
-        <app-smart-button
-          kind="danger"
-          [icon]="faTrash"
-          text="Удалить"
-          size="sm"
-          (click)="navigateToRemove()">
-        </app-smart-button>
-      </div>
+<div class="d-md-none fixed-bottom">
+  <div class="container-fluid">
+    <div class="d-grid gap-2" style="grid-template-columns: repeat(3, 1fr);">
+      <app-smart-button kind="secondary" [icon]="faArrowLeft" text="Назад" size="sm" (click)="navigateBack()">
+      </app-smart-button>
+      <app-smart-button kind="success" [icon]="faSave" text="Применить" size="sm"
+        [disabled]="form_customer?.invalid || false" (click)="onSubmit()">
+      </app-smart-button>
+      <app-smart-button kind="danger" [icon]="faTrash" text="Удалить" size="sm" (click)="navigateToRemove()">
+      </app-smart-button>
     </div>
   </div>
 </div>

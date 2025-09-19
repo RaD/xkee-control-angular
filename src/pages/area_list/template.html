@@ -1,131 +1,108 @@
 <legend class="text-center">Территории</legend>
 <div class="container-fluid px-1">
-  <div class="row">
-    <div class="col">
-    @if (empty) {
-      <figure class="text-center">
-        <blockquote class="blockquote">
-          <p>У вас пока не зарегистрировано ни одной территории...</p>
-        </blockquote>
-        <figcaption class="blockquote-footer">
-          Самое время добавить хотя бы одну...
-        </figcaption>
-      </figure>
-    }
-    @if (!empty) {
-      <!-- Desktop view -->
-      <div class="d-none d-md-block">
-        <div class="table-responsive">
-          <table class="table">
-            <tbody>
-              @for (area of areas; track area) {
-                <tr>
-                  <td>
-                    <a (click)="navigateToCustomers(area)">
-                      <div class="area-title">{{ area.title }}</div>
-                    </a>
-                    <small class="text-muted">{{ area.kind }}</small>
-                  </td>
-                  <td>
-                    <fa-icon [icon]="faUser" label="Настройки"></fa-icon>
-                    {{ area.customers.length }}
-                  </td>
-                  <td>{{ area.address }}</td>
-                  <td class="d-grid gap-2 d-flex justify-content-end">
-                    <a type="button" class="btn btn-info position-relative"
-                      (click)="navigateToDevices(area)">
-                      <fa-icon [icon]="faWalkieTalkie" label="Устройства"></fa-icon>
-                      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        {{ area.devices.length }}
-                      </span>
-                    </a>
-                    <a type="button" class="btn btn-info"
-                      (click)="navigateToSettings(area)">
-                      <fa-icon [icon]="faGear" label="Настройки"></fa-icon>
-                    </a>
-                  </td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Mobile view -->
-      <div class="d-md-none">
-        @for (area of areas; track area) {
-          <div class="card mb-2">
-            <div class="card-body p-2">
-              <div class="row align-items-center">
-                <div class="col-8">
-                  <a (click)="navigateToCustomers(area)" class="text-decoration-none">
-                    <div class="fw-bold area-title">{{ area.title }}</div>
-                    <small class="text-muted d-block">{{ area.kind }}</small>
-                    <small class="text-muted d-block">{{ area.address }}</small>
-                    <small class="text-muted">
-                      <fa-icon [icon]="faUser" class="me-1"></fa-icon>
-                      {{ area.customers.length }}
-                    </small>
+  @if (empty) {
+    <figure class="text-center">
+      <blockquote class="blockquote">
+        <p>У вас пока не зарегистрировано ни одной территории...</p>
+      </blockquote>
+      <figcaption class="blockquote-footer">
+        Самое время добавить хотя бы одну...
+      </figcaption>
+    </figure>
+  } @else {
+    <!-- Desktop view -->
+    <div class="d-none d-md-block">
+      <div class="table-responsive">
+        <table class="table">
+          <tbody>
+            @for (area of areas; track area) {
+              <tr>
+                <td>
+                  <a (click)="navigateToCustomers(area)">
+                    <div class="area-title">{{ area.title }}</div>
                   </a>
-                </div>
-                <div class="col-4">
-                  <div class="d-flex flex-column gap-1 align-items-end">
-                    <a type="button" class="btn btn-info btn-sm position-relative square-btn"
-                      (click)="navigateToDevices(area)">
-                      <fa-icon [icon]="faWalkieTalkie"></fa-icon>
-                      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger badge-sm">
-                        {{ area.devices.length }}
-                      </span>
-                    </a>
-                    <a type="button" class="btn btn-info btn-sm square-btn"
-                      (click)="navigateToSettings(area)">
-                      <fa-icon [icon]="faGear"></fa-icon>
-                    </a>
-                  </div>
+                  <small class="text-muted">{{ area.kind }}</small>
+                </td>
+                <td>
+                  <fa-icon [icon]="faUser"></fa-icon>
+                  {{ area.customers.length }}
+                </td>
+                <td>{{ area.address }}</td>
+                <td class="d-flex justify-content-end gap-2">
+                  <a class="btn btn-info position-relative" (click)="navigateToDevices(area)">
+                    <fa-icon [icon]="faWalkieTalkie"></fa-icon>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                      {{ area.devices.length }}
+                    </span>
+                  </a>
+                  <a class="btn btn-info" (click)="navigateToSettings(area)">
+                    <fa-icon [icon]="faGear"></fa-icon>
+                  </a>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Mobile view -->
+    <div class="d-md-none">
+      @for (area of areas; track area) {
+        <div class="card mb-2">
+          <div class="card-body p-2">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <a (click)="navigateToCustomers(area)" class="text-decoration-none">
+                  <div class="fw-bold area-title">{{ area.title }}</div>
+                  <small class="text-muted d-block">{{ area.kind }}</small>
+                  <small class="text-muted d-block">{{ area.address }}</small>
+                  <small class="text-muted">
+                    <fa-icon [icon]="faUser" class="me-1"></fa-icon>
+                    {{ area.customers.length }}
+                  </small>
+                </a>
+              </div>
+              <div class="col-4">
+                <div class="d-flex flex-column gap-1 align-items-end">
+                  <a class="btn btn-info btn-sm position-relative square-btn" (click)="navigateToDevices(area)">
+                    <fa-icon [icon]="faWalkieTalkie"></fa-icon>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger badge-sm">
+                      {{ area.devices.length }}
+                    </span>
+                  </a>
+                  <a class="btn btn-info btn-sm square-btn" (click)="navigateToSettings(area)">
+                    <fa-icon [icon]="faGear"></fa-icon>
+                  </a>
                 </div>
               </div>
             </div>
           </div>
-        }
-      </div>
-    }
-  </div>
+        </div>
+      }
+    </div>
+  }
 
-  <!-- Add spacing to prevent overlap with bottom buttons -->
   <div class="mb-5 pb-5"></div>
-  </div>
 </div>
 
-<!-- Desktop view buttons -->
+<!-- Buttons -->
 <div class="d-none d-md-block">
   <div class="row mb-3">
-    <div class="col-md-12">
-      <div class="d-flex justify-content-end">
-        <div class="d-grid" style="min-width: 200px;">
-          <app-smart-button
-            kind="primary"
-            [icon]="faPlus"
-            text="Добавить территорию"
-            (click)="navigateToCreate()">
-          </app-smart-button>
-        </div>
+    <div class="col-md-12 d-flex justify-content-end">
+      <div class="d-grid" style="min-width: 200px;">
+        <app-smart-button kind="primary" [icon]="faPlus" text="Добавить территорию" (click)="navigateToCreate()">
+        </app-smart-button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Mobile view buttons -->
-<div class="d-md-none">
-  <div class="fixed-bottom">
-    <div class="container-fluid">
-      <div class="d-grid">
-        <app-smart-button
-          kind="primary"
-          [icon]="faPlus"
-          text="Добавить территорию"
-          (click)="navigateToCreate()">
-        </app-smart-button>
-      </div>
+<div class="d-md-none fixed-bottom">
+  <div class="container-fluid">
+    <div class="d-grid">
+      <app-smart-button kind="primary" [icon]="faPlus" text="Добавить территорию" (click)="navigateToCreate()">
+      </app-smart-button>
     </div>
   </div>
 </div>

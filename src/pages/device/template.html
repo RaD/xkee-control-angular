@@ -1,123 +1,72 @@
 <legend class="text-center">Устройства территории "{{ area?.title }}"</legend>
 <div class="container-fluid px-2">
-  <form #form_device="ngForm" id="form_device" (ngSubmit)="onSubmit()" class="g-3" novalidate>
-  @if (showPk()) {
+  <form #form_device="ngForm" (ngSubmit)="onSubmit()" novalidate>
+    @if (showPk()) {
+      <div class="mb-3">
+        <label for="pk" class="form-label">Идентификатор</label>
+        <input id="pk" name="pk" placeholder="UUID" class="form-control"
+          [(ngModel)]="fields.pk" #pk="ngModel" required>
+      </div>
+    }
+    
     <div class="mb-3">
-      <label for="pk" class="form-label position-relative">
-        Идентификатор
-      </label>
-      <input id="pk" name="pk" placeholder="UUID"
-        class="form-control"
-        [(ngModel)]="fields.pk" #pk="ngModel"
-        required="true"/>
+      <label for="title" class="form-label">Название</label>
+      <input id="title" name="title" placeholder="Шлагбаум" class="form-control"
+        [(ngModel)]="fields.title" #title="ngModel" required>
     </div>
-  }
-  <div class="mb-3">
-    <label for="title" class="form-label position-relative">
-      Название
-    </label>
-    <input id="title" name="title" placeholder="Шлагбаум"
-      class="form-control"
-      [(ngModel)]="fields.title" #title="ngModel"
-      required="true"/>
-  </div>
-  <div class="mb-3">
-    <label for="description" class="form-label position-relative">
-      Описание
-      @if (description.invalid && (description.dirty || description.touched)) {
-        <div class="alert">
-          @if (description.errors?.['minlength']) {
-            <div
-              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-              Минимально 3 символа
-            </div>
-          }
-        </div>
-      }
-    </label>
-    <input id="description" name="description" placeholder="У первого подъезда"
-      class="form-control"
-      [(ngModel)]="fields.description" #description="ngModel"
-      required="true" minlength="3"/>
-  </div>
+    
+    <div class="mb-3">
+      <label for="description" class="form-label position-relative">
+        Описание
+        @if (description.invalid && (description.dirty || description.touched) && description.errors?.['minlength']) {
+          <div class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            Минимально 3 символа
+          </div>
+        }
+      </label>
+      <input id="description" name="description" placeholder="У первого подъезда" class="form-control"
+        [(ngModel)]="fields.description" #description="ngModel" required minlength="3">
+    </div>
   </form>
+
+  <div class="mb-5 pb-5"></div>
 </div>
 
-<!-- Add spacing to prevent overlap with bottom buttons -->
-<div class="mb-5 pb-5"></div>
-
-<!-- Add spacing to prevent overlap with bottom buttons -->
-<div class="mb-5 pb-5"></div>
-
-<!-- Desktop view buttons -->
+<!-- Buttons -->
 <div class="d-none d-md-block">
   <div class="row mb-3">
     <div class="col-md-6">
-      <div class="d-flex">
-        <div class="d-grid" style="min-width: 120px;">
-          <app-smart-button
-            kind="secondary"
-            [icon]="faArrowLeft"
-            text="Назад"
-            (click)="navigateBack()">
-          </app-smart-button>
-        </div>
+      <div class="d-grid" style="min-width: 120px;">
+        <app-smart-button kind="secondary" [icon]="faArrowLeft" text="Назад" (click)="navigateBack()">
+        </app-smart-button>
       </div>
     </div>
-    <div class="col-md-6">
-      <div class="d-flex justify-content-end">
-        <div class="d-grid" style="min-width: 140px;">
-          <app-smart-button
-            kind="success"
-            [icon]="faSave"
-            text="Применить"
-            [disabled]="form_device?.invalid || false"
-            (click)="onSubmit()">
-          </app-smart-button>
-        </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <div class="d-grid" style="min-width: 140px;">
+        <app-smart-button kind="success" [icon]="faSave" text="Применить"
+          [disabled]="form_device?.invalid || false" (click)="onSubmit()">
+        </app-smart-button>
       </div>
     </div>
   </div>
   <div class="position-fixed bottom-0 start-0 p-3">
     <div class="d-grid" style="min-width: 120px;">
-      <app-smart-button
-        kind="danger"
-        [icon]="faTrash"
-        text="Удалить"
-        (click)="navigateToConfirm()">
+      <app-smart-button kind="danger" [icon]="faTrash" text="Удалить" (click)="navigateToConfirm()">
       </app-smart-button>
     </div>
   </div>
 </div>
 
-<!-- Mobile view buttons -->
-<div class="d-md-none">
-  <div class="fixed-bottom">
-    <div class="container-fluid">
-      <div class="d-grid gap-2" style="grid-template-columns: repeat(3, 1fr);">
-        <app-smart-button
-          kind="secondary"
-          [icon]="faArrowLeft"
-          text="Назад"
-          size="sm"
-          (click)="navigateBack()">
-        </app-smart-button>
-        <app-smart-button
-          kind="success"
-          [icon]="faSave"
-          text="Применить"
-          size="sm"
-          [disabled]="form_device?.invalid || false"
-          (click)="onSubmit()">
-        </app-smart-button>
-        <app-smart-button
-          kind="danger"
-          [icon]="faTrash"
-          text="Удалить"
-          size="sm"
-          (click)="navigateToConfirm()">
-        </app-smart-button>
-      </div>
+<div class="d-md-none fixed-bottom">
+  <div class="container-fluid">
+    <div class="d-grid gap-2" style="grid-template-columns: repeat(3, 1fr);">
+      <app-smart-button kind="secondary" [icon]="faArrowLeft" text="Назад" size="sm" (click)="navigateBack()">
+      </app-smart-button>
+      <app-smart-button kind="success" [icon]="faSave" text="Применить" size="sm"
+        [disabled]="form_device?.invalid || false" (click)="onSubmit()">
+      </app-smart-button>
+      <app-smart-button kind="danger" [icon]="faTrash" text="Удалить" size="sm" (click)="navigateToConfirm()">
+      </app-smart-button>
     </div>
   </div>
 </div>
