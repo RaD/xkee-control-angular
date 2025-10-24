@@ -1,133 +1,164 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { timeout, catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { Observable, throwError, timer } from 'rxjs';
+import { catchError, timeout, retryWhen, mergeMap } from 'rxjs/operators';
 import { Area } from '../pages/area/interface';
 import { Customer } from '../pages/customer/interface';
 import { ConfigService } from './config';
 
+// Если используете ng-bootstrap, лучше импортнуть настоящий тип
+// import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+type NgbDateStruct = { year: number; month: number; day: number };
+
+export interface PaymentRecord {
+  registered: string; // ISO datetime string
+  started: string;    // YYYY-MM-DD
+  expired: string;    // YYYY-MM-DD
+}
+
 export interface SyncRequest {
-  pk: string;
-  active: boolean;
-  payment: {
-    started: string;
-    expired: string;
-  } | null;
+  mm3hash: number;
+  enabled: boolean;
+  payments: PaymentRecord[];
+}
+
+export interface SyncPayload {
+  devices: string[];
+  customers: SyncRequest[];
 }
 
 export interface SyncResponse {
   pk: string;
   active: boolean;
-  synced: string;
+  synced: string; // ISO или YYYY-MM-DD — зависит от бэкенда
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class SyncService {
-  private baseUrl = ConfigService.getBaseUrl() || 'https://api.example.com';
+  private baseUrl = (ConfigService.getBaseUrl?.() ?? 'https://api.example.com').replace(/\/+$/,'');
+  private requestTimeoutMs = 10_000;
 
   constructor(private http: HttpClient) {}
 
   /**
-   * Sync customers with backend service
-   * @param area - Area containing access credentials
-   * @param customers - List of customers to sync
-   * @returns Observable with sync response
+   * Синхронизация покупателей с бэкендом
    */
   syncCustomers(area: Area, customers: Customer[]): Observable<SyncResponse[]> {
     const url = `${this.baseUrl}/sync/${area.pk}/`;
-    
-    // Prepare request payload
-    const payload: SyncRequest[] = customers.map(customer => ({
-      pk: customer.pk,
-      active: customer.active,
-      payment: this.getCustomerPayment(customer)
-    }));
 
-    // Prepare headers with authentication
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'X-Access-Key': area.access || '',
-      'X-Secret-Key': area.secret || ''
-    });
+    const payload: SyncPayload = {
+      devices: Array.isArray(area?.devices) ? area.devices : [],
+      customers: customers.map((c) => ({
+        mm3hash: this.getMurmur3Hash(c.pk),
+        enabled: Boolean(c.active),
+        payments: this.getLatestPayments(c),
+      }))
+    };
+
+    // Добавляем заголовки только если значения есть
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    if (area?.access) headers = headers.set('X-Access-Key', area.access);
+    if (area?.secret) headers = headers.set('X-Secret-Key', area.secret);
 
     return this.http.post<SyncResponse[]>(url, payload, { headers }).pipe(
-      timeout(10000), // 10 seconds timeout
+      timeout(this.requestTimeoutMs),
+      // Повторяем только при «временных» проблемах (сеть/5xx/timeout)
+      retryWhen(errors =>
+        errors.pipe(
+          mergeMap((err, attempt) => {
+            const isTimeout = err?.name === 'TimeoutError';
+            const isNetwork = err instanceof HttpErrorResponse && err.status === 0;
+            const is5xx = err instanceof HttpErrorResponse && err.status >= 500;
+            const shouldRetry = isTimeout || isNetwork || is5xx;
+            if (!shouldRetry || attempt >= 2) {
+              return throwError(() => err);
+            }
+            // экспоненциальная задержка: 500ms, 1500ms
+            return timer(500 * Math.pow(3, attempt));
+          })
+        )
+      ),
       catchError((error) => this.handleError(error))
     );
   }
 
   /**
-   * Get customer's current active payment period
-   * @param customer - Customer object
-   * @returns Payment object with started and expired dates, or null if no valid payment
+   * Calculate MurmurHash3 32-bit hash from string
+   * Simple implementation of MurmurHash3 32-bit
    */
-  private getCustomerPayment(customer: Customer): { started: string; expired: string } | null {
-    if (!customer.payments || customer.payments.length === 0) {
-      // No payments
-      return null;
+  private getMurmur3Hash(str: string): number {
+    let h = 0;
+    if (str.length > 0) {
+      for (let i = 0; i < str.length; i++) {
+        h = Math.imul(h ^ str.charCodeAt(i), 0x5bd1e995);
+        h ^= h >>> 15;
+      }
     }
-
-    // Get the latest payment
-    const latestPayment = customer.payments[0];
-    const expiredDate = this.ngbDateToDate(latestPayment.expired_in);
-    const today = new Date();
-    
-    // Check if payment period is in the past
-    if (expiredDate < today) {
-      return null;
-    }
-    
-    return {
-      started: this.ngbDateToString(latestPayment.started_in),
-      expired: this.ngbDateToString(latestPayment.expired_in)
-    };
+    return h >>> 0;
   }
 
   /**
-   * Convert NgbDateStruct to Date object
+   * Get latest 5 payment records or empty array
    */
-  private ngbDateToDate(dateStruct: any): Date {
-    if (!dateStruct) return new Date();
+  private getLatestPayments(customer: Customer): PaymentRecord[] {
+    const payments = Array.isArray(customer?.payments) ? customer.payments : [];
+    if (payments.length === 0) return [];
+
+    // Sort by registered_in timestamp (descending) and take latest 5
+    const sorted = [...payments]
+      .filter(p => p.registered_in && p.started_in && p.expired_in)
+      .sort((a, b) => b.registered_in - a.registered_in)
+      .slice(0, 5);
+
+    return sorted.map(p => ({
+      registered: new Date(p.registered_in).toISOString(),
+      started: this.ngbDateToString(p.started_in),
+      expired: this.ngbDateToString(p.expired_in),
+    }));
+  }
+
+  /** Преобразование NgbDateStruct -> Date (локальная дата) */
+  private ngbDateToDate(dateStruct?: NgbDateStruct | null): Date | null {
+    if (!dateStruct || !dateStruct.year || !dateStruct.month || !dateStruct.day) return null;
     return new Date(dateStruct.year, dateStruct.month - 1, dateStruct.day);
+    // При желании здесь можно собирать UTC: new Date(Date.UTC(...))
   }
 
-  /**
-   * Convert NgbDateStruct to ISO date string
-   */
-  private ngbDateToString(dateStruct: any): string {
-    if (!dateStruct) return '';
-    const year = dateStruct.year;
+  /** Преобразование NgbDateStruct -> 'YYYY-MM-DD' */
+  private ngbDateToString(dateStruct?: NgbDateStruct | null): string {
+    if (!dateStruct || !dateStruct.year || !dateStruct.month || !dateStruct.day) return '';
+    const year = dateStruct.year.toString().padStart(4, '0');
     const month = dateStruct.month.toString().padStart(2, '0');
     const day = dateStruct.day.toString().padStart(2, '0');
     return `${year}-${month}-${day}`;
   }
 
-  /**
-   * Format Date object to ISO date string
-   */
-  private formatDate(date: Date): string {
-    return date.toISOString().split('T')[0];
-  }
-
-  /**
-   * Handle HTTP errors
-   */
+  /** Централизованная обработка ошибок */
   private handleError(error: HttpErrorResponse | any) {
-    let errorMessage = 'Не удалось синхронизировать данные. Попробуйте позже.';
-    
-    if (error.name === 'TimeoutError') {
-      errorMessage = 'Превышено время ожидания ответа сервера. Попробуйте позже.';
-    } else if (error.status === 0) {
-      errorMessage = 'Нет соединения с сервером. Проверьте подключение к интернету.';
-    } else if (error.status >= 400 && error.status < 500) {
-      errorMessage = 'Ошибка авторизации. Проверьте настройки территории.';
-    } else if (error.status >= 500) {
-      errorMessage = 'Ошибка сервера. Попробуйте позже.';
+    // Сохраним «техническое» сообщение, если оно есть
+    const serverMsg =
+      (error instanceof HttpErrorResponse && (error.error?.detail || error.error?.message)) ||
+      (typeof error?.message === 'string' ? error.message : null);
+
+    if (error?.name === 'TimeoutError') {
+      return throwError(() => new Error('Превышено время ожидания ответа сервера. Попробуйте позже.'));
     }
-    
-    return throwError(() => new Error(errorMessage));
+
+    if (error instanceof HttpErrorResponse) {
+      if (error.status === 0) {
+        return throwError(() => new Error('Нет соединения с сервером. Проверьте подключение к интернету.'));
+      }
+      if (error.status === 401 || error.status === 403) {
+        return throwError(() => new Error(serverMsg || 'Ошибка авторизации. Проверьте ключи доступа.'));
+      }
+      if (error.status >= 400 && error.status < 500) {
+        return throwError(() => new Error(serverMsg || 'Ошибка запроса. Проверьте данные и повторите.'));
+      }
+      if (error.status >= 500) {
+        return throwError(() => new Error(serverMsg || 'Ошибка сервера. Попробуйте позже.'));
+      }
+    }
+
+    return throwError(() => new Error(serverMsg || 'Не удалось синхронизировать данные. Попробуйте позже.'));
   }
 }
