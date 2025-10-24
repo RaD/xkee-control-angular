@@ -8,10 +8,10 @@
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  
+
   fa-icon {
     flex-shrink: 0;
-    
+
     &.me-2 {
       margin-right: 0.5rem !important;
     }
@@ -24,10 +24,25 @@
 }
 
 /* Fixed bottom button panel */
-.fixed-bottom .container-fluid {
-  background-color: #f8f9fa;
-  border-top: 1px solid #dee2e6;
-  padding: 1rem;
+.fixed-bottom {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 1030;
+
+  .container-fluid {
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* Content padding for pages with fixed bottom buttons */
+.container-fluid {
+  @media (max-width: 767.98px) {
+    // padding-bottom: 4rem !important;
+  }
 }
 
 /* Page transition animations */

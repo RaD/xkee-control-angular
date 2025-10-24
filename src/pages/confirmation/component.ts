@@ -3,7 +3,7 @@
  */
 import { Component, inject, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { RouterLink, ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -18,7 +18,6 @@ import { PageTransitionService } from '../../services/transitions';
   selector: 'app-confirmation',
   standalone: true,
   imports: [
-    RouterLink,
     FontAwesomeModule,
     SmartButtonComponent
   ],
