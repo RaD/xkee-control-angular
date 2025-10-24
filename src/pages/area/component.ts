@@ -118,11 +118,15 @@ export class AreaPage implements OnInit {
     if (pk) {
       let ts: string = new Date().toJSON();
       let content: any = this.localStore.export_area(pk);
+
+      const dataStr = "data:application/json;charset=utf-8," + encodeURIComponent(content);
       let a = document.createElement('a');
-      let file = new Blob([content], {type: 'application/json'});
-      a.href = URL.createObjectURL(file);
+      a.href = dataStr;
       a.download = `xkee-area-${pk}-${ts}.json`;
+
+      document.body.appendChild(a);
       a.click();
+      document.body.removeChild(a);
     }
   }
 
