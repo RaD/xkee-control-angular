@@ -5,6 +5,7 @@ import { catchError, timeout, retryWhen, mergeMap } from 'rxjs/operators';
 import { Area } from '../pages/area/interface';
 import { Customer } from '../pages/customer/interface';
 import { ConfigService } from './config';
+import { Utilities } from './phone-utils';
 
 // Если используете ng-bootstrap, лучше импортнуть настоящий тип
 // import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
@@ -17,7 +18,7 @@ export interface PaymentRecord {
 }
 
 export interface SyncRequest {
-  mm3hash: number;
+  mm3hash: string;
   enabled: boolean;
   payments: PaymentRecord[];
 }
@@ -49,7 +50,7 @@ export class SyncService {
     const payload: SyncPayload = {
       devices: Array.isArray(area?.devices) ? area.devices : [],
       customers: customers.map((c) => ({
-        mm3hash: this.getMurmur3Hash(c.pk),
+        mm3hash: Utilities.computeHash(Utilities.normalizePhone(c.pk)),
         enabled: Boolean(c.active),
         payments: this.getLatestPayments(c),
       }))
@@ -82,20 +83,6 @@ export class SyncService {
     );
   }
 
-  /**
-   * Calculate MurmurHash3 32-bit hash from string
-   * Simple implementation of MurmurHash3 32-bit
-   */
-  private getMurmur3Hash(str: string): number {
-    let h = 0;
-    if (str.length > 0) {
-      for (let i = 0; i < str.length; i++) {
-        h = Math.imul(h ^ str.charCodeAt(i), 0x5bd1e995);
-        h ^= h >>> 15;
-      }
-    }
-    return h >>> 0;
-  }
 
   /**
    * Get latest 5 payment records or empty array

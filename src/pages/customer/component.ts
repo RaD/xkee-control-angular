@@ -12,6 +12,7 @@ import { Area } from '../area/interface';
 import { Customer } from './interface';
 import { SmartButtonComponent } from '../../components/smart-button/component';
 import { PageTransitionService } from '../../services/transitions';
+import { Utilities } from '../../services/phone-utils';
 
 @Component({
   selector: 'app-customer',
@@ -65,7 +66,7 @@ export class CustomerPage implements OnInit {
         let o: Customer = this.customer;
         this.fields = new Customer(
           o.pk, o.active, o.last_name, o.first_name, o.middle_name,
-          o.address, o.vehicle, o.comment, o.payments, o.synced);
+          o.address, o.vehicle, o.comment, o.payments, o.synced, o.mm3hash);
       }
     }
   }
@@ -81,12 +82,18 @@ export class CustomerPage implements OnInit {
   public onSubmit(): void {
     let area_pk = this.area?.pk;
     if (area_pk) {
-      let phone: string = this.fields.pk;
       let f: Customer = this.fields;
+
+      // Normalize phone number
+      let normalizedPhone = Utilities.normalizePhone(f.pk);
+
+      // Calculate hash
+      let mm3hash = Utilities.computeHash(normalizedPhone);
+
       let customer: Customer = new Customer(
-        f.pk, f.active, f.last_name, f.first_name, f.middle_name,
-        f.address, f.vehicle, f.comment, f.payments, f.synced);
-      this.localStore.setCustomer(phone, area_pk, customer);
+        normalizedPhone, f.active, f.last_name, f.first_name, f.middle_name,
+        f.address, f.vehicle, f.comment, f.payments, f.synced, mm3hash);
+      this.localStore.setCustomer(normalizedPhone, area_pk, customer);
     }
     // возвращаемся на список
     this.router.navigate(['/areas', area_pk, 'customers']);

@@ -4,14 +4,14 @@
     <div class="mb-3">
       <label for="amount" class="form-label position-relative">
         Сумма
-        @if (amount.invalid && (amount.dirty || amount.touched) && amount.errors?.['minlength']) {
+        @if (amount.invalid && (amount.dirty || amount.touched) && amount.errors?.['min']) {
           <div class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            Минимально 1 символ
+            Минимум 1
           </div>
         }
       </label>
-      <input id="amount" name="amount" type="text" class="form-control"
-        [(ngModel)]="fields.amount" #amount="ngModel" required minlength="1">
+      <input id="amount" name="amount" type="number" class="form-control"
+        [(ngModel)]="fields.amount" #amount="ngModel" required min="1" step="1">
     </div>
     
     <div class="mb-3">

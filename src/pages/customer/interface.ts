@@ -11,6 +11,7 @@ export interface ICustomer {
     comment?: string;
     payments?: IPayment[];
     synced?: string;  // дата последней синхронизации в формате YYYY-MM-DD
+    mm3hash?: string;  // MurmurHash3 of phone number
 }
 
 
@@ -26,5 +27,6 @@ export class Customer implements ICustomer {
         public comment?: string,
         public payments?: IPayment[],
         public synced?: string,
+        public mm3hash?: string,
     ) {}
 }

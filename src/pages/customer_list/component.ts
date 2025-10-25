@@ -17,6 +17,7 @@ import { Area } from '../area/interface';
 import { Customer } from '../customer/interface';
 import { SmartButtonComponent } from '../../components/smart-button/component';
 import { PageTransitionService } from '../../services/transitions';
+import { Utilities } from '../../services/phone-utils';
 
 @Component({
   selector: 'app-customers',
@@ -65,7 +66,92 @@ export class CustomerListPage implements OnInit {
     if (this.area_pk) {
       this.customers = this.localStore.getCustomerList(this.area_pk);
       this.empty = this.customers.length == 0;
+
+      // Check and update mm3hash for all customers
+      this.validateCustomerHashes();
     }
+  }
+
+  /**
+   * Validate and update mm3hash for all customers
+   */
+  private validateCustomerHashes(): void {
+    if (!this.area_pk) return;
+
+    const areaPk = this.area_pk;
+    let anyUpdated = false;
+
+    this.customers.forEach(customer => {
+      let customerUpdated = false;
+
+      // Normalize phone number
+      const normalizedPhone = Utilities.normalizePhone(customer.pk);
+
+      // Calculate expected hash
+      const expectedHash = Utilities.computeHash(normalizedPhone);
+
+      // Check if hash is missing, empty, or incorrect
+      if (!customer.mm3hash || customer.mm3hash !== expectedHash) {
+        // Update customer with correct hash
+        customer.mm3hash = expectedHash;
+
+        // If phone was normalized differently, update that too
+        if (customer.pk !== normalizedPhone) {
+          // Remove old entry
+          this.localStore.removeCustomer(customer.pk, areaPk);
+          customer.pk = normalizedPhone;
+        }
+
+        customerUpdated = true;
+      }
+
+      // Normalize payments
+      if (customer.payments && customer.payments.length > 0) {
+        const normalizedPayments = this.normalizePayments(customer.payments);
+        if (normalizedPayments !== customer.payments) {
+          customer.payments = normalizedPayments;
+          customerUpdated = true;
+        }
+      }
+
+      // Save updated customer if needed
+      if (customerUpdated) {
+        this.localStore.setCustomer(customer.pk, areaPk, customer);
+        anyUpdated = true;
+      }
+    });
+
+    // Reload customer list if any updates were made
+    if (anyUpdated) {
+      this.customers = this.localStore.getCustomerList(areaPk);
+    }
+  }
+
+  /**
+   * Normalize payments: add mm3hash and remove duplicates
+   */
+  private normalizePayments(payments: any[]): any[] {
+    const seen = new Set<string>();
+    const normalized: any[] = [];
+
+    payments.forEach(payment => {
+      // Calculate hash if missing
+      if (!payment.mm3hash) {
+        payment.mm3hash = Utilities.computePaymentHash(
+          payment.amount,
+          payment.started_in,
+          payment.expired_in
+        );
+      }
+
+      // Add only if not a duplicate
+      if (!seen.has(payment.mm3hash)) {
+        seen.add(payment.mm3hash);
+        normalized.push(payment);
+      }
+    });
+
+    return normalized;
   }
 
   /**

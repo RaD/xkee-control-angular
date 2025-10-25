@@ -12,6 +12,7 @@ import { StorageService } from '../../services/storage';
 import { SyncService, SyncResponse } from '../../services/sync';
 import { SmartButtonComponent } from '../../components/smart-button/component';
 import { PageTransitionService } from '../../services/transitions';
+import { Utilities } from '../../services/phone-utils';
 
 @Component({
   selector: 'app-area-form',
@@ -75,7 +76,47 @@ export class AreaPage implements OnInit {
           this.fields = new Area(
             area.pk, area.title, area.address, area.kind,
             area.devices, area.customers, area.linked, area.access, area.secret);
+
+          // Normalize all customers' phone numbers and update mm3hash
+          this.normalizeCustomers(area.pk);
         }
+      }
+    }
+  }
+
+  private normalizeCustomers(areaPk: string): void {
+    const customers = this.localStore.getCustomerList(areaPk);
+    let updated = false;
+
+    customers.forEach(customer => {
+      const normalizedPhone = Utilities.normalizePhone(customer.pk);
+      const newHash = Utilities.computeHash(normalizedPhone);
+
+      // Check if phone or hash needs updating
+      if (customer.pk !== normalizedPhone || !customer.mm3hash || customer.mm3hash !== newHash) {
+        // If phone changed, remove old customer entry
+        if (customer.pk !== normalizedPhone) {
+          this.localStore.removeCustomer(customer.pk, areaPk);
+        }
+
+        // Update customer with normalized phone and hash
+        customer.pk = normalizedPhone;
+        customer.mm3hash = newHash;
+
+        // Save updated customer
+        this.localStore.setCustomer(normalizedPhone, areaPk, customer);
+        updated = true;
+      }
+    });
+
+    if (updated) {
+      // Reload area to get updated customer list
+      const updatedArea = this.localStore.getArea(areaPk);
+      if (updatedArea) {
+        this.fields = new Area(
+          updatedArea.pk, updatedArea.title, updatedArea.address, updatedArea.kind,
+          updatedArea.devices, updatedArea.customers, updatedArea.linked,
+          updatedArea.access, updatedArea.secret);
       }
     }
   }

@@ -20,10 +20,21 @@ export class PaymentHistoryComponent implements OnInit {
   constructor(private localStore: StorageService) {}
 
   ngOnInit(): void {
+    this.loadPayments();
+  }
+
+  public refresh(): void {
+    this.loadPayments();
+  }
+
+  private loadPayments(): void {
     if (this.customer_pk) {
       this.customer = this.localStore.getCustomer(this.customer_pk);
       if (this.customer && this.customer.payments) {
-        this.payments = this.customer.payments;
+        // Create a new array reference to trigger change detection
+        this.payments = [...this.customer.payments];
+      } else {
+        this.payments = [];
       }
     }
   }

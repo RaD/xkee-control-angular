@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, inject } from '@angular/core';
+import { Component, OnInit, Input, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -14,6 +14,7 @@ import { Customer } from '../customer/interface';
 import { PaymentHistoryComponent } from '../../components/payment_history/component';
 import { SmartButtonComponent } from '../../components/smart-button/component';
 import { PageTransitionService } from '../../services/transitions';
+import { Utilities } from '../../services/phone-utils';
 
 @Component({
   selector: 'app-payment',
@@ -38,6 +39,7 @@ export class PaymentPage implements OnInit{
 
   @Input() area_pk?: string;
   @Input() customer_pk?: string;
+  @ViewChild(PaymentHistoryComponent) paymentHistory?: PaymentHistoryComponent;
 
   faCalendar = faCalendarDays;
   faSave = faSave;
@@ -58,8 +60,13 @@ export class PaymentPage implements OnInit{
   ngOnInit(): void {
   }
 
-  public onSubmit(): void {
-    if (this.customer_pk) {
+  public async onSubmit(): Promise<void> {
+    // Validate amount
+    if (!this.fields.amount || this.fields.amount <= 0) {
+      return;
+    }
+
+    if (this.customer_pk && this.area_pk) {
       // Get customer from storage
       let customer: Customer | null = this.localStore.getCustomer(this.customer_pk);
       if (customer) {
@@ -67,6 +74,24 @@ export class PaymentPage implements OnInit{
         if (!customer.payments) {
           customer.payments = [];
         }
+
+        // Calculate hash for new payment
+        const newHash = Utilities.computePaymentHash(
+          this.fields.amount,
+          this.fields.started_in,
+          this.fields.expired_in
+        );
+
+        // Check for duplicate
+        const isDuplicate = customer.payments.some(p => p.mm3hash === newHash);
+        if (isDuplicate) {
+          // Payment already exists, don't add
+          alert('Такой платёж уже существует');
+          return;
+        }
+
+        // Set hash on new payment
+        this.fields.mm3hash = newHash;
 
         // Add new payment to the beginning of the array
         customer.payments.unshift(this.fields);
@@ -77,19 +102,35 @@ export class PaymentPage implements OnInit{
         }
 
         // Save updated customer back to storage
-        if (this.area_pk) {
-          this.localStore.setCustomer(this.customer_pk, this.area_pk, customer);
+        this.localStore.setCustomer(this.customer_pk, this.area_pk, customer);
+
+        // Wait a bit to ensure storage operation completes
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+        // Reset form fields for new payment
+        const registered_in = Date.now();
+        const calendar = inject(NgbCalendar);
+        this.started_in = calendar.getToday();
+        this.expired_in = new NgbDate(
+          this.started_in.year + 1,
+          this.started_in.month,
+          this.started_in.day
+        );
+        this.fields = new Payment(0, this.started_in, this.expired_in, registered_in);
+
+        // Refresh payment history after a short delay
+        if (this.paymentHistory) {
+          setTimeout(() => {
+            this.paymentHistory?.refresh();
+          }, 150);
         }
       }
     }
-
-    // возвращаемся на список
-    this.router.navigate(['/areas', this.area_pk, 'customers']);
   }
 
   protected navigateBack(): void {
     this.pageTransition.navigateBack(() => {
-      this.location.back();
+      this.router.navigate(['/areas', this.area_pk, 'customers']);
     });
   }
 }
