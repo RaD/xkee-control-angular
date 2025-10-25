@@ -41,7 +41,8 @@
     <div class="mb-3">
       <label for="kind" class="form-label">Тип</label>
       <select id="kind" name="kind" class="form-select" [(ngModel)]="fields.kind" #kind="ngModel" required>
-        <option value="xkee" selected>XKee Cloud</option>
+        <option value="standalone" selected>Независимый</option>
+        <option value="xkee" selected>Облако XKee</option>
       </select>
     </div>
 
@@ -49,7 +50,7 @@
     @if (need_credentials()) {
       <div class="mb-3">
         <label for="access" class="form-label position-relative">
-          Access Key
+          Код доступа
           @if (access.invalid && (access.dirty || access.touched) && access.errors?.['minlength']) {
             <div class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
               Минимально 3 символа
@@ -61,7 +62,7 @@
       </div>
       <div class="mb-3">
         <label for="secret" class="form-label position-relative">
-          Secret Key
+          Код секрета
           @if (secret.invalid && (secret.dirty || secret.touched) && secret.errors?.['minlength']) {
             <div class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
               Минимально 3 символа
@@ -81,13 +82,13 @@
   <div class="d-none d-md-block">
     <div class="main-buttons">
       <app-smart-button kind="secondary" [icon]="faArrowLeft" text="Назад" (click)="navigateBack()"></app-smart-button>
-      <app-smart-button kind="success" [icon]="faSave" text="Применить" 
+      <app-smart-button kind="success" [icon]="faSave" text="Применить"
         [disabled]="form_area?.invalid || false" (click)="onSubmit()"></app-smart-button>
     </div>
 
     @if (!is_creation()) {
       <div class="action-buttons">
-        <app-smart-button kind="info" [icon]="faSync" 
+        <app-smart-button kind="info" [icon]="faSync"
           [text]="syncing ? 'Синхронизация...' : 'Синхронизировать'"
           [disabled]="syncing" (click)="onSync()"></app-smart-button>
         <app-smart-button kind="info" [icon]="faFileImport" text="Импорт" (click)="navigateToImport()"></app-smart-button>
@@ -108,10 +109,10 @@
     <div class="container-fluid">
       <div class="mobile-grid">
         <app-smart-button kind="secondary" [icon]="faArrowLeft" text="Назад" size="sm" (click)="navigateBack()"></app-smart-button>
-        <app-smart-button kind="success" [icon]="faSave" text="Сохранить" size="sm" 
+        <app-smart-button kind="success" [icon]="faSave" text="Сохранить" size="sm"
           [disabled]="form_area?.invalid || false" (click)="onSubmit()"></app-smart-button>
         @if (!is_creation()) {
-          <app-smart-button kind="info" [icon]="faSync" [text]="syncing ? 'Синхр...' : 'Синхр'" 
+          <app-smart-button kind="info" [icon]="faSync" [text]="syncing ? 'Синхр...' : 'Синхр'"
             size="sm" [disabled]="syncing" (click)="onSync()"></app-smart-button>
           <app-smart-button kind="danger" [icon]="faTrash" text="Удалить" size="sm" (click)="navigateToConfirm()"></app-smart-button>
         }
