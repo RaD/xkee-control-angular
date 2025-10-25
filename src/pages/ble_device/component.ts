@@ -9,6 +9,7 @@ import { faArrowLeft, faSignal, faWifi, faBatteryHalf } from '@fortawesome/free-
 
 import { StorageService } from '../../services/storage';
 import { Area } from '../area/interface';
+import { PageTitleService } from '../../services/page-title';
 import { SmartButtonComponent } from '../../components/smart-button/component';
 import { PageTransitionService } from '../../services/transitions';
 
@@ -43,6 +44,7 @@ export class BleDevicePage implements OnInit {
   private localStore = inject(StorageService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private pageTitleService = inject(PageTitleService);
 
   faArrowLeft = faArrowLeft;
   faBluetooth = faBluetooth;
@@ -72,6 +74,7 @@ export class BleDevicePage implements OnInit {
   }
 
   ngOnInit(): void {
+    this.pageTitleService.setTitle('BLE устройство');
     if (this.device) {
       this.loadDeviceProperties();
     } else {

@@ -9,6 +9,7 @@ import { faBluetooth } from '@fortawesome/free-brands-svg-icons';
 
 import { Area } from './interface';
 import { StorageService } from '../../services/storage';
+import { PageTitleService } from '../../services/page-title';
 import { SyncService, SyncResponse } from '../../services/sync';
 import { SmartButtonComponent } from '../../components/smart-button/component';
 import { PageTransitionService } from '../../services/transitions';
@@ -31,6 +32,7 @@ export class AreaPage implements OnInit {
   private syncService = inject(SyncService);
   private localStore = inject(StorageService);
   private router = inject(Router);
+  private pageTitleService = inject(PageTitleService);
   private route = inject(ActivatedRoute);
 
   faSave = faSave;
@@ -63,6 +65,7 @@ export class AreaPage implements OnInit {
   }
 
   ngOnInit(): void {
+    this.pageTitleService.setTitle('Территория');
     if (this.pk != null && this.action != null) {
       let area = this.localStore.getArea(this.pk);
       if (area != null) {

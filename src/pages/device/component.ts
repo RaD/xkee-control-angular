@@ -7,6 +7,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSave, faArrowLeft, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { StorageService } from '../../services/storage';
+import { PageTitleService } from '../../services/page-title';
 import { Area } from '../area/interface';
 import { Device } from './interface';
 import { SmartButtonComponent } from '../../components/smart-button/component';
@@ -29,6 +30,7 @@ export class DevicePage implements OnInit {
   private localStore = inject(StorageService);
   public router = inject(Router);
   private route = inject(ActivatedRoute);
+  private pageTitleService = inject(PageTitleService);
 
   faSave = faSave;
   faArrowLeft = faArrowLeft;
@@ -53,6 +55,7 @@ export class DevicePage implements OnInit {
   }
 
   ngOnInit(): void {
+    this.pageTitleService.setTitle(this.area?.title ? `Устройство территории "${this.area.title}"` : 'Устройство');
     if (this.area?.pk != null && this.device?.pk && this.action != null) {
       if (this.action === 'delete') {
         this.localStore.removeDevice(this.device.pk, this.area.pk);

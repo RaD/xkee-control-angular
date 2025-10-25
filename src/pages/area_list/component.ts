@@ -11,6 +11,7 @@ import { StorageService } from '../../services/storage';
 import { Area } from '../area/interface';
 import { SmartButtonComponent } from '../../components/smart-button/component';
 import { PageTransitionService } from '../../services/transitions';
+import { PageTitleService } from '../../services/page-title';
 import { environment } from '../../app/config';
 
 @Component({
@@ -27,6 +28,7 @@ export class AreaListPage implements OnInit {
   private pageTransition = inject(PageTransitionService);
   private localStore = inject(StorageService);
   private router = inject(Router);
+  private pageTitleService = inject(PageTitleService);
 
   // иконки
   faGear = faGear;
@@ -40,6 +42,8 @@ export class AreaListPage implements OnInit {
   protected commit: string = environment.SOURCE_COMMIT;
 
   ngOnInit(): void {
+    this.pageTitleService.setTitle('Территории');
+    
     // проверка списка территорий
     this.areas = this.localStore.getAreaList();
     this.empty = this.areas.length == 0;

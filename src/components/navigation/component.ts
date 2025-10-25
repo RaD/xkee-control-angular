@@ -10,4 +10,5 @@ import { Component, Input } from '@angular/core';
 })
 export class NavigationComponent {
   @Input() has_credentials: boolean = false;
+  @Input() title: string = 'Управление';
 }

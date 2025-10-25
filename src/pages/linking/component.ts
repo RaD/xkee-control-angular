@@ -8,6 +8,7 @@ import { faLink, faLinkSlash, faMagnifyingGlass } from '@fortawesome/free-solid-
 import { faArrowLeft, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 import { StorageService } from '../../services/storage';
+import { PageTitleService } from '../../services/page-title';
 import { Area } from '../area/interface';
 import { Customer } from '../customer/interface';
 import { SmartButtonComponent } from '../../components/smart-button/component';
@@ -30,6 +31,7 @@ export class LinkingPage {
   private localStore = inject(StorageService);
   public router = inject(Router);
   private route = inject(ActivatedRoute);
+  private pageTitleService = inject(PageTitleService);
 
   faSearch = faMagnifyingGlass;
   faLink = faLink;

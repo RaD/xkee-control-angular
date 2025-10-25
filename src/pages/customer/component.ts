@@ -13,6 +13,7 @@ import { Customer } from './interface';
 import { SmartButtonComponent } from '../../components/smart-button/component';
 import { PageTransitionService } from '../../services/transitions';
 import { Utilities } from '../../services/phone-utils';
+import { PageTitleService } from '../../services/page-title';
 
 @Component({
   selector: 'app-customer',
@@ -29,6 +30,7 @@ import { Utilities } from '../../services/phone-utils';
 export class CustomerPage implements OnInit {
   private pageTransition = inject(PageTransitionService);
   private location = inject(Location);
+  private pageTitleService = inject(PageTitleService);
 
   faSave = faSave;
   faArrowLeft = faArrowLeft;
@@ -57,6 +59,7 @@ export class CustomerPage implements OnInit {
   }
 
   ngOnInit(): void {
+    this.pageTitleService.setTitle(this.area?.title ? `Клиент территории "${this.area.title}"` : 'Клиент');
     if (this.area?.pk != null && this.customer?.pk && this.action != null) {
       if (this.action === 'delete') {
         this.localStore.removeCustomer(this.customer.pk, this.area.pk);

@@ -7,6 +7,7 @@ import { faGear, faRoad } from '@fortawesome/free-solid-svg-icons';
 import { faArrowLeft, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import { StorageService } from '../../services/storage';
+import { PageTitleService } from '../../services/page-title';
 import { Area } from '../area/interface';
 import { Device } from '../device/interface';
 import { SmartButtonComponent } from '../../components/smart-button/component';
@@ -28,6 +29,7 @@ export class DeviceListPage implements OnInit {
   private localStore = inject(StorageService);
   public router = inject(Router);
   private route = inject(ActivatedRoute);
+  private pageTitleService = inject(PageTitleService);
 
   // иконки
   faGear = faGear;
@@ -49,6 +51,7 @@ export class DeviceListPage implements OnInit {
   }
 
   ngOnInit(): void {
+    this.pageTitleService.setTitle(this.area?.title ? `Устройства "${this.area.title}"` : 'Устройства');
     if (this.area_pk) {
       this.devices = this.localStore.getDeviceList(this.area_pk);
       this.empty = this.devices.length == 0;

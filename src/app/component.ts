@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { StorageService } from '../services/storage';
 import { NavigationComponent } from '../components/navigation/component';
 import { PageTransitionService } from '../services/transitions';
+import { PageTitleService } from '../services/page-title';
 import { environment } from './config';
 
 const BACKEND_URL = (window as any)?.env?.APP_BACKEND_URL || 'https://backend.xkee.ru';
@@ -22,13 +23,13 @@ const BACKEND_URL = (window as any)?.env?.APP_BACKEND_URL || 'https://backend.xk
 })
 
 export class AppComponent {
-  title: string = 'XKee : Управление';
   version: string = environment.SOURCE_VERSION;
   commit: string = environment.SOURCE_COMMIT;
 
   constructor(
     private localStore: StorageService,
-    private pageTransition: PageTransitionService
+    private pageTransition: PageTransitionService,
+    public pageTitleService: PageTitleService
   ) { }
 
   ngOnInit(): void {

@@ -18,6 +18,7 @@ import { Customer } from '../customer/interface';
 import { SmartButtonComponent } from '../../components/smart-button/component';
 import { PageTransitionService } from '../../services/transitions';
 import { Utilities } from '../../services/phone-utils';
+import { PageTitleService } from '../../services/page-title';
 
 @Component({
   selector: 'app-customers',
@@ -36,6 +37,7 @@ export class CustomerListPage implements OnInit {
   private localStore = inject(StorageService);
   public router = inject(Router);
   private route = inject(ActivatedRoute);
+  private pageTitleService = inject(PageTitleService);
 
     // иконки
   faUser = faUser;
@@ -63,6 +65,7 @@ export class CustomerListPage implements OnInit {
   }
 
   ngOnInit(): void {
+    this.pageTitleService.setTitle(this.area?.title ? `Клиенты "${this.area.title}"` : 'Клиенты');
     if (this.area_pk) {
       this.customers = this.localStore.getCustomerList(this.area_pk);
       this.empty = this.customers.length == 0;

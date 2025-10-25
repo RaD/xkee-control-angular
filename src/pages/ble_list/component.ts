@@ -9,6 +9,7 @@ import { faArrowLeft, faSync, faSignal } from '@fortawesome/free-solid-svg-icons
 
 import { StorageService } from '../../services/storage';
 import { Area } from '../area/interface';
+import { PageTitleService } from '../../services/page-title';
 import { SmartButtonComponent } from '../../components/smart-button/component';
 import { PageTransitionService } from '../../services/transitions';
 
@@ -37,6 +38,7 @@ export class BleListPage implements OnInit {
   private localStore = inject(StorageService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private pageTitleService = inject(PageTitleService);
 
   faArrowLeft = faArrowLeft;
   faSync = faSync;
@@ -59,6 +61,7 @@ export class BleListPage implements OnInit {
   }
 
   ngOnInit(): void {
+    this.pageTitleService.setTitle(this.area?.title ? `BLE устройства "${this.area.title}"` : 'BLE устройства');
     this.checkBluetoothSupport();
   }
 

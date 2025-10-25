@@ -15,6 +15,7 @@ import { PaymentHistoryComponent } from '../../components/payment_history/compon
 import { SmartButtonComponent } from '../../components/smart-button/component';
 import { PageTransitionService } from '../../services/transitions';
 import { Utilities } from '../../services/phone-utils';
+import { PageTitleService } from '../../services/page-title';
 
 @Component({
   selector: 'app-payment',
@@ -36,6 +37,7 @@ export class PaymentPage implements OnInit{
   private localStore = inject(StorageService);
   public router = inject(Router);
   private route = inject(ActivatedRoute);
+  private pageTitleService = inject(PageTitleService);
 
   @Input() area_pk?: string;
   @Input() customer_pk?: string;
@@ -58,6 +60,7 @@ export class PaymentPage implements OnInit{
   }
 
   ngOnInit(): void {
+    this.pageTitleService.setTitle('Платёж');
   }
 
   public async onSubmit(): Promise<void> {
