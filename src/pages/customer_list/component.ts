@@ -190,7 +190,9 @@ export class CustomerListPage implements OnInit {
 
   protected navigateBack(): void {
     this.pageTransition.navigateBack(() => {
-      this.location.back();
+      this.router.navigate([
+        '/areas', this.area_pk
+      ]);
     });
   }
 
