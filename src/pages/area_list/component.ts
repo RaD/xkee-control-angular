@@ -11,6 +11,7 @@ import { StorageService } from '../../services/storage';
 import { Area } from '../area/interface';
 import { SmartButtonComponent } from '../../components/smart-button/component';
 import { PageTransitionService } from '../../services/transitions';
+import { environment } from '../../app/config';
 
 @Component({
   selector: 'app-area',
@@ -35,6 +36,8 @@ export class AreaListPage implements OnInit {
 
   protected empty: boolean = true;
   protected areas: Area[] = [];
+  protected version: string = environment.SOURCE_VERSION;
+  protected commit: string = environment.SOURCE_COMMIT;
 
   ngOnInit(): void {
     // проверка списка территорий
