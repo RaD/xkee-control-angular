@@ -12,7 +12,7 @@ import { Utilities } from './phone-utils';
 type NgbDateStruct = { year: number; month: number; day: number };
 
 export interface PaymentRecord {
-  registered: string; // ISO datetime string
+  mm3hash: string;    // MurmurHash3 for duplicate detection
   started: string;    // YYYY-MM-DD
   expired: string;    // YYYY-MM-DD
 }
@@ -34,6 +34,7 @@ export interface SyncResponse {
   synced: string; // ISO или YYYY-MM-DD — зависит от бэкенда
 }
 
+
 @Injectable({ providedIn: 'root' })
 export class SyncService {
   private baseUrl = (ConfigService.getBaseUrl?.() ?? 'https://api.example.com').replace(/\/+$/,'');
@@ -41,19 +42,32 @@ export class SyncService {
 
   constructor(private http: HttpClient) {}
 
+  private paymentKey(p: PaymentRecord): string {
+    // Дедуп по mm3hash
+    return p.mm3hash;
+  }
+
+  private uniqPayments(payments: PaymentRecord[]): PaymentRecord[] {
+    const map = new Map<string, PaymentRecord>();
+    for (const p of payments) map.set(this.paymentKey(p), p);
+    return Array.from(map.values());
+  }
+
+  private sortByStartedDesc(arr: PaymentRecord[]): PaymentRecord[] {
+    return [...arr].sort((a, b) => new Date(b.started).getTime() - new Date(a.started).getTime());
+  }
+
   /**
    * Синхронизация покупателей с бэкендом
    */
   syncCustomers(area: Area, customers: Customer[]): Observable<SyncResponse[]> {
     const url = `${this.baseUrl}/sync/${area.pk}/`;
 
+    const syncRequests = this.buildSyncRequests(area, customers);
+
     const payload: SyncPayload = {
       devices: Array.isArray(area?.devices) ? area.devices : [],
-      customers: customers.map((c) => ({
-        mm3hash: Utilities.computeHash(Utilities.normalizePhone(c.pk)),
-        enabled: Boolean(c.active),
-        payments: this.getLatestPayments(c),
-      }))
+      customers: syncRequests
     };
 
     // Добавляем заголовки только если значения есть
@@ -83,6 +97,88 @@ export class SyncService {
     );
   }
 
+  /**
+   * Построение списка запросов на синхронизацию с учетом связанных пользователей
+   */
+  private buildSyncRequests(area: Area, customers: Customer[]): SyncRequest[] {
+    const syncMap = new Map<string, SyncRequest>();
+    const customerMap = new Map<string, Customer>();
+    customers.forEach(c => customerMap.set(c.pk, c));
+
+    const linkedIndex: Record<string, string[]> = area?.linked ?? {};
+
+    // 1) Собираем полное множество всех PK (основные + привязанные)
+    const allPks = new Set<string>();
+    for (const c of customers) allPks.add(c.pk);
+    for (const parentPk of Object.keys(linkedIndex)) {
+      for (const childPk of linkedIndex[parentPk] ?? []) {
+        allPks.add(childPk);
+      }
+    }
+
+    // 2) Подготовим быстрый обратный индекс: childPk -> [parentPk...]
+    const parentsByChild = new Map<string, string[]>();
+    for (const [parentPk, children] of Object.entries(linkedIndex)) {
+      for (const childPk of children ?? []) {
+        const arr = parentsByChild.get(childPk) ?? [];
+        arr.push(parentPk);
+        parentsByChild.set(childPk, arr);
+      }
+    }
+
+    // 3) Вспомогательная функция: получить оплаты клиента по pk (или [])
+    const getOwnPaymentRecords = (pk: string): PaymentRecord[] => {
+      const c = customerMap.get(pk);
+      return c ? this.getLatestPayments(c) : [];
+    };
+
+    // 4) Формируем запись ДЛЯ КАЖДОГО пользователя
+    for (const pk of allPks) {
+      const customer = customerMap.get(pk);
+
+      // Собственные оплаты
+      const own = getOwnPaymentRecords(pk);
+
+      // Наследуем оплаты от всех родителей, которые ссылаются на pk
+      const parentPks = parentsByChild.get(pk) ?? [];
+      let inherited: PaymentRecord[] = [];
+      for (const parentPk of parentPks) {
+        inherited = inherited.concat(getOwnPaymentRecords(parentPk));
+      }
+
+      // Комбинация: собственные + унаследованные
+      const combined = this.uniqPayments([...own, ...inherited]);
+      const combinedSorted = this.sortByStartedDesc(combined);
+      // по желанию можно ограничить объём:
+      // const finalPayments = combinedSorted.slice(0, 5);
+      const finalPayments = combinedSorted;
+
+      // enabled: берём ИЗ СОБСТВЕННОГО пользователя, если он есть в customers; иначе false
+      const enabled = Boolean(customer?.active);
+
+      // mm3hash: считаем из нормализованного телефона (или самого pk, если это и есть телефон)
+      const normalizedPk = Utilities.normalizePhone(pk);
+      const hash = Utilities.computeHash(normalizedPk);
+
+      syncMap.set(hash, {
+        mm3hash: hash,
+        enabled,
+        payments: finalPayments,
+      });
+    }
+
+    const result = Array.from(syncMap.values());
+
+    // Отладка (можно убрать)
+    console.log('=== Sync Result (ALL users included) ===');
+    console.log('Total sync requests:', result.length);
+    result.forEach((req, idx) => {
+      console.log(`${idx + 1}. ${req.mm3hash}: enabled=${req.enabled}, payments=${req.payments.length}`);
+    });
+    console.log('========================================');
+
+    return result;
+  }
 
   /**
    * Get latest 5 payment records or empty array
@@ -91,14 +187,13 @@ export class SyncService {
     const payments = Array.isArray(customer?.payments) ? customer.payments : [];
     if (payments.length === 0) return [];
 
-    // Sort by registered_in timestamp (descending) and take latest 5
     const sorted = [...payments]
-      .filter(p => p.registered_in && p.started_in && p.expired_in)
-      .sort((a, b) => b.registered_in - a.registered_in)
-      .slice(0, 5);
+      .filter(p => p.mm3hash && p.started_in && p.expired_in)
+      .sort((a, b) => b.registered_in - a.registered_in);
+      // .slice(0, 5); // ← если хочешь ограничить срезом уже тут
 
     return sorted.map(p => ({
-      registered: new Date(p.registered_in).toISOString(),
+      mm3hash: p.mm3hash!,
       started: this.ngbDateToString(p.started_in),
       expired: this.ngbDateToString(p.expired_in),
     }));
