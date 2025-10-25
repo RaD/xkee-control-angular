@@ -41,7 +41,7 @@
                   <td>
                     <div>
                       <a (click)="navigateToCustomer(customer.pk)">
-                        {{ customer.pk }}
+                        <div class="fw-bold">{{ customer.pk }} / {{ customer.mm3hash }}</div>
                       </a>
                     </div>
                     <div>
@@ -73,11 +73,11 @@
                   </td>
                   <td>
                     <div class="d-grid gap-2" style="grid-template-columns: 1fr 1fr;">
-                      <button class="btn btn-secondary" (click)="navigateToLinking(customer.pk)">
+                      <button class="btn btn-warning" (click)="navigateToLinking(customer.pk)">
                         <fa-icon [icon]="faLink"></fa-icon>
                       </button>
                       <!-- PaymentRegisterComponent-->
-                      <button class="btn btn-secondary" (click)="navigateToPayment(customer.pk)">
+                      <button class="btn btn-info" (click)="navigateToPayment(customer.pk)">
                           <fa-icon [icon]="faPayment"></fa-icon>
                       </button>
                     </div>
@@ -117,7 +117,7 @@
                     <div class="flex-grow-1">
                       <a (click)="navigateToCustomer(customer.pk)"
                          class="text-decoration-none">
-                        <div class="fw-bold">{{ customer.pk }}</div>
+                        <div class="fw-bold">{{ customer.pk }} / {{ customer.mm3hash }}</div>
                       </a>
                       <div class="d-flex align-items-center">
                         <span class="me-2">
@@ -151,24 +151,15 @@
                     <div class="text-muted small">
                       <strong>Машина:</strong> {{ customer.vehicle }}
                     </div>
-                    <div class="d-grid gap-1 mt-2" style="grid-template-columns: 1fr 1fr; min-height: 32px;">
-                      <button class="btn btn-secondary btn-sm" (click)="navigateToLinking(customer.pk)">
-                        <fa-icon [icon]="faLink"></fa-icon>
-                      </button>
-                      <button class="btn btn-secondary btn-sm" (click)="navigateToPayment(customer.pk)">
-                        <fa-icon [icon]="faPayment"></fa-icon>
-                      </button>
-                    </div>
-                  } @else {
-                    <div class="d-grid gap-1 mt-2" style="grid-template-columns: 1fr 1fr; min-height: 32px;">
-                      <button class="btn btn-secondary btn-sm" (click)="navigateToLinking(customer.pk)">
-                        <fa-icon [icon]="faLink"></fa-icon>
-                      </button>
-                      <button class="btn btn-secondary btn-sm" (click)="navigateToPayment(customer.pk)">
-                        <fa-icon [icon]="faPayment"></fa-icon>
-                      </button>
-                    </div>
                   }
+                    <div class="d-grid gap-1 mt-2" style="grid-template-columns: 1fr 1fr; min-height: 32px;">
+                      <button class="btn btn-warning btn-sm" (click)="navigateToLinking(customer.pk)">
+                        <fa-icon [icon]="faLink"></fa-icon>
+                      </button>
+                      <button class="btn btn-info btn-sm" (click)="navigateToPayment(customer.pk)">
+                        <fa-icon [icon]="faPayment"></fa-icon>
+                      </button>
+                    </div>
                 </div>
               </div>
             </div>
